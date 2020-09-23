@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class ItemDetailsViewController: UIViewController {
     
@@ -16,18 +17,12 @@ class ItemDetailsViewController: UIViewController {
     
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collection.showsVerticalScrollIndicator = false
         
         collection.backgroundColor = .systemBackground
         return collection
     }()
     
-    fileprivate lazy var searchController: UISearchController = {
-          let controller = UISearchController(searchResultsController: nil)
-          controller.searchBar.placeholder = "Search News, For ex: Apple"
-          
-          return controller
-      }()
-      
     
     enum Section {
         case main
@@ -53,10 +48,11 @@ class ItemDetailsViewController: UIViewController {
         
         navigationItem.title = item.name
         
-        navigationItem.searchController = searchController
         
         navigationItem.rightBarButtonItems  = [
-            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem)) ,
+            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem)),
+            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(configureSearch)),
+            
         ]
         
         view.addSubview(collectionView)
@@ -147,5 +143,13 @@ extension ItemDetailsViewController {
     
     @objc func configureSearch() {
         
+        let search = SearchView {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        let controller = UIHostingController(rootView: search)
+        
+        controller.modalPresentationStyle  = .popover
+        present(controller, animated: true, completion: nil)
     }
 }
