@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		227B9EC6251ADA20009B4CFE /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227B9EC5251ADA20009B4CFE /* ProductListViewController.swift */; };
+		227B9EC8251AE76C009B4CFE /* ItemDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227B9EC7251AE76C009B4CFE /* ItemDetailsViewController.swift */; };
 		D51AA37125197E5900CB9DFD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51AA37025197E5900CB9DFD /* AppDelegate.swift */; };
 		D51AA37325197E5900CB9DFD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51AA37225197E5900CB9DFD /* SceneDelegate.swift */; };
 		D51AA37525197E5900CB9DFD /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51AA37425197E5900CB9DFD /* CategoriesViewController.swift */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		227B9EC5251ADA20009B4CFE /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
+		227B9EC7251AE76C009B4CFE /* ItemDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailsViewController.swift; sourceTree = "<group>"; };
 		D51AA36D25197E5900CB9DFD /* ListMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ListMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D51AA37025197E5900CB9DFD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D51AA37225197E5900CB9DFD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +97,8 @@
 				D529A7562519A6FB00D313BE /* Views */,
 				D5F425762519A25600CCD512 /* ItemListController.swift */,
 				D51AA37425197E5900CB9DFD /* CategoriesViewController.swift */,
+				227B9EC5251ADA20009B4CFE /* ProductListViewController.swift */,
+				227B9EC7251AE76C009B4CFE /* ItemDetailsViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -170,7 +176,9 @@
 				D51AA38825198DF300CB9DFD /* Item.swift in Sources */,
 				D51AA37525197E5900CB9DFD /* CategoriesViewController.swift in Sources */,
 				D5F425772519A25600CCD512 /* ItemListController.swift in Sources */,
+				227B9EC6251ADA20009B4CFE /* ProductListViewController.swift in Sources */,
 				D51AA37125197E5900CB9DFD /* AppDelegate.swift in Sources */,
+				227B9EC8251AE76C009B4CFE /* ItemDetailsViewController.swift in Sources */,
 				D51AA37325197E5900CB9DFD /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

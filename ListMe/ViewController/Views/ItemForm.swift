@@ -9,7 +9,10 @@ import SwiftUI
 
 struct ItemForm: View {
     
-    @State private var checkAmount = ""
+    @State private var itemName = String()
+    
+    @State private var itemUnit = String()
+    
     @State private var numberOfPeople = 2
     @State private var tipPercentage = 2
     
@@ -18,7 +21,7 @@ struct ItemForm: View {
     var totalPerPerson: Double {
         let peopleCount = Double(numberOfPeople + 2)
         let tipSelection = Double(tipPercentages[tipPercentage])
-        let orderAmount = Double(checkAmount) ?? 0
+        let orderAmount = Double(itemName) ?? 0
         
         let tipValue = orderAmount / 100 * tipSelection
         let grandTotal = orderAmount + tipValue
@@ -31,14 +34,10 @@ struct ItemForm: View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Amount", text: $checkAmount)
+                    TextField("Item Name", text: $itemName)
                         .keyboardType(.decimalPad)
                     
-                    Picker("Number of people", selection: $numberOfPeople) {
-                        ForEach(2 ..< 100) {
-                            Text("\($0) people")
-                        }
-                    }
+                    TextField("Item Unit", text: $itemUnit)
                 }
                 
                 Section(header: Text("How much tip do you want to leave?")) {

@@ -11,6 +11,7 @@ class CategoriesViewController: UITableViewController {
     
     
     var categories: [ItemCategory] = [
+        
         ItemCategory(name: "Chips", items: [
             
             Item(name: "Doritos",
@@ -20,6 +21,7 @@ class CategoriesViewController: UITableViewController {
                  weight: "12 oz",
                  unit: "1",
                  supplier: nil),
+            
             Item(name: "Lays",
                  barCode: .init(type: "UUID", number: 123456),
                  image: "Some Random Image",
@@ -28,8 +30,11 @@ class CategoriesViewController: UITableViewController {
                  unit: "10",
                  supplier: nil)
         ]),
+        
         ItemCategory(name: "Energy Drinks"),
+        
         ItemCategory(name: "Soda"),
+        
         ItemCategory(name: "Bakery")
     ]
     
@@ -78,36 +83,29 @@ class CategoriesViewController: UITableViewController {
             return nil
         }
         
-        let action = UIContextualAction(style: .destructive, title: "Delete",
-                                        handler: { [unowned self] (action, view, completionHandler) in
-                                            
-                                            let removedItem = self.categories.filter { (item) -> Bool in
-                                                return selectedItem.name == item.name
-                                            }
-                                            
-                                            
-                                            
-                                            var snapshot = dataSource.snapshot()
-                                            snapshot.deleteItems(removedItem)
-                                            
-                                            dataSource.apply(snapshot, animatingDifferences: true)
-                                            
-                                            completionHandler(true)
-                                        })
+        let action = UIContextualAction(style: .destructive, title: "Delete", handler: { [unowned self] (action, view, completionHandler) in
+            
+            let removedItem = self.categories.filter { (item) -> Bool in
+                return selectedItem.name == item.name
+            }
+            
+            var snapshot = dataSource.snapshot()
+            snapshot.deleteItems(removedItem)
+            
+            dataSource.apply(snapshot, animatingDifferences: true)
+            
+            completionHandler(true)
+        })
         
-        let editAction = UIContextualAction(style: .normal, title: "Edit",
-                                            handler: { [unowned self] (action, view, completionHandler) in
-                                                
-                                                
-                                                
-                                                configureEditAction(item: selectedItem)
-                                                
-                                                
-                                                completionHandler(true)
-                                            })
+        let editAction = UIContextualAction(style: .normal, title: "Edit", handler: { [unowned self] (action, view, completionHandler) in
+            configureEditAction(item: selectedItem)
+            completionHandler(true)
+        })
+        
         editAction.backgroundColor = .systemBlue
         
         let configuration = UISwipeActionsConfiguration(actions: [action, editAction])
+        
         return configuration
     }
     
@@ -118,7 +116,9 @@ class CategoriesViewController: UITableViewController {
 extension CategoriesViewController {
     
     class DataSource: UITableViewDiffableDataSource<Section, ItemCategory> {
+        
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            
             return true
         }
     }
@@ -136,28 +136,32 @@ extension CategoriesViewController {
         }
         
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: {[unowned self] alert -> Void in
+            
             let firstTextField = alertController.textFields![0] as UITextField
+           
             guard let text = firstTextField.text else {
                 return
             }
             
             let category: ItemCategory = .init(name: text)
+            
             self.categories.append(category)
             
             var snapshot = dataSource.snapshot()
             
             snapshot.appendItems([category])
+            
             snapshot.reloadSections([.main])
             
             dataSource.apply(snapshot, animatingDifferences: true)
             
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: {
-                                            (action : UIAlertAction!) -> Void in })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
         
         
         alertController.addAction(cancelAction)
+        
         alertController.addAction(saveAction)
         
         self.present(alertController, animated: true, completion: nil)
@@ -172,29 +176,44 @@ extension CategoriesViewController {
         }
         
         let updateAction = UIAlertAction(title: "Update", style: .default, handler: {[unowned self] alert -> Void in
+            
             let firstTextField = alertController.textFields![0] as UITextField
+            
             guard let text = firstTextField.text else {
                 return
             }
             
-            var categoryItem = categories.filter { (category) -> Bool in
-                return category.name == item.name
-            }.first
+            let category = categories.map { (itemCateogry) -> ItemCategory in
+                
+                var cat = itemCateogry
+                
+                if itemCateogry.name == item.name {
+                    cat.name = text
+                }
+                
+                return itemCateogry
+            }
             
-            categoryItem?.name = text
+            print(category)
+            
+//            var categoryItem = categories.filter { (category) -> Bool in
+//                return category.name == item.name
+//            }.first ?? nil
+//
+//            categoryItem?.name = text
             
             var snapshot = dataSource.snapshot()
             
+            snapshot.deleteAllItems()
             
+            snapshot.appendSections([.main])
             
-            snapshot.reloadItems([item])
-            snapshot.reloadSections([.main])
+            snapshot.appendItems(category)
             
             dataSource.apply(snapshot, animatingDifferences: true)
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: {
-                                            (action : UIAlertAction!) -> Void in })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
         
         
         alertController.addAction(cancelAction)
@@ -210,8 +229,6 @@ extension CategoriesViewController {
     //MARK:- Complete Update which is pending
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        // if there is no item in a category present alert showing no items
         
         guard let category = dataSource.itemIdentifier(for: indexPath) else {
             return

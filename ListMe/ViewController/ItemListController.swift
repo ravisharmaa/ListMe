@@ -67,8 +67,10 @@ extension ItemListController {
 
 extension ItemListController {
     
+    
     @objc func addItems() {
         let controler = UIHostingController(rootView: ItemForm())
+        controler.view.backgroundColor = .systemBackground
         present(controler, animated: true, completion: nil)
     }
 }
@@ -77,37 +79,19 @@ extension ItemListController {
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        guard let selectedItem = dataSource.itemIdentifier(for: indexPath) else {
+        guard let _ = dataSource.itemIdentifier(for: indexPath) else {
             return nil
         }
         
-        let action = UIContextualAction(style: .destructive, title: "Delete",
-                                        handler: { [unowned self] (action, view, completionHandler) in
-                                            
-//                                            let removedItem = self.categories.filter { (item) -> Bool in
-//                                                return selectedItem.name == item.name
-//                                            }
-//
-//
-//
-//                                            var snapshot = dataSource.snapshot()
-//                                            snapshot.deleteItems(removedItem)
-//
-//                                            dataSource.apply(snapshot, animatingDifferences: true)
-                                            
-                                            completionHandler(true)
-                                        })
+        let action = UIContextualAction(style: .destructive, title: "Delete", handler: {  (action, view, completionHandler) in
+            
+            completionHandler(true)
+        })
         
-        let editAction = UIContextualAction(style: .normal, title: "Edit",
-                                            handler: { [unowned self] (action, view, completionHandler) in
-                                                
-                                                
-                                                
-//                                                configureEditAction(item: selectedItem)
-                                                
-                                                
-                                                completionHandler(true)
-                                            })
+        let editAction = UIContextualAction(style: .normal, title: "Edit", handler: {(_, _, completionHandler) in
+            completionHandler(true)
+        })
+        
         editAction.backgroundColor = .systemBlue
         
         let configuration = UISwipeActionsConfiguration(actions: [action, editAction])
