@@ -13,7 +13,6 @@ class ItemDetailsViewController: UIViewController {
     
     var item: ProductListViewController.Item
     
-    var modelObject: BasketViewModel = BasketViewModel()
     
     var subscription: Set<AnyCancellable> = []
     
@@ -149,12 +148,9 @@ extension ItemDetailsViewController {
     @objc func configureSearch() {
         
         let search = SearchView {
-            self.dismiss(animated: true) { [unowned self] in
-                modelObject.subject.sink { (itemp) in
-                    print("hello")
-                }.store(in: &subscription)
-            }
+            self.dismiss(animated: true, completion: nil)
         }
+        
         
         let controller = UIHostingController(rootView: search)
         
