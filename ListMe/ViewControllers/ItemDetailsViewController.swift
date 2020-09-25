@@ -13,8 +13,8 @@ class ItemDetailsViewController: UIViewController {
     
     var item: ProductListViewController.Item
     
+    let addedItems = BasketViewModel().items
     
-    var subscription: Set<AnyCancellable> = []
     
     fileprivate lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
@@ -32,7 +32,7 @@ class ItemDetailsViewController: UIViewController {
         case main
     }
     
-    fileprivate var dataSource: UICollectionViewDiffableDataSource<Section, Int>!
+    fileprivate var dataSource: UICollectionViewDiffableDataSource<Section, ListItem>!
     
     
     init(item: ProductListViewController.Item) {
@@ -74,6 +74,11 @@ class ItemDetailsViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.backBarButtonItem?.title = String()
+    }
+    
     fileprivate func createLayout() -> UICollectionViewCompositionalLayout {
         
         var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
@@ -113,26 +118,26 @@ class ItemDetailsViewController: UIViewController {
     
     
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Int>.init { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ListItem>.init { (cell, indexPath, item) in
             
             var content = cell.defaultContentConfiguration()
             
-            content.text = item.description
+            content.text = item.name
             
             cell.contentConfiguration = content
         }
         
-        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, listItem) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: listItem)
             
             return cell
         })
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, ListItem>()
         
         snapshot.appendSections([.main])
         
-        snapshot.appendItems(Array(0...20))
+        snapshot.appendItems(addedItems)
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -147,14 +152,35 @@ extension ItemDetailsViewController {
     
     @objc func configureSearch() {
         
-        let search = SearchView {
+        let search = SearchView { [unowned self] (listItems) in
+            
+            updateSnapshotwith(newItem: listItems)
+            
             self.dismiss(animated: true, completion: nil)
         }
-        
         
         let controller = UIHostingController(rootView: search)
         
         controller.modalPresentationStyle  = .popover
+        
         present(controller, animated: true, completion: nil)
+    }
+    
+    func updateSnapshotwith(newItem: [ListItem]) {
+        
+        var snapshot = dataSource.snapshot()
+        
+        if !newItem.isEmpty {
+            
+            snapshot.deleteAllItems()
+            
+            snapshot.appendSections([.main])
+            
+            snapshot.appendItems(newItem)
+            
+            snapshot.reloadSections([.main])
+            
+            dataSource.apply(snapshot, animatingDifferences: false)
+        }
     }
 }

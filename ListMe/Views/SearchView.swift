@@ -11,13 +11,13 @@ struct SearchView: View {
     
     @State private var searchText = String()
     
-    let isModalClosed: (()-> Void)?
+    let isModalClosed: ((_ items: [ListItem])-> Void)?
     
     let layout = [
         GridItem(.flexible())
     ]
     
-    @ObservedObject var basketModel = BasketViewModel()
+    @ObservedObject var basketModel: BasketViewModel = BasketViewModel()
     
     var body: some View {
         VStack {
@@ -39,7 +39,7 @@ struct SearchView: View {
                     )
                 Spacer()
                 Button(action: {
-                    isModalClosed?()
+                    isModalClosed?(basketModel.items)
                 }, label: {
                     Text("Close")
                 })
@@ -62,6 +62,8 @@ struct ItemView: View {
     
     let item: ListItem
     let model: BasketViewModel
+    
+    var newItemAdded: ((_ item: ListItem)-> Void)?
     
     
     var body: some View {
@@ -91,8 +93,8 @@ struct ItemView: View {
                 
                 Stepper(
                     onIncrement: {
-                        let item = ListItem(id: 1, name: "a", flavour: "a", weight: "a")
-                        model.subject.send(item)
+                        let item = ListItem(name: "Getorade", flavour: "FruitPunch", weight: "13 oz")
+                        model.items.append(item)
                     },
                     onDecrement: {
                         

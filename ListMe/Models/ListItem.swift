@@ -10,7 +10,7 @@ import Foundation
 
 struct ListItem: Identifiable, Hashable {
     
-    let id: Int
+    let id: UUID = UUID()
     let name: String
     let flavour: String
     let weight: String
