@@ -11,7 +11,7 @@ import Combine
 
 class ItemDetailsViewController: UIViewController {
     
-    var item: ProductListViewController.Item
+    //var item: ProductListViewController.Item
     
     let addedItems = BasketViewModel().items
     
@@ -35,10 +35,10 @@ class ItemDetailsViewController: UIViewController {
     fileprivate var dataSource: UICollectionViewDiffableDataSource<Section, ListItem>!
     
     
-    init(item: ProductListViewController.Item) {
-        self.item = item
-        super.init(nibName: nil, bundle: nil)
-    }
+//    init(item: ProductListViewController.Item) {
+//        self.item = item
+//        super.init(nibName: nil, bundle: nil)
+//    }
     
     required init?(coder: NSCoder) {
         fatalError()
@@ -50,7 +50,7 @@ class ItemDetailsViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        navigationItem.title = item.name
+        //navigationItem.title = item.name
         
         
         navigationItem.rightBarButtonItems  = [

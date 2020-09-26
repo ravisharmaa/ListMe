@@ -2,7 +2,7 @@
 //  ListItem.swift
 //  ListMe
 //
-//  Created by Javra Software on 9/24/20.
+//  Created by Ravi Bastola on 9/24/20.
 //
 
 import Foundation

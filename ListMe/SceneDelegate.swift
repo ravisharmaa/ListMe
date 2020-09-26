@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: scene)
         
-        window?.rootViewController  = UINavigationController(rootViewController: ProductListViewController())
+        window?.rootViewController  = UINavigationController(rootViewController: CategoriesViewController())
         
         window?.makeKeyAndVisible()
     }

@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import Combine
 
 class ProductListViewController: UIViewController {
+    
+    let category: Category
+    
+    var subscription: Set<AnyCancellable>  = []
     
     fileprivate lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
@@ -23,24 +28,18 @@ class ProductListViewController: UIViewController {
     
     enum Section {
         case recent
-        case completed
+    }
+        
+    var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
+    
+    init(category: Category) {
+        self.category = category
+        super.init(nibName: nil, bundle: nil)
     }
     
-    struct Item: Identifiable, Hashable {
-        let id = UUID()
-        
-        let name: String
-        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-    
-    var items: [Item] = [
-          Item(name: "Sams Club Pickup"),
-          Item(name: "AAA Order"),
-          Item(name: "VicksBerg Order"),
-          Item(name: "RedBull Order")
-      ]
-    
-    var dataSource: UICollectionViewDiffableDataSource<Section, Item>!
     
     override func viewDidLoad() {
         
@@ -59,7 +58,22 @@ class ProductListViewController: UIViewController {
         
         navigationItem.rightBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addSection))
         
-        configureDataSource()
+        let path = ApiConstants.ProductPath.description + "/\(category.name ?? "")"
+        
+        print(path)
+        
+        NetworkManager.shared.sendRequest(to: path, model: Products.self)
+            .receive(on: RunLoop.main)
+            .catch { (error) -> AnyPublisher<Products, Never> in
+                return Just([Product.placeholder]).eraseToAnyPublisher()
+            }.sink { (_) in
+                //
+            } receiveValue: { (products) in
+                print(products)
+            }.store(in: &subscription)
+
+        
+        //configureDataSource()
     }
     
     fileprivate func createLayout() -> UICollectionViewCompositionalLayout {
@@ -115,18 +129,18 @@ class ProductListViewController: UIViewController {
         
         
         
-        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
-            
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
-            
-            return cell
-        })
+//        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+//
+//            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+//
+//            return cell
+//        })
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         
         snapshot.appendSections([.recent])
         
-        snapshot.appendItems(items)
+        snapshot.appendItems([])
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -136,13 +150,13 @@ extension ProductListViewController {
    
     @objc func addSection() {
         
-        items.insert(.init(name: "Cofeee"), at: 0)
+        //items.insert(.init(name: "Cofeee"), at: 0)
         
         var snapshot = dataSource.snapshot()
         
-        snapshot.deleteItems(items)
+        snapshot.deleteItems([])
         
-        snapshot.appendItems(items)
+        snapshot.appendItems([])
         
         snapshot.reloadSections([.recent])
         
@@ -158,6 +172,6 @@ extension ProductListViewController: UICollectionViewDelegate {
         guard let item = dataSource.itemIdentifier(for: indexPath) else {
             return
         }  
-        navigationController?.pushViewController(ItemDetailsViewController(item: item), animated: true)
+        //navigationController?.pushViewController(ItemDetailsViewController(item: item), animated: true)
     }
 }

@@ -6,37 +6,14 @@
 //
 
 import UIKit
+import Combine
 
 class CategoriesViewController: UITableViewController {
     
     
-    var categories: [ItemCategory] = [
-        
-        ItemCategory(name: "Chips", items: [
-            
-            Item(name: "Doritos",
-                 barCode: .init(type: "UUID", number: 123456),
-                 image: "Some Random Image",
-                 flavour: "Butter Ranc",
-                 weight: "12 oz",
-                 unit: "1",
-                 supplier: nil),
-            
-            Item(name: "Lays",
-                 barCode: .init(type: "UUID", number: 123456),
-                 image: "Some Random Image",
-                 flavour: "Regular",
-                 weight: "12 oz",
-                 unit: "10",
-                 supplier: nil)
-        ]),
-        
-        ItemCategory(name: "Energy Drinks"),
-        
-        ItemCategory(name: "Soda"),
-        
-        ItemCategory(name: "Bakery")
-    ]
+    var categories: [Category] = []
+    
+    var subscription: Set<AnyCancellable>  = []
     
     enum Section {
         case main
@@ -44,7 +21,15 @@ class CategoriesViewController: UITableViewController {
     
     var dataSource: DataSource!
     
+    fileprivate lazy var activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .medium)
+        view.hidesWhenStopped = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -55,19 +40,52 @@ class CategoriesViewController: UITableViewController {
         
         tableView.delegate = self
         
+        
         configureDataSource()
+        
+        view.addSubview(activityIndicator)
+        
+        NSLayoutConstraint.activate([
+            activityIndicator.centerYAnchor.constraint(equalTo: tableView.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: tableView.centerXAnchor)
+        ])
+        
+        activityIndicator.startAnimating()
+        
+        NetworkManager.shared.sendRequest(to: ApiConstants.CateogryPath.description, model: [Category].self)
+            .receive(on: RunLoop.main)
+            .catch { (error) -> AnyPublisher<[Category], Never> in
+                return Just([Category.placeholder]).eraseToAnyPublisher()
+            }.sink { (_) in
+                //
+            } receiveValue: { [unowned self] (categories) in
+                
+                activityIndicator.stopAnimating()
+                
+                updateDatasource(with: categories)
+                
+            }.store(in: &subscription)
+    }
+    
+    func updateDatasource(with: [Category]) {
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(with)
+        dataSource.apply(snapshot)
     }
     
     
     func configureDataSource() {
         dataSource = .init(tableView: tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
+            
             let cell = UITableViewCell()
             cell.textLabel?.text = item.name
             
             return cell
         })
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ItemCategory>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Category>()
         
         snapshot.appendSections([.main])
         
@@ -115,7 +133,7 @@ class CategoriesViewController: UITableViewController {
 
 extension CategoriesViewController {
     
-    class DataSource: UITableViewDiffableDataSource<Section, ItemCategory> {
+    class DataSource: UITableViewDiffableDataSource<Section, Category> {
         
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
             
@@ -138,18 +156,18 @@ extension CategoriesViewController {
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: {[unowned self] alert -> Void in
             
             let firstTextField = alertController.textFields![0] as UITextField
-           
-            guard let text = firstTextField.text else {
+            
+            guard let _ = firstTextField.text else {
                 return
             }
             
-            let category: ItemCategory = .init(name: text)
+            // let category: Category = .init(name: text)
             
-            self.categories.append(category)
+            //self.categories.append(category)
             
             var snapshot = dataSource.snapshot()
             
-            snapshot.appendItems([category])
+            //snapshot.appendItems([category])
             
             snapshot.reloadSections([.main])
             
@@ -167,7 +185,7 @@ extension CategoriesViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func configureEditAction(item: ItemCategory) {
+    func configureEditAction(item: Category) {
         
         let alertController = UIAlertController(title: "Update Name", message: "", preferredStyle: .alert)
         
@@ -179,16 +197,16 @@ extension CategoriesViewController {
             
             let firstTextField = alertController.textFields![0] as UITextField
             
-            guard let text = firstTextField.text else {
+            guard let _ = firstTextField.text else {
                 return
             }
             
-            let category = categories.map { (itemCateogry) -> ItemCategory in
+            let category = categories.map { (itemCateogry) -> Category in
                 
-                var cat = itemCateogry
+                var _ = itemCateogry
                 
                 if itemCateogry.name == item.name {
-                    cat.name = text
+                    //                    cat.name = text
                 }
                 
                 return itemCateogry
@@ -196,11 +214,11 @@ extension CategoriesViewController {
             
             print(category)
             
-//            var categoryItem = categories.filter { (category) -> Bool in
-//                return category.name == item.name
-//            }.first ?? nil
-//
-//            categoryItem?.name = text
+            //            var categoryItem = categories.filter { (category) -> Bool in
+            //                return category.name == item.name
+            //            }.first ?? nil
+            //
+            //            categoryItem?.name = text
             
             var snapshot = dataSource.snapshot()
             
@@ -233,6 +251,7 @@ extension CategoriesViewController {
         guard let category = dataSource.itemIdentifier(for: indexPath) else {
             return
         }
-        navigationController?.pushViewController(ItemListController(category: category), animated: true)
+        
+        navigationController?.pushViewController(ProductListViewController(category: category), animated: true)
     }
 }
