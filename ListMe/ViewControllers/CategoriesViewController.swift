@@ -13,7 +13,7 @@ class CategoriesViewController: UITableViewController {
     
     var categories: [Category] = []
     
-    var subscription: Set<AnyCancellable>  = []
+    var subscription: Set<AnyCancellable> = []
     
     enum Section {
         case main
@@ -36,10 +36,9 @@ class CategoriesViewController: UITableViewController {
         
         navigationItem.title = "Categories"
         
-        navigationItem.rightBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItems))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItems))
         
         tableView.delegate = self
-        
         
         configureDataSource()
         
@@ -126,9 +125,6 @@ class CategoriesViewController: UITableViewController {
         
         return configuration
     }
-    
-    
-    
 }
 
 extension CategoriesViewController {
@@ -136,7 +132,6 @@ extension CategoriesViewController {
     class DataSource: UITableViewDiffableDataSource<Section, Category> {
         
         override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-            
             return true
         }
     }

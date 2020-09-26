@@ -11,8 +11,6 @@ import Combine
 
 class ItemDetailsViewController: UIViewController {
     
-    //var item: ProductListViewController.Item
-    
     let addedItems = BasketViewModel().items
     
     

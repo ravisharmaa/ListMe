@@ -12,11 +12,11 @@ class ProductListViewController: UIViewController {
     
     let category: Category
     
-    var subscription: Set<AnyCancellable>  = []
+    var subscription: Set<AnyCancellable> = []
     
     fileprivate lazy var collectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
-    
+        
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
@@ -29,7 +29,7 @@ class ProductListViewController: UIViewController {
     enum Section {
         case recent
     }
-        
+    
     var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     
     init(category: Category) {
@@ -60,8 +60,6 @@ class ProductListViewController: UIViewController {
         
         let path = ApiConstants.ProductPath.description + "/\(category.name ?? "")"
         
-        print(path)
-        
         NetworkManager.shared.sendRequest(to: path, model: Products.self)
             .receive(on: RunLoop.main)
             .catch { (error) -> AnyPublisher<Products, Never> in
@@ -71,7 +69,6 @@ class ProductListViewController: UIViewController {
             } receiveValue: { (products) in
                 print(products)
             }.store(in: &subscription)
-
         
         //configureDataSource()
     }
@@ -82,6 +79,7 @@ class ProductListViewController: UIViewController {
         
         config.trailingSwipeActionsConfigurationProvider = .some({ [weak self] (indexPath) -> UISwipeActionsConfiguration? in
             guard let self = self else {return nil }
+            
             guard let item = self.dataSource.itemIdentifier(for: indexPath) else {
                 return nil
             }
@@ -100,22 +98,17 @@ class ProductListViewController: UIViewController {
                 completion(true)
             }
             
-            
-           
-            
             action.append(secondLeadingSwipe)
             action.append(leadingSwipeAction)
             
-            
             return UISwipeActionsConfiguration(actions: action)
-            
-            
         })
         
         return .list(using: config)
     }
     
     func configureDataSource() {
+        
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { (cell, indexPath, item) in
             
             var content = cell.defaultContentConfiguration()
@@ -129,12 +122,12 @@ class ProductListViewController: UIViewController {
         
         
         
-//        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
-//
-//            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
-//
-//            return cell
-//        })
+        //        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
+        //
+        //            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        //
+        //            return cell
+        //        })
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         
@@ -147,7 +140,7 @@ class ProductListViewController: UIViewController {
 }
 
 extension ProductListViewController {
-   
+    
     @objc func addSection() {
         
         //items.insert(.init(name: "Cofeee"), at: 0)

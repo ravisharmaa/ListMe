@@ -23,7 +23,6 @@ class ItemSearchViewController: UIViewController {
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
         return tableView
         
     }()
@@ -41,9 +40,7 @@ class ItemSearchViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
         
         view.addSubview(tableView)
-        
-        
-        
+
         navigationItem.searchController = searchController
         
         NSLayoutConstraint.activate([
@@ -58,7 +55,6 @@ class ItemSearchViewController: UIViewController {
         super.viewWillAppear(animated)
         searchController.isActive = true
     }
-    
 }
 
 extension ItemSearchViewController {
