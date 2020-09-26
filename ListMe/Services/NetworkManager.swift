@@ -19,6 +19,7 @@ enum NetworkError: String, Error {
     case InvalidResponse = "The response is invalid."
     case InvalidData = "The data is invalid."
     case JSONError = "The json is invalid."
+    case PostDataError = "The post data is invalid."
 }
 
 
@@ -69,7 +70,12 @@ extension NetworkManager: ApiConfiguration {
         return ApiConstants.NetworkPath.description
     }
     
-    func sendRequest<T: Codable>(to endpoint: String, method: RequestMethod = .get, model: T.Type, queryItems: [String: Any]? = nil, postData: [String: Any]? = nil)  -> AnyPublisher<T, NetworkError> {
+    func sendRequest<T: Codable>(to endpoint: String,
+                                 method: RequestMethod = .get,
+                                 model: T.Type,
+                                 queryItems: [String: Any]? = nil,
+                                 postData: [String: Any]? = nil)  -> AnyPublisher<T, NetworkError>
+    {
         
         var innerUrl = urlComponents
         
@@ -97,6 +103,19 @@ extension NetworkManager: ApiConfiguration {
         urlRequest.httpMethod = method.description
         
         // add data to post request
+        
+        if let postData = postData, !postData.isEmpty && method == .post {
+            
+            do {
+                urlRequest.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+            } catch  {
+                return Empty<T, NetworkError>().eraseToAnyPublisher()
+            }
+            
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        }
+        
         
         let urlPublisher = URLSession.shared.dataTaskPublisher(for: urlRequest)
         
