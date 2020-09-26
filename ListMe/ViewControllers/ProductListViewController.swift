@@ -32,6 +32,8 @@ class ProductListViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     
+    var products: Products = []
+    
     init(category: Category) {
         self.category = category
         super.init(nibName: nil, bundle: nil)
@@ -66,8 +68,12 @@ class ProductListViewController: UIViewController {
                 return Just([Product.placeholder]).eraseToAnyPublisher()
             }.sink { (_) in
                 //
-            } receiveValue: { (products) in
-                print(products)
+            } receiveValue: { [unowned self] (products) in
+                
+                self.products = products
+                
+                configureDataSource()
+                
             }.store(in: &subscription)
         
         //configureDataSource()
@@ -77,8 +83,8 @@ class ProductListViewController: UIViewController {
         
         var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         
-        config.trailingSwipeActionsConfigurationProvider = .some({ [weak self] (indexPath) -> UISwipeActionsConfiguration? in
-            guard let self = self else {return nil }
+        config.trailingSwipeActionsConfigurationProvider = .some({ [unowned self] (indexPath) -> UISwipeActionsConfiguration? in
+            
             
             guard let item = self.dataSource.itemIdentifier(for: indexPath) else {
                 return nil
@@ -87,14 +93,20 @@ class ProductListViewController: UIViewController {
             var action: [UIContextualAction] = [UIContextualAction]()
             
             let leadingSwipeAction = UIContextualAction(style: .normal, title: "Edit") { (_, _, completion) in
-                print(item.name)
                 completion(true)
             }
             
             leadingSwipeAction.backgroundColor = .systemBlue
             
             let secondLeadingSwipe = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completion) in
-                print(item.name)
+                
+                sendRequestToDelete(product: item)
+                
+                var snapshot = dataSource.snapshot()
+                snapshot.deleteItems([item])
+                
+                snapshot.reloadSections([.recent])
+                
                 completion(true)
             }
             
@@ -109,7 +121,7 @@ class ProductListViewController: UIViewController {
     
     func configureDataSource() {
         
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Item> { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Product> { (cell, indexPath, item) in
             
             var content = cell.defaultContentConfiguration()
             
@@ -121,19 +133,15 @@ class ProductListViewController: UIViewController {
         }
         
         
-        
-        //        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
-        //
-        //            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
-        //
-        //            return cell
-        //        })
+        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, product) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
+        })
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         
         snapshot.appendSections([.recent])
         
-        snapshot.appendItems([])
+        snapshot.appendItems(products)
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -162,9 +170,28 @@ extension ProductListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let item = dataSource.itemIdentifier(for: indexPath) else {
+        guard let _ = dataSource.itemIdentifier(for: indexPath) else {
             return
         }  
         //navigationController?.pushViewController(ItemDetailsViewController(item: item), animated: true)
+    }
+}
+
+
+extension ProductListViewController {
+    
+    func sendRequestToDelete(product: Product) {
+        
+        let path = ApiConstants.ProductPath.description + "/\(product.id ?? Int())/delete"
+        
+        NetworkManager.shared.sendRequest(to: path, method: .delete, model: GenericResponse.self)
+            .receive(on: RunLoop.main)
+            .sink { (_) in
+                //
+            } receiveValue: { (_) in
+                //
+            }.store(in: &subscription)
+        
+        
     }
 }

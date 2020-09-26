@@ -27,7 +27,7 @@ enum ApiConstants: CustomStringConvertible {
         case .URLScheme:
             return "http"
         case .Host:
-            return "localhost"
+            return "list-me.test"
         case .CateogryPath:
             return "categories"
         case .ProductPath:

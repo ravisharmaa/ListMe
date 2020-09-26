@@ -33,7 +33,6 @@ struct NetworkManager {
         var component = URLComponents()
         component.scheme = ApiConstants.URLScheme.description
         component.host = ApiConstants.Host.description
-        component.port = 8000
         return component
         
     }()
@@ -128,7 +127,8 @@ extension NetworkManager: ApiConfiguration {
         })
         .decode(type: T.self, decoder: JSONDecoder())
         
-        .catch({ (_) -> AnyPublisher<T, NetworkError> in
+        .catch({ (error) -> AnyPublisher<T, NetworkError> in
+            print(error)
             return Empty<T, NetworkError>().eraseToAnyPublisher()
         }).eraseToAnyPublisher()
     }
