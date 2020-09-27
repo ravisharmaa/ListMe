@@ -106,12 +106,12 @@ extension NetworkManager: ApiConfiguration {
         if let postData = postData, !postData.isEmpty && method == .post {
             
             do {
-                urlRequest.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                urlRequest.httpBody = try JSONSerialization.data(withJSONObject: postData, options: [])
             } catch  {
                 return Empty<T, NetworkError>().eraseToAnyPublisher()
             }
             
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content_type")
             urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         }
         
@@ -121,6 +121,8 @@ extension NetworkManager: ApiConfiguration {
         return urlPublisher.tryMap({ (element) -> Data in
             
             guard let response = element.response as? HTTPURLResponse, response.statusCode == 200 else {
+                print(element.data)
+                print(element)
                 throw NetworkError.InvalidResponse
             }
             return element.data

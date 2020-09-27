@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 class ProductListViewController: UIViewController {
     
@@ -49,6 +50,8 @@ class ProductListViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
+        navigationItem.title = category.name
+        
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
@@ -58,7 +61,7 @@ class ProductListViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        navigationItem.rightBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addSection))
+        navigationItem.rightBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createProduct))
         
         let path = ApiConstants.ProductPath.description + "/\(category.name ?? "")"
         
@@ -75,8 +78,6 @@ class ProductListViewController: UIViewController {
                 configureDataSource()
                 
             }.store(in: &subscription)
-        
-        //configureDataSource()
     }
     
     fileprivate func createLayout() -> UICollectionViewCompositionalLayout {
@@ -106,6 +107,8 @@ class ProductListViewController: UIViewController {
                 snapshot.deleteItems([item])
                 
                 snapshot.reloadSections([.recent])
+                
+                dataSource.apply(snapshot, animatingDifferences: true)
                 
                 completion(true)
             }
@@ -149,19 +152,16 @@ class ProductListViewController: UIViewController {
 
 extension ProductListViewController {
     
-    @objc func addSection() {
+    @objc func createProduct() {
+        let productForm = ProductForm {
+            self.dismiss(animated: true, completion: nil)
+        }
         
-        //items.insert(.init(name: "Cofeee"), at: 0)
+        let controller = UIHostingController(rootView: productForm)
         
-        var snapshot = dataSource.snapshot()
+        controller.modalPresentationStyle  = .popover
         
-        snapshot.deleteItems([])
-        
-        snapshot.appendItems([])
-        
-        snapshot.reloadSections([.recent])
-        
-        dataSource.apply(snapshot, animatingDifferences: true)
+        present(controller, animated: true, completion: nil)
     }
 }
 
@@ -191,7 +191,5 @@ extension ProductListViewController {
             } receiveValue: { (_) in
                 //
             }.store(in: &subscription)
-        
-        
     }
 }
