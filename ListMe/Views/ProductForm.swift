@@ -10,11 +10,17 @@ import SwiftUI
 struct ProductForm: View {
     
     @State private var name: String = String()
+    
     @State private var flavour: String = String()
+    
     @State private var weight: String = String()
+    
     var productUnit: [String] = ["Single","Pack","Case"]
+    
     var quantityMetrics: [String] = ["oz","fl. oz"]
+    
     @State private var selectedUnit: Int = 1
+    
     @State private var selectedQuantity: Int = 0
     
     let closeModal: (()-> Void)?
@@ -57,10 +63,6 @@ struct ProductForm: View {
             }
             .navigationBarTitle("Add Product in \(category.name!)")
             .navigationBarItems(leading: Button("Close", action: {
-                
-                weight = String()
-                name = String()
-                flavour = String()
                 
                 closeModal?()
                 
