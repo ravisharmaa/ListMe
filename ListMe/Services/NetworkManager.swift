@@ -64,7 +64,7 @@ enum RequestMethod: CustomStringConvertible {
 
 extension NetworkManager: ApiConfiguration {
     
-   
+    
     internal var path: String {
         return ApiConstants.NetworkPath.description
     }
@@ -91,7 +91,7 @@ extension NetworkManager: ApiConfiguration {
         if !urlQueryItem.isEmpty {
             innerUrl.queryItems = urlQueryItem
         }
-    
+        
         
         guard let url = innerUrl.url else {
             return Empty<T, NetworkError>().eraseToAnyPublisher()
@@ -105,24 +105,19 @@ extension NetworkManager: ApiConfiguration {
         
         if let postData = postData, !postData.isEmpty && method == .post {
             
-            do {
-                urlRequest.httpBody = try JSONSerialization.data(withJSONObject: postData, options: [])
-            } catch  {
+            urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            guard let httpBody = try? JSONSerialization.data(withJSONObject: postData, options: []) else {
                 return Empty<T, NetworkError>().eraseToAnyPublisher()
             }
-            
-            urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "content_type")
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+            urlRequest.httpBody = httpBody
         }
         
         
         let urlPublisher = URLSession.shared.dataTaskPublisher(for: urlRequest)
         
         return urlPublisher.tryMap({ (element) -> Data in
-            
             guard let response = element.response as? HTTPURLResponse, response.statusCode == 200 else {
-                print(element.data)
-                print(element)
                 throw NetworkError.InvalidResponse
             }
             return element.data

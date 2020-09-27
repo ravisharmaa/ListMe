@@ -26,6 +26,7 @@ class ProductListViewController: UIViewController {
         return collection
     }()
     
+    var viewModel: ProductViewModel = ProductViewModel()
     
     enum Section {
         case recent
@@ -103,13 +104,6 @@ class ProductListViewController: UIViewController {
                 
                 sendRequestToDelete(product: item)
                 
-                var snapshot = dataSource.snapshot()
-                snapshot.deleteItems([item])
-                
-                snapshot.reloadSections([.recent])
-                
-                dataSource.apply(snapshot, animatingDifferences: true)
-                
                 completion(true)
             }
             
@@ -153,9 +147,10 @@ class ProductListViewController: UIViewController {
 extension ProductListViewController {
     
     @objc func createProduct() {
-        let productForm = ProductForm {
+        
+        let productForm = ProductForm(closeModal: {
             self.dismiss(animated: true, completion: nil)
-        }
+        }, category: category)
         
         let controller = UIHostingController(rootView: productForm)
         
@@ -188,8 +183,14 @@ extension ProductListViewController {
             .receive(on: RunLoop.main)
             .sink { (_) in
                 //
-            } receiveValue: { (_) in
-                //
+            } receiveValue: { [unowned self] (_) in
+                var snapshot = dataSource.snapshot()
+                
+                snapshot.deleteItems([product])
+                
+                snapshot.reloadSections([.recent])
+                
+                dataSource.apply(snapshot, animatingDifferences: true)
             }.store(in: &subscription)
     }
 }

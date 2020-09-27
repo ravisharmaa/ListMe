@@ -21,6 +21,8 @@ struct ProductForm: View {
     
     let productViewModel: ProductViewModel = ProductViewModel()
     
+    let category: Category
+    
     var body: some View {
         NavigationView {
             Form {
@@ -53,7 +55,7 @@ struct ProductForm: View {
                     }
                 }
             }
-            .navigationBarTitle("Add Product")
+            .navigationBarTitle("Add Product in \(category.name!)")
             .navigationBarItems(leading: Button("Close", action: {
                 
                 weight = String()
@@ -77,10 +79,11 @@ struct ProductForm: View {
                     "offer_price":1200,
                     "offer_label":"Christmas",
                     "offer_valid_till":"2020-12-20",
-                    "category_id":2
+                    "category_id":category.id!
                 ]
                 
                 productViewModel.saveProduct(postData: postData)
+                closeModal?()
                 
             }))
         }
@@ -89,6 +92,6 @@ struct ProductForm: View {
 
 struct ProductForm_Previews: PreviewProvider {
     static var previews: some View {
-        ProductForm(closeModal: nil)
+        ProductForm(closeModal: nil, category: .init(name: "Some Category", id: 1) )
     }
 }
