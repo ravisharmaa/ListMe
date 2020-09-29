@@ -15,6 +15,21 @@ class CategoryViewModel: ObservableObject {
     
     @Published private (set) var categories: [Category] = []
     
+    func store(postData: [String: Any]) {
+        NetworkManager.shared.sendRequest(to: ApiConstants.CateogryPath.description , method: .post, model: [Category].self, postData: postData)
+            .receive(on: RunLoop.main)
+            .catch({ (error) -> AnyPublisher<[Category], Never> in
+                print(error)
+                return Just([Category.placeholder]).eraseToAnyPublisher()
+            })
+            .sink { (_) in
+                
+            } receiveValue: { [unowned self] (category) in
+                categories = category
+                
+            }.store(in: &subscription)
+    }
+    
     func fetchCategories() {
         
         NetworkManager.shared.sendRequest(to: ApiConstants.CateogryPath.description, model: [Category].self)
@@ -42,5 +57,9 @@ class CategoryViewModel: ObservableObject {
             .sink { (_) in
                 //
             }.store(in: &subscription)
+    }
+    
+    func update(category: Category, postData: [String:Any]) {
+        
     }
 }

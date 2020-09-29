@@ -120,6 +120,7 @@ class ProductListViewController: UIViewController {
                 var snapshot = dataSource.snapshot()
                 
                 snapshot.deleteItems([item])
+                
                 snapshot.reloadSections([.recent])
                 dataSource.apply(snapshot, animatingDifferences: true)
                 completion(true)

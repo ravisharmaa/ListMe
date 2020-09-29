@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 class CategoriesViewController: UITableViewController {
     
@@ -20,6 +21,7 @@ class CategoriesViewController: UITableViewController {
     
     let categoryViewModel: CategoryViewModel = CategoryViewModel()
     
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -31,6 +33,12 @@ class CategoriesViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItems))
         
         tableView.delegate = self
+        
+        refreshControl = UIRefreshControl()
+        
+        refreshControl?.attributedTitle = NSAttributedString(string: "Refresh")
+        
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         configureDataSource()
         categoryViewModel.fetchCategories()
@@ -93,7 +101,27 @@ class CategoriesViewController: UITableViewController {
         })
         
         let editAction = UIContextualAction(style: .normal, title: "Edit", handler: { [unowned self] (action, view, completionHandler) in
-            configureEditAction(item: selectedItem)
+            
+            let categoryForm = CategoryForm(closeModal: {
+                self.dismiss(animated: true, completion: nil)
+            }, category: selectedItem)
+            
+            let controller = UIHostingController(rootView: categoryForm)
+            
+            categoryForm.categoryViewModel.$categories.sink { (_) in
+                //
+            } receiveValue: { (category) in
+                if !category.isEmpty {
+                    var snapshot = dataSource.snapshot()
+                    snapshot.deleteItems([selectedItem])
+                    snapshot.appendItems(category)
+                    snapshot.reloadSections([.main])
+                    dataSource.apply(snapshot, animatingDifferences: true)
+                }
+            }.store(in: &subscription)
+            
+            present(controller, animated: true, completion: nil)
+            
             completionHandler(true)
         })
         
@@ -119,98 +147,28 @@ extension CategoriesViewController {
 extension CategoriesViewController {
     
     @objc func addItems() {
+        let form = CategoryForm(closeModal: {
+            self.dismiss(animated: true, completion: nil)
+        }, category: nil)
         
-        let alertController = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
+        let controller = UIHostingController(rootView: form)
         
-        alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "Enter Category Name"
-        }
+        controller.modalPresentationStyle = .popover
         
-        let saveAction = UIAlertAction(title: "Save", style: .default, handler: {[unowned self] alert -> Void in
-            
-            let firstTextField = alertController.textFields![0] as UITextField
-            
-            guard let _ = firstTextField.text else {
-                return
+        form.categoryViewModel.$categories.sink { [unowned self] (category) in
+         
+            if !category.isEmpty {
+                var snapshot = dataSource.snapshot()
+                
+                snapshot.appendItems(category)
+                
+                snapshot.reloadSections([.main])
+                
+                dataSource.apply(snapshot, animatingDifferences: true)
             }
-            
-            // let category: Category = .init(name: text)
-            
-            //self.categories.append(category)
-            
-            var snapshot = dataSource.snapshot()
-            
-            //snapshot.appendItems([category])
-            
-            snapshot.reloadSections([.main])
-            
-            dataSource.apply(snapshot, animatingDifferences: true)
-            
-        })
+        }.store(in: &subscription)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-        
-        
-        alertController.addAction(cancelAction)
-        
-        alertController.addAction(saveAction)
-        
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    func configureEditAction(item: Category) {
-        
-        let alertController = UIAlertController(title: "Update Name", message: "", preferredStyle: .alert)
-        
-        alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.text = item.name
-        }
-        
-        let updateAction = UIAlertAction(title: "Update", style: .default, handler: {[unowned self] alert -> Void in
-            
-            let firstTextField = alertController.textFields![0] as UITextField
-            
-            guard let _ = firstTextField.text else {
-                return
-            }
-            
-            //            let category = categories.map { (itemCateogry) -> Category in
-            //
-            //                var _ = itemCateogry
-            //
-            //                if itemCateogry.name == item.name {
-            //                    //                    cat.name = text
-            //                }
-            //
-            //                return itemCateogry
-            //            }
-            
-            //print(category)
-            
-            //            var categoryItem = categories.filter { (category) -> Bool in
-            //                return category.name == item.name
-            //            }.first ?? nil
-            //
-            //            categoryItem?.name = text
-            
-            var snapshot = dataSource.snapshot()
-            
-            snapshot.deleteAllItems()
-            
-            snapshot.appendSections([.main])
-            
-            // snapshot.appendItems(category)
-            
-            dataSource.apply(snapshot, animatingDifferences: true)
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-        
-        
-        alertController.addAction(cancelAction)
-        alertController.addAction(updateAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+        present(controller, animated: true, completion: nil)
     }
 }
 
@@ -226,5 +184,15 @@ extension CategoriesViewController {
         }
         
         navigationController?.pushViewController(ProductListViewController(category: category), animated: true)
+    }
+    
+    @objc func refresh() {
+        refreshControl?.beginRefreshing()
+        categoryViewModel.fetchCategories()
+        categoryViewModel.$categories.sink { [unowned self] (categories) in
+            
+            updateDatasource(with: categories)
+            refreshControl?.endRefreshing()
+        }.store(in: &subscription)
     }
 }
