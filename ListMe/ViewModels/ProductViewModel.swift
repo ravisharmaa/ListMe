@@ -17,7 +17,7 @@ class ProductViewModel: ObservableObject {
     
     //MARK:- Saves A Product
     
-    func saveProduct(postData: [String: Any]) {
+    func store(postData: [String: Any]) {
         
         let path = ApiConstants.ProductPath.description + "/create"
         
@@ -36,7 +36,7 @@ class ProductViewModel: ObservableObject {
     
     //MARK:- Fetches Products
     
-    func fetchProductsFor(category: Category) {
+    func all(category: Category) {
         
         let path = ApiConstants.ProductPath.description + "/\(category.name ?? "")"
         
@@ -55,7 +55,7 @@ class ProductViewModel: ObservableObject {
     
     // MARK:- Deletes a product
     
-    func deleteProduct(product: Product) {
+    func destroy(product: Product) {
         
         let path = ApiConstants.ProductPath.description + "/\(product.id ?? Int())/delete"
         

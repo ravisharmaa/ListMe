@@ -85,7 +85,7 @@ struct ProductForm: View {
                     "category_id":category.id!
                 ]
                 
-                productViewModel.saveProduct(postData: postData)
+                productViewModel.store(postData: postData)
                 closeModal?()
                 
             }))

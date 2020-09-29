@@ -64,7 +64,7 @@ class ProductListViewController: UIViewController {
         
         navigationItem.rightBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createProduct))
         
-        productViewModel.fetchProductsFor(category: category)
+        productViewModel.all(category: category)
         
         productViewModel.$products.sink { [unowned self] (products) in
             configureDataSource()
@@ -94,7 +94,7 @@ class ProductListViewController: UIViewController {
             
             let secondLeadingSwipe = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completion) in
             
-                productViewModel.deleteProduct(product: item)
+                productViewModel.destroy(product: item)
                 
                 var snapshot = dataSource.snapshot()
                 
