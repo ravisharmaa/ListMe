@@ -34,7 +34,7 @@ class ProductListViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Product>!
     
-    var products: Products = []
+    private let productViewModel: ProductViewModel = ProductViewModel()
     
     init(category: Category) {
         self.category = category
@@ -64,21 +64,13 @@ class ProductListViewController: UIViewController {
         
         navigationItem.rightBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createProduct))
         
-        let path = ApiConstants.ProductPath.description + "/\(category.name ?? "")"
+        productViewModel.fetchProductsFor(category: category)
         
-        NetworkManager.shared.sendRequest(to: path, model: Products.self)
-            .receive(on: RunLoop.main)
-            .catch { (error) -> AnyPublisher<Products, Never> in
-                return Just([Product.placeholder]).eraseToAnyPublisher()
-            }.sink { (_) in
-                //
-            } receiveValue: { [unowned self] (products) in
-                
-                self.products = products
-                
-                configureDataSource()
-                
-            }.store(in: &subscription)
+        productViewModel.$products.sink { [unowned self] (products) in
+            configureDataSource()
+            prepareSnapshotWith(products: products)
+        }.store(in: &subscription)
+        
     }
     
     fileprivate func createLayout() -> UICollectionViewCompositionalLayout {
@@ -101,8 +93,16 @@ class ProductListViewController: UIViewController {
             leadingSwipeAction.backgroundColor = .systemBlue
             
             let secondLeadingSwipe = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completion) in
+            
+                productViewModel.deleteProduct(product: item)
                 
-                sendRequestToDelete(product: item)
+                var snapshot = dataSource.snapshot()
+                
+                snapshot.deleteItems([item])
+                
+                snapshot.reloadSections([.recent])
+                
+                dataSource.apply(snapshot, animatingDifferences: true)
                 
                 completion(true)
             }
@@ -133,6 +133,9 @@ class ProductListViewController: UIViewController {
         dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, product) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: product)
         })
+    }
+    
+    func prepareSnapshotWith(products: [Product]) {
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Product>()
         
@@ -156,7 +159,23 @@ extension ProductListViewController {
         
         controller.modalPresentationStyle  = .popover
         
+        productForm.productViewModel.$products.sink { [unowned self] (product) in
+            if !product.isEmpty {
+                updateDataSource(product: product)
+            }
+            
+        }.store(in: &subscription)
+        
         present(controller, animated: true, completion: nil)
+    }
+    
+    func updateDataSource(product: [Product]) {
+        
+        var snapshot = dataSource.snapshot()
+        
+        snapshot.appendItems(product)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -169,28 +188,5 @@ extension ProductListViewController: UICollectionViewDelegate {
             return
         }  
         //navigationController?.pushViewController(ItemDetailsViewController(item: item), animated: true)
-    }
-}
-
-
-extension ProductListViewController {
-    
-    func sendRequestToDelete(product: Product) {
-        
-        let path = ApiConstants.ProductPath.description + "/\(product.id ?? Int())/delete"
-        
-        NetworkManager.shared.sendRequest(to: path, method: .delete, model: GenericResponse.self)
-            .receive(on: RunLoop.main)
-            .sink { (_) in
-                //
-            } receiveValue: { [unowned self] (_) in
-                var snapshot = dataSource.snapshot()
-                
-                snapshot.deleteItems([product])
-                
-                snapshot.reloadSections([.recent])
-                
-                dataSource.apply(snapshot, animatingDifferences: true)
-            }.store(in: &subscription)
     }
 }

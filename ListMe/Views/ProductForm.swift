@@ -29,6 +29,7 @@ struct ProductForm: View {
     
     let category: Category
     
+
     var body: some View {
         NavigationView {
             Form {
@@ -94,6 +95,6 @@ struct ProductForm: View {
 
 struct ProductForm_Previews: PreviewProvider {
     static var previews: some View {
-        ProductForm(closeModal: nil, category: .init(name: "Some Category", id: 1) )
+        ProductForm(closeModal: nil,  category: .init(name: "Some Category", id: 1) )
     }
 }

@@ -2,7 +2,7 @@
 //  DetailForm.swift
 //  ListMe
 //
-//  Created by Javra Software on 9/28/20.
+//  Created by Ravi Bastola on 9/28/20.
 //
 
 import SwiftUI

@@ -10,9 +10,6 @@ import Combine
 
 class CategoriesViewController: UITableViewController {
     
-    
-    var categories: [Category] = []
-    
     var subscription: Set<AnyCancellable> = []
     
     enum Section {
@@ -20,6 +17,8 @@ class CategoriesViewController: UITableViewController {
     }
     
     var dataSource: DataSource!
+    
+    let categoryViewModel: CategoryViewModel = CategoryViewModel()
     
     fileprivate lazy var activityIndicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .medium)
@@ -49,22 +48,14 @@ class CategoriesViewController: UITableViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
-        
         activityIndicator.startAnimating()
         
-        NetworkManager.shared.sendRequest(to: ApiConstants.CateogryPath.description, model: [Category].self)
-            .receive(on: RunLoop.main)
-            .catch { (error) -> AnyPublisher<[Category], Never> in
-                return Just([Category.placeholder]).eraseToAnyPublisher()
-            }.sink { (_) in
-                //
-            } receiveValue: { [unowned self] (categories) in
-                
-                activityIndicator.stopAnimating()
-                
-                updateDatasource(with: categories)
-                
-            }.store(in: &subscription)
+        categoryViewModel.fetchCategories()
+        
+        categoryViewModel.$categories.sink { [unowned self] (categories) in
+            activityIndicator.stopAnimating()
+            updateDatasource(with: categories)
+        }.store(in: &subscription)
     }
     
     func updateDatasource(with: [Category]) {
@@ -89,7 +80,7 @@ class CategoriesViewController: UITableViewController {
         
         snapshot.appendSections([.main])
         
-        snapshot.appendItems(categories)
+        snapshot.appendItems([])
         
         dataSource.apply(snapshot)
     }
@@ -103,12 +94,11 @@ class CategoriesViewController: UITableViewController {
         
         let action = UIContextualAction(style: .destructive, title: "Delete", handler: { [unowned self] (action, view, completionHandler) in
             
-            let removedItem = self.categories.filter { (item) -> Bool in
-                return selectedItem.name == item.name
-            }
+            categoryViewModel.deleteCategory(category: selectedItem)
             
             var snapshot = dataSource.snapshot()
-            snapshot.deleteItems(removedItem)
+            
+            snapshot.deleteItems([selectedItem])
             
             dataSource.apply(snapshot, animatingDifferences: true)
             
@@ -197,18 +187,18 @@ extension CategoriesViewController {
                 return
             }
             
-            let category = categories.map { (itemCateogry) -> Category in
-                
-                var _ = itemCateogry
-                
-                if itemCateogry.name == item.name {
-                    //                    cat.name = text
-                }
-                
-                return itemCateogry
-            }
+            //            let category = categories.map { (itemCateogry) -> Category in
+            //
+            //                var _ = itemCateogry
+            //
+            //                if itemCateogry.name == item.name {
+            //                    //                    cat.name = text
+            //                }
+            //
+            //                return itemCateogry
+            //            }
             
-            print(category)
+            //print(category)
             
             //            var categoryItem = categories.filter { (category) -> Bool in
             //                return category.name == item.name
@@ -222,7 +212,7 @@ extension CategoriesViewController {
             
             snapshot.appendSections([.main])
             
-            snapshot.appendItems(category)
+            // snapshot.appendItems(category)
             
             dataSource.apply(snapshot, animatingDifferences: true)
         })

@@ -22,8 +22,11 @@ struct Product: Codable, Hashable {
     let offerPrice: Int?
     let offerValidTill: String?
     
+    let uuid: UUID = UUID()
+    
     enum CodingKeys: String, CodingKey {
         case id, price
+        case uuid
         case categoryId = "category_id"
         case supplierId = "supplier_id"
         case name, flavour, unit
