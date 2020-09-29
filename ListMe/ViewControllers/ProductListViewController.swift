@@ -87,6 +87,27 @@ class ProductListViewController: UIViewController {
             var action: [UIContextualAction] = [UIContextualAction]()
             
             let leadingSwipeAction = UIContextualAction(style: .normal, title: "Edit") { (_, _, completion) in
+                
+                let productForm = ProductForm(closeModal: {
+                    self.dismiss(animated: true, completion: nil)
+                }, category: category, product: item)
+                
+                let controller = UIHostingController(rootView: productForm)
+                
+                productForm.productViewModel.$products.sink { (_) in
+                    //
+                } receiveValue: { (product) in
+                    if !product.isEmpty {
+                        var snapshot = dataSource.snapshot()
+                        snapshot.deleteItems([item])
+                        snapshot.appendItems(product)
+                        snapshot.reloadSections([.recent])
+                        dataSource.apply(snapshot, animatingDifferences: true)
+                    }
+                }.store(in: &subscription)
+
+                present(controller, animated: true, completion: nil)
+                
                 completion(true)
             }
             
@@ -99,11 +120,8 @@ class ProductListViewController: UIViewController {
                 var snapshot = dataSource.snapshot()
                 
                 snapshot.deleteItems([item])
-                
                 snapshot.reloadSections([.recent])
-                
                 dataSource.apply(snapshot, animatingDifferences: true)
-                
                 completion(true)
             }
             
@@ -153,7 +171,7 @@ extension ProductListViewController {
         
         let productForm = ProductForm(closeModal: {
             self.dismiss(animated: true, completion: nil)
-        }, category: category)
+        }, category: category, product: nil)
         
         let controller = UIHostingController(rootView: productForm)
         

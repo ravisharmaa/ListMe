@@ -8,7 +8,6 @@
 import Foundation
 import Combine
 
-
 class ProductViewModel: ObservableObject {
     
     var subscription: Set<AnyCancellable> = []
@@ -66,6 +65,21 @@ class ProductViewModel: ObservableObject {
             }
             .sink { (_) in
                 //
+            }.store(in: &subscription)
+    }
+    
+    func update(product: Product, postData: [String: Any]) {
+        let path = ApiConstants.ProductPath.description + "/\(product.id ?? Int())/update"
+        
+        NetworkManager.shared.sendRequest(to: path, method: .put, model: Products.self, postData: postData)
+            .receive(on: RunLoop.main)
+            .catch { (error) -> AnyPublisher<Products, Never> in
+    
+                return Just([Product.placeholder]).eraseToAnyPublisher()
+            }.sink { (_) in
+                //
+            } receiveValue: { [unowned self] (products) in
+                self.products = products
             }.store(in: &subscription)
     }
 }

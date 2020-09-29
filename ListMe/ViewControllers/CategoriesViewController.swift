@@ -20,13 +20,6 @@ class CategoriesViewController: UITableViewController {
     
     let categoryViewModel: CategoryViewModel = CategoryViewModel()
     
-    fileprivate lazy var activityIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .medium)
-        view.hidesWhenStopped = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -40,21 +33,11 @@ class CategoriesViewController: UITableViewController {
         tableView.delegate = self
         
         configureDataSource()
-        
-        view.addSubview(activityIndicator)
-        
-        NSLayoutConstraint.activate([
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-        
-        activityIndicator.startAnimating()
-        
         categoryViewModel.fetchCategories()
-        
         categoryViewModel.$categories.sink { [unowned self] (categories) in
-            activityIndicator.stopAnimating()
+            showLoadingView()
             updateDatasource(with: categories)
+            dismissLoadingView()
         }.store(in: &subscription)
     }
     
@@ -68,6 +51,7 @@ class CategoriesViewController: UITableViewController {
     
     
     func configureDataSource() {
+        
         dataSource = .init(tableView: tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
             
             let cell = UITableViewCell()
@@ -75,9 +59,12 @@ class CategoriesViewController: UITableViewController {
             
             return cell
         })
+    }
+    
+    func configureSnapshot() {
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Category>()
-        
+    
         snapshot.appendSections([.main])
         
         snapshot.appendItems([])

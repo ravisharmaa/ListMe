@@ -29,22 +29,24 @@ struct ProductForm: View {
     
     let category: Category
     
+    let product: Product?
+    
 
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Name")) {
-                    TextField("Product Name", text: $name)
+                    TextField(product?.name ?? "Product Name", text: $name)
                 }
                 
                 Section(header: Text("Flavor/Variant")) {
-                    TextField("Flavor", text: $flavour)
+                    TextField( product?.flavour ?? "Flavor", text: $flavour)
                 }
                 
                 Section(header:  Text("Order Unit")) {
                     Picker("Unit", selection: $selectedUnit) {
                         ForEach(0..<productUnit.count) {
-                            Text(productUnit[$0])
+                            Text( product?.unit ??  productUnit[$0])
                         }
                         
                     }.pickerStyle(SegmentedPickerStyle())
@@ -55,7 +57,7 @@ struct ProductForm: View {
                         TextField("Weight", text: $weight).keyboardType(.numberPad)
                         Picker("Unit", selection: $selectedQuantity) {
                             ForEach(0..<quantityMetrics.count) {
-                                Text(quantityMetrics[$0])
+                                Text(product?.minimumOrderQuantity ?? quantityMetrics[$0])
                             }
                             
                         }.pickerStyle(SegmentedPickerStyle())
@@ -85,7 +87,11 @@ struct ProductForm: View {
                     "category_id":category.id!
                 ]
                 
-                productViewModel.store(postData: postData)
+                if let product = product {
+                    productViewModel.update(product: product, postData: postData)
+                } else {
+                    productViewModel.store(postData: postData)
+                }
                 closeModal?()
                 
             }))
@@ -95,6 +101,6 @@ struct ProductForm: View {
 
 struct ProductForm_Previews: PreviewProvider {
     static var previews: some View {
-        ProductForm(closeModal: nil,  category: .init(name: "Some Category", id: 1) )
+        ProductForm(closeModal: nil,  category: .init(name: "Some Category", id: 1), product: nil )
     }
 }

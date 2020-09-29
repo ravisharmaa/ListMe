@@ -103,7 +103,7 @@ extension NetworkManager: ApiConfiguration {
         
         // add data to post request
         
-        if let postData = postData, !postData.isEmpty && method == .post {
+        if let postData = postData, !postData.isEmpty {
             
             urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
             
