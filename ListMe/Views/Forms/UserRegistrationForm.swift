@@ -9,69 +9,69 @@ import SwiftUI
 
 struct UserRegistrationForm: View {
     
-    @ObservedObject var userViewModel: UserViewModel = UserViewModel()
+    @ObservedObject var registrationViewModel: RegistrationViewModel = RegistrationViewModel()
     
     @State var selection:Int = 0
     
     @State var showingLogin: Bool = false
     
     var body: some View {
-        UITableView.appearance().showsVerticalScrollIndicator = false
         
+        UITableView.appearance().showsVerticalScrollIndicator = false
         
         return NavigationView {
             Form {
                 Section(header: Text("Name")) {
-                    TextField("Please Input Your Name", text: $userViewModel.name)
+                    TextField("Please Input Your Name", text: $registrationViewModel.name)
                         .keyboardType(.default)
                         .disableAutocorrection(true)
                     
                 }
                 Section(header: Text("Email")) {
-                    TextField("Please Input Your Email", text: $userViewModel.email)
+                    TextField("Please Input Your Email", text: $registrationViewModel.email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                 }
                 Section(header: Text("Password")) {
-                    SecureField("Please Input Your Password", text: $userViewModel.password)
+                    SecureField("Please Input Your Password", text: $registrationViewModel.password)
                 }
                 
                 Section(header: Text("You are")) {
                     Picker("Role", selection: $selection) {
-                        ForEach(0..<userViewModel.userInfo.count) { info in
-                            Text(userViewModel.userInfo[info].name)
+                        ForEach(0..<registrationViewModel.userInfo.count) { info in
+                            Text(registrationViewModel.userInfo[info].name)
                         }
                     }.pickerStyle(SegmentedPickerStyle())
                 }.listRowBackground(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
                 
                 if  selection == 0 {
                     Section(header: Text("Business Name")) {
-                        TextField("Name", text: $userViewModel.businessName)
+                        TextField("Name", text: $registrationViewModel.businessName)
                     }
                     
                     Section(header: Text("Address")) {
-                        TextField("Street", text: $userViewModel.street)
-                        TextField("City", text: $userViewModel.city)
+                        TextField("Street", text: $registrationViewModel.street)
+                        TextField("City", text: $registrationViewModel.city)
                         
                         HStack {
-                            TextField("Zip", text: $userViewModel.zip)
-                            TextField("State", text: $userViewModel.state)
+                            TextField("Zip", text: $registrationViewModel.zip)
+                            TextField("State", text: $registrationViewModel.state)
                         }
                     }
                     Section(header: Text("Contact")) {
-                        TextField("Telephone", text: $userViewModel.telephone)
+                        TextField("Telephone", text: $registrationViewModel.telephone)
                             .keyboardType(.phonePad)
                     }
                 } else {
                     Section(header: Text("Your Zip Code and State ")) {
                         HStack {
-                            TextField("Zip", text: $userViewModel.zip)
-                            TextField("State", text: $userViewModel.state)
+                            TextField("Zip", text: $registrationViewModel.zip)
+                            TextField("State", text: $registrationViewModel.state)
                         }
                     }
                     Section(header: Text("Business Name")) {
-                        TextField("Name", text: $userViewModel.businessName)
+                        TextField("Name", text: $registrationViewModel.businessName)
                     }
                 }
                 Section {
@@ -80,8 +80,8 @@ struct UserRegistrationForm: View {
                             Spacer()
                             
                             Button(action: {
-                                userViewModel.preferredUserInfo = selection
-                                userViewModel.signUp()
+                                registrationViewModel.preferredUserInfo = selection
+                                registrationViewModel.signUp()
                             }, label: {
                                 Text("Sign Up").fontWeight(.medium)
                             })
@@ -89,6 +89,7 @@ struct UserRegistrationForm: View {
                             .frame(width: 149, height: 45)
                             .background(Color.black)
                             .cornerRadius(20)
+                            .disabled(!registrationViewModel.isFormValid)
                             
                             Spacer()
                         }

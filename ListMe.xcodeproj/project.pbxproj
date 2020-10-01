@@ -21,7 +21,7 @@
 		D51D1C942523638A0063DFED /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51D1C932523638A0063DFED /* UIViewController+Ext.swift */; };
 		D529A7582519A72A00D313BE /* ItemForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D529A7572519A72A00D313BE /* ItemForm.swift */; };
 		D55E3DB1252568BD0081A92D /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55E3DB0252568BD0081A92D /* LaunchViewController.swift */; };
-		D55E3DB6252581860081A92D /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55E3DB5252581860081A92D /* UserViewModel.swift */; };
+		D55E3DB6252581860081A92D /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55E3DB5252581860081A92D /* RegistrationViewModel.swift */; };
 		D55E3DBA252588970081A92D /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55E3DB9252588970081A92D /* UserInfo.swift */; };
 		D57174AA25239B9000F1FE8A /* CategoryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57174A925239B9000F1FE8A /* CategoryForm.swift */; };
 		D57174AE25240B3B00F1FE8A /* BasketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57174AD25240B3B00F1FE8A /* BasketViewModel.swift */; };
@@ -56,7 +56,7 @@
 		D51D1C932523638A0063DFED /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		D529A7572519A72A00D313BE /* ItemForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemForm.swift; sourceTree = "<group>"; };
 		D55E3DB0252568BD0081A92D /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
-		D55E3DB5252581860081A92D /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
+		D55E3DB5252581860081A92D /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		D55E3DB9252588970081A92D /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		D57174A925239B9000F1FE8A /* CategoryForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryForm.swift; sourceTree = "<group>"; };
 		D57174AD25240B3B00F1FE8A /* BasketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketViewModel.swift; sourceTree = "<group>"; };
@@ -193,7 +193,7 @@
 				D571C00E2520359500BF2B76 /* ProductViewModel.swift */,
 				D51D1C8F252351200063DFED /* CategoryViewModel.swift */,
 				D57174AD25240B3B00F1FE8A /* BasketViewModel.swift */,
-				D55E3DB5252581860081A92D /* UserViewModel.swift */,
+				D55E3DB5252581860081A92D /* RegistrationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -310,7 +310,7 @@
 				D5D52437251FCEC200006A01 /* ProductForm.swift in Sources */,
 				227B9EC8251AE76C009B4CFE /* ItemDetailsViewController.swift in Sources */,
 				D51AA37325197E5900CB9DFD /* SceneDelegate.swift in Sources */,
-				D55E3DB6252581860081A92D /* UserViewModel.swift in Sources */,
+				D55E3DB6252581860081A92D /* RegistrationViewModel.swift in Sources */,
 				D5E9C92A252170A600CF7D06 /* UserRegistrationForm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

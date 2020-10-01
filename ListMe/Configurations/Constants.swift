@@ -35,3 +35,30 @@ enum ApiConstants: CustomStringConvertible {
         }
     }
 }
+
+enum ValidationConstants: CustomStringConvertible {
+    
+    case EmailConstant
+    
+    var description: String {
+        switch self {
+        case .EmailConstant:
+            return "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        }
+    }
+}
+
+enum ValidationStates {
+    
+    case EmailValidation(String)
+    
+    var validated: Bool {
+        
+        switch self {
+        
+        case .EmailValidation(let stringTobeValidatedAgainst):
+            return NSPredicate(format: "SELF MATCHES %@", ValidationConstants.EmailConstant.description).evaluate(with: stringTobeValidatedAgainst)
+            
+        }
+    }
+}
