@@ -16,6 +16,7 @@ class CategoryViewModel: ObservableObject {
     @Published private (set) var categories: [Category] = []
     
     func store(postData: [String: Any]) {
+        
         NetworkManager.shared.sendRequest(to: ApiConstants.CateogryPath.description , method: .post, model: [Category].self, postData: postData)
             .receive(on: RunLoop.main)
             .catch({ (error) -> AnyPublisher<[Category], Never> in
@@ -30,7 +31,7 @@ class CategoryViewModel: ObservableObject {
             }.store(in: &subscription)
     }
     
-    func fetchCategories() {
+    func all() {
         
         NetworkManager.shared.sendRequest(to: ApiConstants.CateogryPath.description, model: [Category].self)
             .receive(on: RunLoop.main)
@@ -45,7 +46,7 @@ class CategoryViewModel: ObservableObject {
             }.store(in: &subscription)
     }
     
-    func deleteCategory(category: Category) {
+    func delete(category: Category) {
         
         let path = ApiConstants.CateogryPath.description + "/\(category.id ?? Int())/delete"
         

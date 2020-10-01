@@ -34,12 +34,18 @@ class ItemListController: UITableViewController {
         
         navigationItem.rightBarButtonItem  = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItems))
         
+        tableView.register(ItemCell.self, forCellReuseIdentifier: ItemCell.reuseIdentifier)
+        
         configureDataSource()
     }
     
     func configureDataSource() {
         dataSource = .init(tableView: tableView, cellProvider: { (tableView, indexPath, item) -> UITableViewCell? in
-            let cell = UITableViewCell()
+            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseIdentifier) as? ItemCell else {
+                return nil
+            }
+            
             cell.textLabel?.text = item.name
             
             return cell
@@ -66,7 +72,6 @@ extension ItemListController {
 }
 
 extension ItemListController {
-    
     
     @objc func addItems() {
         let controler = UIHostingController(rootView: ItemForm())
@@ -97,7 +102,4 @@ extension ItemListController {
         let configuration = UISwipeActionsConfiguration(actions: [action, editAction])
         return configuration
     }
-    
-    
-    
 }

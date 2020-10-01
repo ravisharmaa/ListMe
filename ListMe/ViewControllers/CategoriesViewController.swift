@@ -34,6 +34,8 @@ class CategoriesViewController: UITableViewController {
         
         tableView.delegate = self
         
+        tableView.showsVerticalScrollIndicator = false
+        
         refreshControl = UIRefreshControl()
         
         refreshControl?.attributedTitle = NSAttributedString(string: "Refresh")
@@ -41,7 +43,8 @@ class CategoriesViewController: UITableViewController {
         refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
         configureDataSource()
-        categoryViewModel.fetchCategories()
+        categoryViewModel.all()
+        
         categoryViewModel.$categories.sink { [unowned self] (categories) in
             showLoadingView()
             updateDatasource(with: categories)
@@ -49,12 +52,12 @@ class CategoriesViewController: UITableViewController {
         }.store(in: &subscription)
     }
     
-    func updateDatasource(with: [Category]) {
+    func updateDatasource(with: [Category], animated: Bool = true) {
         var snapshot = dataSource.snapshot()
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
         snapshot.appendItems(with)
-        dataSource.apply(snapshot)
+        dataSource.apply(snapshot, animatingDifferences: animated)
     }
     
     
@@ -72,12 +75,10 @@ class CategoriesViewController: UITableViewController {
     func configureSnapshot() {
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Category>()
-    
         snapshot.appendSections([.main])
-        
         snapshot.appendItems([])
         
-        dataSource.apply(snapshot)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
     
     
@@ -89,7 +90,7 @@ class CategoriesViewController: UITableViewController {
         
         let action = UIContextualAction(style: .destructive, title: "Delete", handler: { [unowned self] (action, view, completionHandler) in
             
-            categoryViewModel.deleteCategory(category: selectedItem)
+            categoryViewModel.delete(category: selectedItem)
             
             var snapshot = dataSource.snapshot()
             
@@ -156,7 +157,7 @@ extension CategoriesViewController {
         controller.modalPresentationStyle = .popover
         
         form.categoryViewModel.$categories.sink { [unowned self] (category) in
-         
+            
             if !category.isEmpty {
                 var snapshot = dataSource.snapshot()
                 
@@ -188,10 +189,10 @@ extension CategoriesViewController {
     
     @objc func refresh() {
         refreshControl?.beginRefreshing()
-        categoryViewModel.fetchCategories()
+        categoryViewModel.all()
+        
         categoryViewModel.$categories.sink { [unowned self] (categories) in
-            
-            updateDatasource(with: categories)
+            updateDatasource(with: categories, animated: false)
             refreshControl?.endRefreshing()
         }.store(in: &subscription)
     }

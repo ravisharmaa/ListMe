@@ -9,7 +9,6 @@ import UIKit
 
 class ItemSearchViewController: UIViewController {
     
-    
     fileprivate lazy var searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: nil)
         controller.searchBar.placeholder = "Search News, For ex: Apple"

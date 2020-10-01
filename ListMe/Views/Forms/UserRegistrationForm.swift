@@ -9,82 +9,99 @@ import SwiftUI
 
 struct UserRegistrationForm: View {
     
-    @State private var password: String = String()
-    
-    @State private var email: String = String()
-    
-    @State private var name: String = String()
-    
-    var userInfo = ["Business Owner","Employee"]
-    
-    @State private var businessName: String = String()
-    
-    @State var preferredUserInfo = 0
+    @ObservedObject var userViewModel: UserViewModel = UserViewModel()
     
     var body: some View {
+        
+        //UITableView.appearance().showsVerticalScrollIndicator = false
         NavigationView {
-            Form {
-                
-                Section(header: Text("Name")) {
-                    TextField("Please Input Your Name", text: $name)
-                        .keyboardType(.default)
-                }
-                
-                
-                Section(header: Text("Email")) {
-                    TextField("Please Input Your Email", text: $email)
-                        .keyboardType(.emailAddress)
-                }
-                
-                Section(header: Text("Password")) {
-                    SecureField("Please Input Your Password", text: $password)
-                }
-                
-                Section(header: Text("You are")) {
-                    Picker("Role", selection: $preferredUserInfo) {
-                        ForEach(0..<userInfo.count) {
-                            Text(userInfo[$0])
+                Form {
+                    
+                    Section(header: Text("Name")) {
+                        TextField("Please Input Your Name", text: $userViewModel.name)
+                            .keyboardType(.default)
+                    }
+                    
+                    Section(header: Text("Email")) {
+                        TextField("Please Input Your Email", text: $userViewModel.email)
+                            .keyboardType(.emailAddress)
+                    }
+                    
+                    Section(header: Text("Password")) {
+                        SecureField("Please Input Your Password", text: $userViewModel.password)
+                    }
+                    
+                    Section(header: Text("You are")) {
+                        Picker("Role", selection: $userViewModel.preferredUserInfo) {
+                            
+                            ForEach(0..<userViewModel.userInfo.count) { info in
+                                Text(userViewModel.userInfo[info].name)
+                            }
+                            
+                        }.pickerStyle(SegmentedPickerStyle())
+                    }
+                    .listRowBackground(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
+                    
+                    if  userViewModel.preferredUserInfo == 0 {
+                        
+                        Section(header: Text("Business Name")) {
+                            TextField("Name", text: $userViewModel.businessName)
                         }
                         
-                    }.pickerStyle(SegmentedPickerStyle())
+                        Section(header: Text("Address")) {
+                            TextField("Street", text: $userViewModel.street)
+                            TextField("City", text: $userViewModel.city)
+                            
+                            HStack {
+                                TextField("Zip", text: $userViewModel.zip)
+                                TextField("State", text: $userViewModel.state)
+                            }
+                        }
+                        
+                        Section(header: Text("Contact")) {
+                            TextField("Telephone", text: $userViewModel.telephone)
+                                .keyboardType(.phonePad)
+                        }
+                        
+                    } else {
+                        Section(header: Text("Your Zip Code and State ")) {
+                            HStack {
+                                TextField("Zip", text: $userViewModel.zip)
+                                TextField("State", text: $userViewModel.state)
+                            }
+                        }
+                        
+                        Section(header: Text("Business Name")) {
+                            TextField("Name", text: $userViewModel.businessName)
+                        }
+                    }
+                    
+                    
+                    Section {
+                        HStack {
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                userViewModel.save()
+                            }, label: {
+                                Text("Sign Up").fontWeight(.heavy)
+                            })
+                            
+                            .frame(width: 180, height: 45, alignment: .center)
+                            .background(Color.black)
+                            .foregroundColor(.white)
+                            .cornerRadius(20)
+                            
+                            Spacer()
+                            
+                        }
+                        .foregroundColor(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
+                        
+                    }.listRowBackground(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
+
                 }
-                
-//                if userInfo[preferredUserInfo] == "Business Owner" {
-//
-//
-//                    Section(header: Text("Address")) {
-//                        TextField("Please Input Your Business Name", text: $businessName)
-//                            .keyboardType(.default)
-//
-//                        TextField("Street", text: $businessName)
-//                            .keyboardType(.default)
-//
-//                        TextField("City", text: $businessName)
-//                            .keyboardType(.default)
-//
-//                        TextField("Zip", text: $businessName)
-//                            .keyboardType(.default)
-//
-//                        TextField("State", text: $businessName)
-//                            .keyboardType(.default)
-//
-//
-//                    }
-//
-//                    Section(header: Text("Phone Number")) {
-//                        TextField("Please Input Your Phone Number", text: $businessName)
-//                            .keyboardType(.phonePad)
-//                    }
-//
-//
-//
-//                } else {
-//
-//                }
-//
-//
-            }
-            .navigationBarTitle("Sign Up")
+                .navigationBarTitle("Sign Up")
         }
     }
 }

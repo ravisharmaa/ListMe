@@ -5,4 +5,11 @@
 //  Created by Javra Software on 9/30/20.
 //
 
-import Foundation
+import UIKit
+
+extension UIView {
+    
+    static var reuseIdentifier: String {
+        return String(describing: self)
+    }
+}
