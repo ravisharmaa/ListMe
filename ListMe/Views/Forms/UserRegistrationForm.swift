@@ -13,6 +13,8 @@ struct UserRegistrationForm: View {
     
     @State var selection:Int = 0
     
+    @State var showingLogin: Bool = false
+    
     var body: some View {
         UITableView.appearance().showsVerticalScrollIndicator = false
         
@@ -23,7 +25,7 @@ struct UserRegistrationForm: View {
                     TextField("Please Input Your Name", text: $userViewModel.name)
                         .keyboardType(.default)
                         .disableAutocorrection(true)
-
+                    
                 }
                 Section(header: Text("Email")) {
                     TextField("Please Input Your Email", text: $userViewModel.email)
@@ -76,32 +78,45 @@ struct UserRegistrationForm: View {
                     VStack(spacing: 15) {
                         HStack {
                             Spacer()
-                            ZStack {
-                                Text("Sign Up")
-                                    .font(.system(size: 17, weight: .heavy, design: .rounded))
-                                    .foregroundColor(Color.white)
-                                    .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                        print("hello")
-                                    })
-                            }
+                            
+                            Button(action: {
+                                userViewModel.preferredUserInfo = selection
+                                userViewModel.signUp()
+                            }, label: {
+                                Text("Sign Up").fontWeight(.medium)
+                            })
+                            .buttonStyle(PlainButtonStyle())
                             .frame(width: 149, height: 45)
                             .background(Color.black)
                             .cornerRadius(20)
+                            
                             Spacer()
                         }
                         
-                        Text("Already have an account? Login")
-                            .foregroundColor(.black)
-                            .font(.system(size: 17, weight: .light, design: .rounded))
-                            .onTapGesture(count: 1, perform: {
-                                //
-                            })
+                        Button(action: {
+                            showingLogin.toggle()
+                        }, label: {
+                            Text("Have An Account? Login")
+                        })
+                        .sheet(isPresented: $showingLogin, content: {
+                            DemoView()
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                        .foregroundColor(.black)
+                        .cornerRadius(20)
                     }.foregroundColor(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
                 }
                 .listRowBackground(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
             }
             .navigationBarTitle("Sign Up")
         }
+    }
+}
+
+struct DemoView: View {
+    
+    var body: some View {
+        Text("Hello world")
     }
 }
 
