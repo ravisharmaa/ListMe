@@ -9,9 +9,10 @@ import SwiftUI
 
 struct SearchView: View {
     
-    @State private var searchText = String()
+   
+    @State private var isSearching: Bool = false
     
-    let isModalClosed: ((_ items: [ListItem])-> Void)?
+    let isModalClosed: (()-> Void)?
     
     let layout = [
         GridItem(.flexible())
@@ -21,11 +22,10 @@ struct SearchView: View {
     
     var body: some View {
         VStack {
-            
             HStack {
-                TextField("Enter Search Text", text: $searchText)
+                TextField("Enter Search Text", text: $basketModel.searchText)
                     .padding(.horizontal, 40)
-                    .frame(width: UIScreen.main.bounds.width - 90, height: 45, alignment: .leading)
+                    .frame(width: UIScreen.main.bounds.width - 110, height: 45, alignment: .leading)
                     .background(Color(#colorLiteral(red: 0.9294475317, green: 0.9239223003, blue: 0.9336946607, alpha: 1)))
                     .clipped()
                     .cornerRadius(10)
@@ -37,13 +37,28 @@ struct SearchView: View {
                                 .padding(.leading, 16)
                         }
                     )
+                    .onTapGesture(perform: {
+                        isSearching = true
+                    })
                 Spacer()
-                Button(action: {
-                    isModalClosed?(basketModel.items)
-                }, label: {
-                    Text("Close")
-                })
-                .font(.title3)
+                
+                if !isSearching {
+                    Button(action: {
+                        isModalClosed?()
+                    }, label: {
+                        Text("Close")
+                    })
+                    .font(.title3)
+                } else {
+                    Button(action: {
+                        isSearching = false
+                    }, label: {
+                        Text("Cancel")
+                    })
+                    .font(.title3)
+                }
+                
+                
             }.padding()
             
             ScrollView(showsIndicators: false) {
@@ -64,8 +79,7 @@ struct ItemView: View {
     let model: BasketViewModel
     
     var newItemAdded: ((_ item: ListItem)-> Void)?
-    
-    
+
     var body: some View {
         
         ZStack {

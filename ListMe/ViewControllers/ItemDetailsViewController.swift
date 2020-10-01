@@ -150,10 +150,7 @@ extension ItemDetailsViewController {
     
     @objc func configureSearch() {
         
-        let search = SearchView { [unowned self] (listItems) in
-            
-            updateSnapshotwith(newItem: listItems)
-            
+        let search = SearchView { 
             self.dismiss(animated: true, completion: nil)
         }
         

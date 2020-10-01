@@ -25,7 +25,11 @@ class LaunchViewController: UITabBarController {
         
         categoriesController.tabBarItem = UITabBarItem(tabBarSystemItem: .featured, tag: 1)
         
-        viewControllers = [categoriesController, registrationController]
+        let searchController = UIHostingController(rootView: SearchView(isModalClosed: nil))
+        
+        searchController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 2)
+        
+        viewControllers = [categoriesController, registrationController, searchController]
         
         tabBarController?.selectedIndex = 0
         
