@@ -16,7 +16,7 @@ class UserViewModel: ObservableObject {
     
     var name: String = String()
     
-    @Published var userInfo: [UserInfo] = [
+    var userInfo: [UserInfo] = [
         UserInfo(name: "Business Owner"),
         UserInfo(name: "Employee")
     ]
@@ -35,8 +35,15 @@ class UserViewModel: ObservableObject {
     
     var telephone: String = String()
     
-    public func save() {
-        print(email)
+    public func signUp() {
+       
+        if !email.isEmpty, !password.isEmpty, !businessName.isEmpty, !state.isEmpty, !street.isEmpty {
+            
+        }
+    }
+    
+    public func login() {
+        
     }
     
 }
