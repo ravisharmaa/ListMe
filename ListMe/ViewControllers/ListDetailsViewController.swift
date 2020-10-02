@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 import Combine
 
-class ItemDetailsViewController: UIViewController {
+class ListDetailsViewController: UIViewController {
     
     let addedItems = BasketViewModel().items
     
@@ -38,9 +38,9 @@ class ItemDetailsViewController: UIViewController {
 //        super.init(nibName: nil, bundle: nil)
 //    }
     
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
+//    required init?(coder: NSCoder) {
+//        fatalError()
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,7 +142,7 @@ class ItemDetailsViewController: UIViewController {
 }
 
 
-extension ItemDetailsViewController {
+extension ListDetailsViewController {
     
     @objc func addItem() {
         

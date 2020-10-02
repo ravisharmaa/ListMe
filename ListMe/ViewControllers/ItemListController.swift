@@ -74,9 +74,9 @@ extension ItemListController {
 extension ItemListController {
     
     @objc func addItems() {
-        let controler = UIHostingController(rootView: ItemForm())
-        controler.view.backgroundColor = .systemBackground
-        present(controler, animated: true, completion: nil)
+//        let controler = UIHostingController(rootView: ItemForm())
+//        controler.view.backgroundColor = .systemBackground
+//        present(controler, animated: true, completion: nil)
     }
 }
 

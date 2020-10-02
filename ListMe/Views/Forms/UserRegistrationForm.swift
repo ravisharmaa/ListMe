@@ -13,7 +13,8 @@ struct UserRegistrationForm: View {
     
     @State var selection:Int = 0
     
-    @State var showingLogin: Bool = false
+    @Binding var closeRegistration: Bool
+    
     
     var body: some View {
         
@@ -22,19 +23,19 @@ struct UserRegistrationForm: View {
         return NavigationView {
             Form {
                 Section(header: Text("Name")) {
-                    TextField("Please Input Your Name", text: $registrationViewModel.name)
+                    TextField("Input your name", text: $registrationViewModel.name)
                         .keyboardType(.default)
                         .disableAutocorrection(true)
                     
                 }
                 Section(header: Text("Email")) {
-                    TextField("Please Input Your Email", text: $registrationViewModel.email)
+                    TextField("Input Your Email", text: $registrationViewModel.email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                 }
                 Section(header: Text("Password")) {
-                    SecureField("Please Input Your Password", text: $registrationViewModel.password)
+                    SecureField("Input Your Password", text: $registrationViewModel.password)
                 }
                 
                 Section(header: Text("You are")) {
@@ -42,7 +43,9 @@ struct UserRegistrationForm: View {
                         ForEach(0..<registrationViewModel.userInfo.count) { info in
                             Text(registrationViewModel.userInfo[info].name)
                         }
-                    }.pickerStyle(SegmentedPickerStyle())
+                    }
+                    .font(.title)
+                    .pickerStyle(SegmentedPickerStyle())
                 }.listRowBackground(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
                 
                 if  selection == 0 {
@@ -95,12 +98,9 @@ struct UserRegistrationForm: View {
                         }
                         
                         Button(action: {
-                            showingLogin.toggle()
+                            closeRegistration.toggle()
                         }, label: {
                             Text("Have An Account? Login")
-                        })
-                        .sheet(isPresented: $showingLogin, content: {
-                            DemoView()
                         })
                         .buttonStyle(PlainButtonStyle())
                         .foregroundColor(.black)
@@ -109,20 +109,20 @@ struct UserRegistrationForm: View {
                 }
                 .listRowBackground(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
             }
+            .font(.subheadline)
             .navigationBarTitle("Sign Up")
+            .navigationBarItems(trailing: Button(action: {
+                closeRegistration.toggle()
+            }, label: {
+                Text("Close")
+                    .foregroundColor(.blue)
+            }))
         }
-    }
-}
-
-struct DemoView: View {
-    
-    var body: some View {
-        Text("Hello world")
     }
 }
 
 struct UserRegistrationForm_Previews: PreviewProvider {
     static var previews: some View {
-        UserRegistrationForm()
+        UserRegistrationForm(closeRegistration: .constant(false))
     }
 }

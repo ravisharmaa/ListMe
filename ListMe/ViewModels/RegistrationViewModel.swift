@@ -2,7 +2,7 @@
 //  UserViewModel.swift
 //  ListMe
 //
-//  Created by Javra Software on 10/1/20.
+//  Created by Ravi Bastola on 10/1/20.
 //
 
 import Combine
