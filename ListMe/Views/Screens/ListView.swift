@@ -25,7 +25,7 @@ struct ListView: View {
                                         }, label: {
                                             Image(systemName: "plus").font(.title)
                                         }).sheet(isPresented: $isPresented, content: {
-                                            ListForm(isPresented: $isPresented, listViewModel: listViewModel)
+                                            ListForm(isPresented: $isPresented)
                                         })
                 )
         }

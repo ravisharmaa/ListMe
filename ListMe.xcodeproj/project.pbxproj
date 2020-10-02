@@ -32,6 +32,8 @@
 		D5A223202526D0C3004712BE /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A2231F2526D0C3004712BE /* ListView.swift */; };
 		D5A223232526D4E4004712BE /* ListForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A223222526D4E4004712BE /* ListForm.swift */; };
 		D5A223262526D564004712BE /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A223252526D564004712BE /* ListViewModel.swift */; };
+		D5A223292526E7E9004712BE /* OrderActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A223282526E7E9004712BE /* OrderActivityView.swift */; };
+		D5A2232C2526E804004712BE /* OrderForecastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A2232B2526E804004712BE /* OrderForecastView.swift */; };
 		D5A605F5251EDB3600CEEB6C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A605F4251EDB3600CEEB6C /* NetworkManager.swift */; };
 		D5A605FA251EDB7A00CEEB6C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A605F9251EDB7A00CEEB6C /* Constants.swift */; };
 		D5A605FE251EE6AC00CEEB6C /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A605FD251EE6AC00CEEB6C /* Product.swift */; };
@@ -71,6 +73,8 @@
 		D5A2231F2526D0C3004712BE /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		D5A223222526D4E4004712BE /* ListForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListForm.swift; sourceTree = "<group>"; };
 		D5A223252526D564004712BE /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
+		D5A223282526E7E9004712BE /* OrderActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderActivityView.swift; sourceTree = "<group>"; };
+		D5A2232B2526E804004712BE /* OrderForecastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderForecastView.swift; sourceTree = "<group>"; };
 		D5A605F4251EDB3600CEEB6C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D5A605F9251EDB7A00CEEB6C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D5A605FD251EE6AC00CEEB6C /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
@@ -214,6 +218,8 @@
 			children = (
 				D5EF172C25264EDA00621D96 /* HomeView.swift */,
 				D5A2231F2526D0C3004712BE /* ListView.swift */,
+				D5A223282526E7E9004712BE /* OrderActivityView.swift */,
+				D5A2232B2526E804004712BE /* OrderForecastView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -317,6 +323,7 @@
 				D5A605FA251EDB7A00CEEB6C /* Constants.swift in Sources */,
 				D51AA37525197E5900CB9DFD /* CategoriesViewController.swift in Sources */,
 				D5EF172D25264EDA00621D96 /* HomeView.swift in Sources */,
+				D5A223292526E7E9004712BE /* OrderActivityView.swift in Sources */,
 				D55E3DBA252588970081A92D /* UserInfo.swift in Sources */,
 				D5F425772519A25600CCD512 /* ItemListController.swift in Sources */,
 				D5A223232526D4E4004712BE /* ListForm.swift in Sources */,
@@ -329,6 +336,7 @@
 				D5A223262526D564004712BE /* ListViewModel.swift in Sources */,
 				D55E3DB1252568BD0081A92D /* LaunchViewController.swift in Sources */,
 				D58BA746251FB974009D3FDD /* GenericResponse.swift in Sources */,
+				D5A2232C2526E804004712BE /* OrderForecastView.swift in Sources */,
 				D51AA37125197E5900CB9DFD /* AppDelegate.swift in Sources */,
 				D5D52437251FCEC200006A01 /* ProductForm.swift in Sources */,
 				D51E78172526C7D500260528 /* LoginForm.swift in Sources */,

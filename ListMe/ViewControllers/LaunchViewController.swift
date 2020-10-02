@@ -19,7 +19,7 @@ class LaunchViewController: UITabBarController {
     
     fileprivate func configureViewControllers() {
         
-        let listViewController = UIHostingController(rootView: ListView())
+        let listViewController = UIHostingController(rootView: HomeView())
         
         listViewController.tabBarItem = UITabBarItem(title: "Lists", image: UIImage(systemName: "list.dash"), tag: 3)
         

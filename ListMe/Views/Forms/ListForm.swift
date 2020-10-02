@@ -12,13 +12,12 @@ struct ListForm: View {
     
     @Binding var isPresented: Bool
     
-    var listViewModel: ListViewModel
     
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("List Name")) {
-                    TextField(<#T##title: StringProtocol##StringProtocol#>, text: <#T##Binding<String>#>)
+                    //TextField(<#T##title: StringProtocol##StringProtocol#>, text: <#T##Binding<String>#>)
                 }
             }
             .navigationBarTitle("Create new list")
@@ -33,7 +32,7 @@ struct ListForm: View {
 
 struct ListForm_Previews: PreviewProvider {
     static var previews: some View {
-        ListForm(isPresented: .constant(false), listViewModel: .init()))
+        ListForm(isPresented: .constant(false))
     }
 }
 
