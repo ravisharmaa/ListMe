@@ -2,16 +2,20 @@
 //  ListItem.swift
 //  ListMe
 //
-//  Created by Ravi Bastola on 9/24/20.
+//  Created by Javra Software on 10/3/20.
 //
 
 import Foundation
 
-
-struct ListItem: Identifiable, Hashable {
+struct ListItem: Hashable, Identifiable {
     
     let id: UUID = UUID()
+    
     let name: String
-    let flavour: String
-    let weight: String
+    
+    let supplierName: String
+    
+    let storeName: String
+    
+    let items: [Item]?
 }

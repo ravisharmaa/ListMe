@@ -10,4 +10,22 @@ import Combine
 
 class ListViewModel: ObservableObject {
     
+    @Published var name: String = String()
+    
+    @Published var sendToSupplier: String = String()
+    
+    @Published var forStore: String = String()
+    
+    @Published var listItems: [ListItem] = [
+    ]
+    
+    var subscription: Set<AnyCancellable> = []
+    
+    public func addItem() {
+        
+        let item: ListItem = .init(name: name, supplierName: sendToSupplier, storeName: forStore, items: nil)
+        
+        listItems.append(item)
+    }
+    
 }

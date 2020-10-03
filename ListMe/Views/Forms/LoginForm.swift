@@ -47,7 +47,7 @@ struct LoginForm: View {
                             .buttonStyle(PlainButtonStyle())
                             .frame(width: 149, height: 45)
                             .background(Color.black)
-                            .cornerRadius(20)
+                            .cornerRadius(18)
                             .disabled(!registrationViewModel.isFormValid)
                             
                             Spacer()

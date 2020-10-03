@@ -75,10 +75,10 @@ struct SearchView: View {
 
 struct ItemView: View {
     
-    let item: ListItem
+    let item: DummyListFactory
     let model: BasketViewModel
     
-    var newItemAdded: ((_ item: ListItem)-> Void)?
+    var newItemAdded: ((_ item: DummyListFactory)-> Void)?
 
     var body: some View {
         
@@ -107,7 +107,7 @@ struct ItemView: View {
                 
                 Stepper(
                     onIncrement: {
-                        let item = ListItem(name: "Getorade", flavour: "FruitPunch", weight: "13 oz")
+                        let item = DummyListFactory(name: "Getorade", flavour: "FruitPunch", weight: "13 oz")
                         model.items.append(item)
                     },
                     onDecrement: {

@@ -11,18 +11,20 @@ struct HomeView: View {
     var body: some View {
         
         ZStack {
-            Color(#colorLiteral(red: 0.8705882353, green: 0.9176470588, blue: 0.9647058824, alpha: 1)).opacity(0.5).edgesIgnoringSafeArea(.all)
+            //Color(#colorLiteral(red: 0.8705882353, green: 0.9176470588, blue: 0.9647058824, alpha: 1)).opacity(0.5).edgesIgnoringSafeArea(.all)
+            Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)).edgesIgnoringSafeArea(.all)
             
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 25) {
+                VStack(spacing: 40) {
                     
-                    VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 5) {
                         Text("Welcome")
                             .font(.title)
                             .fontWeight(.bold)
                         Text("Your recent pickings are shown below")
                             .foregroundColor(.gray)
                     }
+                    .padding(.top, 60)
                     .offset(x: -20)
                     
                     ListCardView()
@@ -34,7 +36,7 @@ struct HomeView: View {
                     .frame(width:UIScreen.main.bounds.width - 95)
                     .frame(height: 28)
                     .padding()
-                    .background(Color.blue)
+                    .background(Color(#colorLiteral(red: 0.2117647059, green: 0.3647058824, blue: 1, alpha: 1)))
                     .foregroundColor(.white)
                     .cornerRadius(15)
                     
@@ -97,14 +99,17 @@ struct HomeCardListView: View {
             VStack(alignment: .leading, spacing: 5) {
                 
                 Text("Cash & Carry Pickup")
-                    .fontWeight(.semibold)
+                    .fontWeight(.bold)
+                    .font(.callout)
                 
                 Text("Created Sept 18, 2020")
                     .font(.caption)
                     .fontWeight(.light)
+                    .foregroundColor(Color.gray)
             }
             .padding(.leading, 30)
             
+            Spacer()
             Spacer()
             
             Capsule(style: .continuous)
@@ -113,15 +118,16 @@ struct HomeCardListView: View {
                 .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)).opacity(0.4))
                 .overlay(
                     Text("999")
-                        .font(.subheadline)
+                        .font(.caption)
                         .multilineTextAlignment(.leading)
                 )
                 
-            
             Image(systemName: "chevron.right")
                 .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)).opacity(0.8))
             
             Spacer()
+            
+            
         }
     }
 }

@@ -30,7 +30,7 @@ class ListDetailsViewController: UIViewController {
         case main
     }
     
-    fileprivate var dataSource: UICollectionViewDiffableDataSource<Section, ListItem>!
+    fileprivate var dataSource: UICollectionViewDiffableDataSource<Section, DummyListFactory>!
     
     
 //    init(item: ProductListViewController.Item) {
@@ -116,7 +116,7 @@ class ListDetailsViewController: UIViewController {
     
     
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ListItem>.init { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, DummyListFactory>.init { (cell, indexPath, item) in
             
             var content = cell.defaultContentConfiguration()
             
@@ -131,7 +131,7 @@ class ListDetailsViewController: UIViewController {
             return cell
         })
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ListItem>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DummyListFactory>()
         
         snapshot.appendSections([.main])
         
@@ -161,7 +161,7 @@ extension ListDetailsViewController {
         present(controller, animated: true, completion: nil)
     }
     
-    func updateSnapshotwith(newItem: [ListItem]) {
+    func updateSnapshotwith(newItem: [DummyListFactory]) {
         
         var snapshot = dataSource.snapshot()
         

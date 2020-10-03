@@ -104,7 +104,7 @@ struct UserRegistrationForm: View {
                         })
                         .buttonStyle(PlainButtonStyle())
                         .foregroundColor(.black)
-                        .cornerRadius(20)
+                        .cornerRadius(18)
                     }.foregroundColor(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
                 }
                 .listRowBackground(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
