@@ -22,6 +22,8 @@
 		D51D1C90252351200063DFED /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51D1C8F252351200063DFED /* CategoryViewModel.swift */; };
 		D51D1C942523638A0063DFED /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51D1C932523638A0063DFED /* UIViewController+Ext.swift */; };
 		D51E78172526C7D500260528 /* LoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51E78162526C7D500260528 /* LoginForm.swift */; };
+		D535D2402529AA2C00562E9F /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D535D23F2529AA2C00562E9F /* CartView.swift */; };
+		D535D2432529AF6700562E9F /* CartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D535D2422529AF6700562E9F /* CartCell.swift */; };
 		D55E3DB1252568BD0081A92D /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55E3DB0252568BD0081A92D /* LaunchViewController.swift */; };
 		D55E3DB6252581860081A92D /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55E3DB5252581860081A92D /* RegistrationViewModel.swift */; };
 		D55E3DBA252588970081A92D /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55E3DB9252588970081A92D /* UserInfo.swift */; };
@@ -64,6 +66,8 @@
 		D51D1C8F252351200063DFED /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		D51D1C932523638A0063DFED /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		D51E78162526C7D500260528 /* LoginForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginForm.swift; sourceTree = "<group>"; };
+		D535D23F2529AA2C00562E9F /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		D535D2422529AF6700562E9F /* CartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCell.swift; sourceTree = "<group>"; };
 		D55E3DB0252568BD0081A92D /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		D55E3DB5252581860081A92D /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		D55E3DB9252588970081A92D /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				D5734DEE2524B33E00EEC99B /* ItemCell.swift */,
+				D535D2422529AF6700562E9F /* CartCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 				D5EF172C25264EDA00621D96 /* HomeView.swift */,
 				D5A223282526E7E9004712BE /* OrderActivityView.swift */,
 				D5A2232B2526E804004712BE /* OrderForecastView.swift */,
+				D535D23F2529AA2C00562E9F /* CartView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -331,6 +337,7 @@
 				D5F425772519A25600CCD512 /* ItemListController.swift in Sources */,
 				D5A223232526D4E4004712BE /* ListForm.swift in Sources */,
 				D50C3277252833D3007B33E2 /* CartViewController.swift in Sources */,
+				D535D2402529AA2C00562E9F /* CartView.swift in Sources */,
 				D5A605FE251EE6AC00CEEB6C /* Product.swift in Sources */,
 				227B9EC6251ADA20009B4CFE /* ProductListViewController.swift in Sources */,
 				D5ACA7CD251DA55C00BD11D7 /* Category.swift in Sources */,
@@ -347,6 +354,7 @@
 				227B9EC8251AE76C009B4CFE /* ListDetailsViewController.swift in Sources */,
 				D51AA37325197E5900CB9DFD /* SceneDelegate.swift in Sources */,
 				D55E3DB6252581860081A92D /* RegistrationViewModel.swift in Sources */,
+				D535D2432529AF6700562E9F /* CartCell.swift in Sources */,
 				D5E9C92A252170A600CF7D06 /* UserRegistrationForm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

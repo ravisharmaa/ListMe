@@ -2,7 +2,7 @@
 //  ListCollectionViewController.swift
 //  ListMe
 //
-//  Created by Javra Software on 10/3/20.
+//  Created by Ravi Bastola on 10/3/20.
 //
 
 import UIKit
@@ -23,13 +23,13 @@ class CartViewController: UICollectionViewController {
     
     init() {
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(100))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(120))
         
         let items = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        items.contentInsets = .init(top: 10, leading: 35, bottom: 0, trailing: 35)
+        items.contentInsets = .init(top: 10, leading: 20, bottom: 5, trailing: 20)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(100))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(120))
         
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [items])
         
@@ -51,7 +51,7 @@ class CartViewController: UICollectionViewController {
         
         collectionView.backgroundColor = UIColor(Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)))
         
-        collectionView.register(Cell.self, forCellWithReuseIdentifier: Cell.reuseIdentifier)
+        collectionView.register(CartCell.self, forCellWithReuseIdentifier: CartCell.reuseIdentifier)
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -62,18 +62,30 @@ class CartViewController: UICollectionViewController {
         ]
         
         configureDataSource()
-        
-        
-        
-        
     }
     
     func configureDataSource() {
         
         dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, item) -> UICollectionViewCell? in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Cell.reuseIdentifier, for: indexPath) as? Cell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CartCell.reuseIdentifier, for: indexPath) as? CartCell else {
                 fatalError()
             }
+            
+            let controller = UIHostingController(rootView: CartView())
+            
+            self.addChild(controller)
+            
+            cell.addSubview(controller.view)
+            
+           
+            
+            controller.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            controller.view.topAnchor.constraint(equalTo: cell.topAnchor).isActive = true
+            controller.view.leadingAnchor.constraint(equalTo: cell.leadingAnchor).isActive = true
+            controller.view.trailingAnchor.constraint(equalTo: cell.trailingAnchor).isActive = true
+            controller.view.bottomAnchor.constraint(equalTo: cell.bottomAnchor).isActive = true
+            
             
             return cell
         })
@@ -114,130 +126,5 @@ extension CartViewController {
         snapshot.appendItems(item)
         
         dataSource.apply(snapshot, animatingDifferences: true)
-    }
-}
-
-class Cell: UICollectionViewCell {
-    
-    fileprivate lazy var name: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Hello world"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .heavy)
-        return label
-    }()
-    
-    fileprivate lazy var createdDate: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.text = "Hello world"
-        return label
-    }()
-    
-    fileprivate lazy var toSupplier: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.text = "Hello world"
-        return label
-    }()
-    
-    fileprivate lazy var forStore: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.text = "Hello world"
-        return label
-    }()
-    
-    fileprivate lazy var itemCount: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 12, weight: .heavy)
-        
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = .lightGray
-        backgroundView.layer.cornerRadius = backgroundView.frame.height / 2
-        
-        backgroundView.addSubview(label)
-        
-        label.centerYAnchor.constraint(equalTo: backgroundView.centerYAnchor).isActive = true
-        label.centerXAnchor.constraint(equalTo: backgroundView.centerXAnchor).isActive = true
-        
-        label.text = "Hello world"
-        return label
-    }()
-    
-    fileprivate lazy var rightArrow: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "chevron.right")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        layer.cornerRadius = 18
-        clipsToBounds = true
-        backgroundColor = .systemBackground
-        
-        let itemAndImageStackView = UIStackView(arrangedSubviews: [
-           UIView(), itemCount, rightArrow
-        ])
-        
-        itemAndImageStackView.spacing = 5
-        itemAndImageStackView.axis = .horizontal
-        itemAndImageStackView.alignment = .center
-        
-       
-        
-        let horizontalStack = UIStackView(arrangedSubviews: [
-            toSupplier, forStore
-        ])
-        
-        horizontalStack.setCustomSpacing(10, after: toSupplier)
-        
-        let stackView = UIStackView(arrangedSubviews: [
-            name, createdDate, UIView(), horizontalStack
-        ])
-        
-        stackView.setCustomSpacing(5, after: name)
-        
-        stackView.axis = .vertical
-        
-        
-       // addSubview(stackView)
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        stackView.isLayoutMarginsRelativeArrangement = true
-        
-        stackView.layoutMargins = .init(top: 10, left: 20, bottom: 0, right: 10)
-        
-        
-        
-        let overAllStackView = UIStackView(arrangedSubviews: [
-            stackView, itemAndImageStackView
-        ])
-        
-        addSubview(overAllStackView)
-        
-        overAllStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            overAllStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
-            overAllStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            overAllStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            overAllStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -15)
-        ])
-        
-        
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError()
     }
 }

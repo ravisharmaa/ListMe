@@ -17,6 +17,8 @@ class ListViewModel: ObservableObject {
     @Published var forStore: String = String()
     
     @Published var listItems: [ListItem] = [
+        .init(name: "Hello world", supplierName: "sendToSupplier", storeName: "forStore", items: nil)
+        
     ]
     
     var subscription: Set<AnyCancellable> = []
