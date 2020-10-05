@@ -99,11 +99,10 @@ struct HomeCardListView: View {
             VStack(alignment: .leading, spacing: 5) {
                 
                 Text("Cash & Carry Pickup")
-                    .fontWeight(.bold)
-                    .font(.callout)
+                    .font(.headline)
                 
                 Text("Created Sept 18, 2020")
-                    .font(.caption)
+                    .font(.footnote)
                     .fontWeight(.light)
                     .foregroundColor(Color.gray)
             }

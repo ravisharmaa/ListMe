@@ -16,7 +16,7 @@ class ListViewModel: ObservableObject {
     
     @Published var forStore: String = String()
     
-    @Published var listItems: [ListItem] = [
+    @Published var listItems: [CartItem] = [
         .init(name: "Hello world", supplierName: "sendToSupplier", storeName: "forStore", items: nil)
         
     ]
@@ -25,7 +25,7 @@ class ListViewModel: ObservableObject {
     
     public func addItem() {
         
-        let item: ListItem = .init(name: name, supplierName: sendToSupplier, storeName: forStore, items: nil)
+        let item: CartItem = .init(name: name, supplierName: sendToSupplier, storeName: forStore, items: nil)
         
         listItems.append(item)
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ListItem: Hashable, Identifiable {
+struct CartItem: Hashable, Identifiable {
     
     let id: UUID = UUID()
     
@@ -18,4 +18,8 @@ struct ListItem: Hashable, Identifiable {
     let storeName: String
     
     let items: [Item]?
+    
+    static var placeholder: CartItem {
+        return .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", items: nil)
+    }
 }

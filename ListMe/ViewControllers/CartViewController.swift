@@ -15,7 +15,7 @@ class CartViewController: UICollectionViewController {
         case main
     }
     
-    var dataSource: UICollectionViewDiffableDataSource<Section,ListItem>!
+    var dataSource: UICollectionViewDiffableDataSource<Section,CartItem>!
     
     var listViewModel: ListViewModel = ListViewModel()
     
@@ -49,13 +49,15 @@ class CartViewController: UICollectionViewController {
         
         view.backgroundColor = UIColor(Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)))
         
-        collectionView.backgroundColor = UIColor(Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)))
+        collectionView.backgroundColor = UIColor(Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9607843137, alpha: 1)))
         
         collectionView.register(CartCell.self, forCellWithReuseIdentifier: CartCell.reuseIdentifier)
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
         navigationItem.title = "All Lists"
+        
+        collectionView.delegate = self
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addList)),
@@ -71,7 +73,10 @@ class CartViewController: UICollectionViewController {
                 fatalError()
             }
             
-            let controller = UIHostingController(rootView: CartView())
+            
+            let cartView = CartView(cartItem: item)
+            
+            let controller = UIHostingController(rootView: cartView)
             
             self.addChild(controller)
             
@@ -90,7 +95,7 @@ class CartViewController: UICollectionViewController {
             return cell
         })
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, ListItem>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, CartItem>()
         
         snapshot.appendSections([.main])
         
@@ -121,10 +126,21 @@ extension CartViewController {
         present(controller, animated: true, completion: nil)
     }
     
-    func updateDatasource(item: [ListItem]) {
+    func updateDatasource(item: [CartItem]) {
         var snapshot = dataSource.snapshot()
         snapshot.appendItems(item)
         
         dataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+extension CartViewController {
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let _ = dataSource.itemIdentifier(for: indexPath)
+        
+        navigationController?.pushViewController(ListDetailsViewController(), animated: true)
+        
+        
     }
 }

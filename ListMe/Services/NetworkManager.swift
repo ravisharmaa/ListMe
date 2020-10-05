@@ -66,7 +66,7 @@ extension NetworkManager: ApiConfiguration {
     
     
     internal var path: String {
-        return ApiConstants.NetworkPath.description
+        return ApiConstants.NetworkPrefix.description
     }
     
     func sendRequest<T: Codable>(to endpoint: String,

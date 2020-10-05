@@ -12,17 +12,19 @@ import Foundation
 
 enum ApiConstants: CustomStringConvertible {
     
-    case NetworkPath
+    case NetworkPrefix
     case URLScheme
     case Host
     case CateogryPath
     case ProductPath
+    case SupplierPath
+    case RegistrationPath
     
     var description: String {
         
         switch self {
         
-        case .NetworkPath:
+        case .NetworkPrefix:
             return "/api/"
         case .URLScheme:
             return "http"
@@ -32,6 +34,10 @@ enum ApiConstants: CustomStringConvertible {
             return "categories"
         case .ProductPath:
             return "products"
+        case .SupplierPath:
+            return "suppliers"
+        case .RegistrationPath:
+            return "register"
         }
     }
 }

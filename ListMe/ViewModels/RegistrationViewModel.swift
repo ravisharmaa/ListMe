@@ -35,6 +35,8 @@ class RegistrationViewModel: ObservableObject {
     
     @Published var telephone: String = String()
     
+    var subscription: Set<AnyCancellable> = []
+    
     
     var isFormValid: Bool {
         return isValidEmail()
@@ -47,10 +49,33 @@ class RegistrationViewModel: ObservableObject {
     
     
     public func signUp() {
-       
-        if !email.isEmpty, !password.isEmpty, !businessName.isEmpty, !state.isEmpty, !street.isEmpty {
-            
-        }
+        
+        let postData: [String: Any] = [
+            "name": name,
+            "email": email,
+            "password": password,
+            "userInfo": userInfo[preferredUserInfo].name,
+            "businessName": businessName,
+            "street": street,
+            "city": city,
+            "zip": zip,
+            "state": state,
+            "telephone": telephone
+        ]
+        
+        NetworkManager.shared.sendRequest(to: ApiConstants.RegistrationPath.description,
+                                          method: .post,
+                                          model: GenericResponse.self,
+                                          postData: postData)
+            .receive(on: RunLoop.main)
+            .catch { (_) -> AnyPublisher<GenericResponse, Never> in
+                return Just(GenericResponse.placeholder).eraseToAnyPublisher()
+            }
+            .sink { (_) in
+                //
+            } receiveValue: { (response) in
+                print(response)
+            }.store(in: &subscription)
     }
     
     public func login() {

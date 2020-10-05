@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CartView: View {
+    
+    let cartItem: CartItem
+    
     var body: some View {
         
         ZStack {
@@ -17,16 +20,21 @@ struct CartView: View {
             
             HStack {
                 VStack(alignment: .leading){
+                    
                     Text("Hello world")
-                        .font(.title2)
+                        .font(.headline)
                         .fontWeight(.semibold)
                     
                     Text("Sept 20, 2020")
-                        .font(.callout)
+                        .font(.footnote)
                         .foregroundColor(.gray)
+                        .padding(.top, -2)
+                    
                     
                     Text("Hello world")
-                        .padding(.top, 1)
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                        .padding(.top, -3)
                 }
                 
                 Spacer()
@@ -55,6 +63,6 @@ struct CartView: View {
 
 struct CartView_Previews: PreviewProvider {
     static var previews: some View {
-        CartView()
+        CartView(cartItem: CartItem.placeholder)
     }
 }
