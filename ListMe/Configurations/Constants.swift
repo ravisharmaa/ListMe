@@ -37,7 +37,7 @@ enum ApiConstants: CustomStringConvertible {
         case .SupplierPath:
             return "suppliers"
         case .RegistrationPath:
-            return "register"
+            return "signup"
         }
     }
 }

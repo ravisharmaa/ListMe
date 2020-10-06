@@ -15,7 +15,6 @@ struct UserRegistrationForm: View {
     
     @Binding var closeRegistration: Bool
     
-    
     var body: some View {
         
         UITableView.appearance().showsVerticalScrollIndicator = false
@@ -51,14 +50,19 @@ struct UserRegistrationForm: View {
                 if  selection == 0 {
                     Section(header: Text("Business Name")) {
                         TextField("Name", text: $registrationViewModel.businessName)
+                            .disableAutocorrection(true)
                     }
                     
                     Section(header: Text("Address")) {
+                        
                         TextField("Street", text: $registrationViewModel.street)
+                        
                         TextField("City", text: $registrationViewModel.city)
                         
                         HStack {
                             TextField("Zip", text: $registrationViewModel.zip)
+                                .keyboardType(.numberPad)
+                            
                             TextField("State", text: $registrationViewModel.state)
                         }
                     }
@@ -70,7 +74,10 @@ struct UserRegistrationForm: View {
                     Section(header: Text("Your Zip Code and State ")) {
                         HStack {
                             TextField("Zip", text: $registrationViewModel.zip)
+                                .keyboardType(.numberPad)
+                            
                             TextField("State", text: $registrationViewModel.state)
+                            
                         }
                     }
                     Section(header: Text("Business Name")) {
@@ -93,6 +100,12 @@ struct UserRegistrationForm: View {
                             .background(Color.black)
                             .cornerRadius(20)
                             .disabled(!registrationViewModel.isFormValid)
+                            .alert(isPresented: $registrationViewModel.didCompleteSignUp ) { () -> Alert in
+                                return Alert(title: Text(registrationViewModel.signupStatus ? "Success" : "Faliure"),
+                                             message: Text(registrationViewModel.signupStatus ? "Signed up Successfully":"Could not signup"),
+                                             dismissButton: .default(Text("Close"))
+                                )
+                            }
                             
                             Spacer()
                         }

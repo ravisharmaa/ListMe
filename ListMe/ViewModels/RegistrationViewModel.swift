@@ -35,26 +35,50 @@ class RegistrationViewModel: ObservableObject {
     
     @Published var telephone: String = String()
     
-    var subscription: Set<AnyCancellable> = []
+    @Published var didCompleteSignUp: Bool = false
     
+    @Published var signupStatus: Bool = false
+    
+    var subscription: Set<AnyCancellable> = []
     
     var isFormValid: Bool {
         return isValidEmail()
     }
-    
+        
     //MARK:- ValidationMethods
     private func isValidEmail() -> Bool {
         return ValidationStates.EmailValidation(email).validated
     }
     
+    init() {
+        if isValidEmail() {
+            $email
+                .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+                .map { (email) -> String in
+                    return email
+                }.sink { [unowned self] (validatedEmail) in
+                    
+                    NetworkManager.shared.sendRequest(to: "email", model: GenericResponse.self)
+                        .receive(on: RunLoop.main)
+                        .catch { (error) -> AnyPublisher<GenericResponse, Never> in
+                            return Just(GenericResponse.placeholder).eraseToAnyPublisher()
+                        }.sink { (_) in
+                            //
+                        } receiveValue: { (response) in
+                            
+                        }.store(in: &subscription)
+                }.store(in: &subscription)
+        }
+    }
     
-    public func signUp() {
+    public func signUp()  {
         
         let postData: [String: Any] = [
             "name": name,
             "email": email,
             "password": password,
-            "userInfo": userInfo[preferredUserInfo].name,
+            "password_confirmation":password,
+            "role": userInfo[preferredUserInfo].name,
             "businessName": businessName,
             "street": street,
             "city": city,
@@ -62,6 +86,7 @@ class RegistrationViewModel: ObservableObject {
             "state": state,
             "telephone": telephone
         ]
+        
         
         NetworkManager.shared.sendRequest(to: ApiConstants.RegistrationPath.description,
                                           method: .post,
@@ -73,12 +98,20 @@ class RegistrationViewModel: ObservableObject {
             }
             .sink { (_) in
                 //
-            } receiveValue: { (response) in
-                print(response)
+            } receiveValue: { [unowned self](response) in
+                
+                didCompleteSignUp.toggle()
+                
+                signupStatus = response.success
+                
             }.store(in: &subscription)
     }
     
     public func login() {
+        
+    }
+    
+    private func checkEmail(email: String) {
         
     }
     

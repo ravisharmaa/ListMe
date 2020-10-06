@@ -117,9 +117,11 @@ extension NetworkManager: ApiConfiguration {
         let urlPublisher = URLSession.shared.dataTaskPublisher(for: urlRequest)
         
         return urlPublisher.tryMap({ (element) -> Data in
+            
             guard let response = element.response as? HTTPURLResponse, response.statusCode == 200 else {
                 throw NetworkError.InvalidResponse
             }
+            
             return element.data
         })
         .decode(type: T.self, decoder: JSONDecoder())
