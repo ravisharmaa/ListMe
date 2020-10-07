@@ -28,10 +28,12 @@ struct UserRegistrationForm: View {
                     
                 }
                 Section(header: Text("Email")) {
+                    
                     TextField("Input Your Email", text: $registrationViewModel.email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
+                    
                 }
                 Section(header: Text("Password")) {
                     SecureField("Input Your Password", text: $registrationViewModel.password)

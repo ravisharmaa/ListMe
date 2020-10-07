@@ -44,31 +44,43 @@ class RegistrationViewModel: ObservableObject {
     var isFormValid: Bool {
         return isValidEmail()
     }
-        
+    
     //MARK:- ValidationMethods
     private func isValidEmail() -> Bool {
         return ValidationStates.EmailValidation(email).validated
     }
     
+    var emailValidationFromServer: AnyPublisher<String?, Never> {
+        return $email
+            .debounce(for: .milliseconds(800), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .map({ (email) -> String? in
+                return email.count < 12 ? nil : email
+            })
+            .eraseToAnyPublisher()
+    }
+    
+    @Published var emailError: String = String()
+    
     init() {
-        if isValidEmail() {
-            $email
-                .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-                .map { (email) -> String in
-                    return email
-                }.sink { [unowned self] (validatedEmail) in
-                    
-                    NetworkManager.shared.sendRequest(to: "email", model: GenericResponse.self)
-                        .receive(on: RunLoop.main)
-                        .catch { (error) -> AnyPublisher<GenericResponse, Never> in
-                            return Just(GenericResponse.placeholder).eraseToAnyPublisher()
-                        }.sink { (_) in
-                            //
-                        } receiveValue: { (response) in
-                            
-                        }.store(in: &subscription)
+        
+        emailValidationFromServer.sink { [unowned self] (validated) in
+            guard let validated = validated else {
+                emailError = "This is not a valild email"
+                return
+            }
+            
+            NetworkManager.shared.sendRequest(to: "validate", model: GenericResponse.self)
+                .receive(on: RunLoop.main)
+                .sink { (_) in
+                    //
+                } receiveValue: { (response) in
+                    print(validated)
+                    print(response)
                 }.store(in: &subscription)
-        }
+            
+//
+        }.store(in: &subscription)
     }
     
     public func signUp()  {
