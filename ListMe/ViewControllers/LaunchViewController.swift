@@ -23,7 +23,7 @@ class LaunchViewController: UITabBarController {
         
         listViewController.tabBarItem = UITabBarItem(title: "Lists", image: UIImage(systemName: "list.dash"), tag: 3)
         
-        let registrationController = UIHostingController(rootView: LoginForm())
+        let registrationController = UIHostingController(rootView: ProfileView())
         
         registrationController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 0)
         

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginForm: View {
     
-    @ObservedObject var registrationViewModel: RegistrationViewModel = RegistrationViewModel()
+    @ObservedObject var loginViewModel: LoginViewModel = LoginViewModel()
     
     @State var selection:Int = 0
     
@@ -23,13 +23,13 @@ struct LoginForm: View {
             Form {
                 
                 Section(header: Text("Email / Phone")) {
-                    TextField("Enter email or phone", text: $registrationViewModel.email)
+                    TextField("Enter email or phone", text: $loginViewModel.email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                 }
                 Section(header: Text("Password")) {
-                    SecureField("Enter password", text: $registrationViewModel.password)
+                    SecureField("Enter password", text: $loginViewModel.password)
                 }
                 
                 
@@ -39,8 +39,9 @@ struct LoginForm: View {
                             Spacer()
                             
                             Button(action: {
-                                registrationViewModel.preferredUserInfo = selection
-                                registrationViewModel.signUp()
+                                loginViewModel.login()
+                                print($loginViewModel.didLoginFail)
+                                print($loginViewModel.isLoginSuccessFul)
                             }, label: {
                                 Text("Login").fontWeight(.medium)
                             })
@@ -48,7 +49,7 @@ struct LoginForm: View {
                             .frame(width: 149, height: 45)
                             .background(Color.black)
                             .cornerRadius(18)
-                            .disabled(!registrationViewModel.isFormValid)
+                            .disabled(!loginViewModel.isFormValid)
                             
                             Spacer()
                         }

@@ -73,7 +73,8 @@ extension NetworkManager: ApiConfiguration {
                                  method: RequestMethod = .get,
                                  model: T.Type,
                                  queryItems: [String: Any]? = nil,
-                                 postData: [String: Any]? = nil)  -> AnyPublisher<T, NetworkError>
+                                 postData: [String: Any]? = nil,
+                                 needsHeaders: Bool = true)  -> AnyPublisher<T, NetworkError>
     {
         
         var innerUrl = urlComponents
@@ -106,6 +107,10 @@ extension NetworkManager: ApiConfiguration {
         if let postData = postData, !postData.isEmpty {
             
             urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            if needsHeaders {
+                urlRequest.addValue("Bearer", forHTTPHeaderField: "Authorization")
+            }
             
             guard let httpBody = try? JSONSerialization.data(withJSONObject: postData, options: []) else {
                 return Empty<T, NetworkError>().eraseToAnyPublisher()

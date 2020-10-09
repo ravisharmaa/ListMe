@@ -20,6 +20,7 @@ struct UserRegistrationForm: View {
         UITableView.appearance().showsVerticalScrollIndicator = false
         
         return NavigationView {
+            
             Form {
                 Section(header: Text("Name")) {
                     TextField("Input your name", text: $registrationViewModel.name)

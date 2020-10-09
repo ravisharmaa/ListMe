@@ -16,9 +16,13 @@ class RegistrationViewModel: ObservableObject {
     
     @Published var name: String = String()
     
-    var userInfo: [UserInfo] = [
-        UserInfo(name: "Business Owner"),
-        UserInfo(name: "Employee")
+    struct RoleInfo {
+        let name: String
+    }
+    
+    var userInfo: [RoleInfo] = [
+        RoleInfo(name: "Business Owner"),
+        RoleInfo(name: "Employee")
     ]
     
     var preferredUserInfo = 0
@@ -55,7 +59,7 @@ class RegistrationViewModel: ObservableObject {
             .debounce(for: .milliseconds(800), scheduler: RunLoop.main)
             .removeDuplicates()
             .map({ (email) -> String? in
-                return email.count < 12 ? nil : email
+                return email.count > 12 && email.contains("@") ? email : nil
             })
             .eraseToAnyPublisher()
     }
@@ -64,13 +68,16 @@ class RegistrationViewModel: ObservableObject {
     
     init() {
         
+        // email validation api.
+        
         emailValidationFromServer.sink { [unowned self] (validated) in
             guard let validated = validated else {
                 emailError = "This is not a valild email"
+                print(emailError)
                 return
             }
             
-            NetworkManager.shared.sendRequest(to: "validate", model: GenericResponse.self)
+            NetworkManager.shared.sendRequest(to: ApiConstants.RegistrationPath.description,method: .post, model: GenericResponse.self, postData: ["email": validated])
                 .receive(on: RunLoop.main)
                 .sink { (_) in
                     //
@@ -78,8 +85,6 @@ class RegistrationViewModel: ObservableObject {
                     print(validated)
                     print(response)
                 }.store(in: &subscription)
-            
-//
         }.store(in: &subscription)
     }
     
@@ -118,13 +123,4 @@ class RegistrationViewModel: ObservableObject {
                 
             }.store(in: &subscription)
     }
-    
-    public func login() {
-        
-    }
-    
-    private func checkEmail(email: String) {
-        
-    }
-    
 }
