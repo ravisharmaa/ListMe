@@ -15,6 +15,8 @@ struct LoginForm: View {
     
     @State var showingLogin: Bool = false
     
+    @State var present: Bool = false
+    
     var body: some View {
         
         UITableView.appearance().showsVerticalScrollIndicator = false
@@ -28,6 +30,7 @@ struct LoginForm: View {
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                 }
+                
                 Section(header: Text("Password")) {
                     SecureField("Enter password", text: $loginViewModel.password)
                 }
@@ -40,8 +43,7 @@ struct LoginForm: View {
                             
                             Button(action: {
                                 loginViewModel.login()
-                                print($loginViewModel.didLoginFail)
-                                print($loginViewModel.isLoginSuccessFul)
+                                present.toggle()
                             }, label: {
                                 Text("Login").fontWeight(.medium)
                             })
@@ -50,6 +52,13 @@ struct LoginForm: View {
                             .background(Color.black)
                             .cornerRadius(18)
                             .disabled(!loginViewModel.isFormValid)
+                            .fullScreenCover(isPresented: $present) {
+                                LaunchTabView()
+                                    .background(Color.white)
+                                    .edgesIgnoringSafeArea(.all)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(maxHeight: .infinity)
+                            }
                             
                             Spacer()
                         }

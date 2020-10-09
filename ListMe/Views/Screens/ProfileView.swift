@@ -20,17 +20,20 @@ struct ProfileView: View {
                     
                     Text("Donald Trump")
                         .font(.title)
+                        .foregroundColor(.black)
                         .fontWeight(.semibold)
                         .padding(.horizontal, 10)
                         .padding(.top, 60)
                     
                     Text("donald@trump.com")
                         .font(.callout)
+                        .foregroundColor(.black)
                         .padding(.horizontal, 10)
                     
                     
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                         Text("Edit Profile")
+                            .foregroundColor(.blue)
                     })
                     .padding(.horizontal, 10)
                     

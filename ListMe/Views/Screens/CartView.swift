@@ -15,6 +15,9 @@ struct CartView: View {
         
         ZStack {
            
+            Color.white.edgesIgnoringSafeArea(.all)
+        
+            
             RoundedRectangle(cornerRadius: 20, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/)
                 .foregroundColor(.white)
             
@@ -22,6 +25,7 @@ struct CartView: View {
                 VStack(alignment: .leading){
                     
                     Text("Hello world")
+                        .foregroundColor(.black)
                         .font(.headline)
                         .fontWeight(.semibold)
                     
@@ -47,6 +51,7 @@ struct CartView: View {
                     .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)).opacity(0.4))
                     .overlay(
                         Text("999")
+                            .foregroundColor(.black)
                             .font(.caption)
                             .multilineTextAlignment(.leading)
                     )

@@ -12,6 +12,7 @@ class LaunchViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         configureViewControllers()
         UITabBar.appearance().tintColor = .label
         UITabBar.appearance().unselectedItemTintColor = .systemBlue

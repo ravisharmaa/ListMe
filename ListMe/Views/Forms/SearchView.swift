@@ -134,6 +134,5 @@ struct ItemView: View {
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
         SearchView(isModalClosed: nil)
-            .edgesIgnoringSafeArea(.all)
     }
 }
