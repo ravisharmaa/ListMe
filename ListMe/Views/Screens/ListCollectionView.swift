@@ -1,13 +1,21 @@
 //
-//  HomeView.swift
+//  ListCollectionView.swift
 //  ListMe
 //
-//  Created by Ravi Bastola on 10/1/20.
+//  Created by Javra Software on 10/10/20.
 //
 
 import SwiftUI
 
-struct HomeView: View {
+
+struct DummyCardItems: Identifiable, Hashable {
+    let id: UUID = UUID()
+    let cardItemName: String
+    let createdDate: String
+    let itemCount: Int
+}
+
+struct ListCollectionView: View {
     
     let cardItems: [DummyCardItems] = [
         .init(cardItemName: "Cash and Carry Pickup", createdDate: "Created Sept 18, 2020", itemCount: 999),
@@ -16,26 +24,30 @@ struct HomeView: View {
         .init(cardItemName: "Pizza Collection", createdDate: "Created Sept 18, 2020", itemCount: 123),
         .init(cardItemName: "Dominos Collection", createdDate: "Created Sept 18, 2020", itemCount: 12),
         .init(cardItemName: "Technical Collection", createdDate: "Created Sept 18, 2020", itemCount: 10),
+        .init(cardItemName: "Miscellaneous Collection", createdDate: "Created Sept 18, 2020", itemCount: 2),
         .init(cardItemName: "Miscellaneous Collection", createdDate: "Created Sept 18, 2020", itemCount: 2)
     ]
+    
+   
     var body: some View {
         
         ZStack {
-            //Color(#colorLiteral(red: 0.8705882353, green: 0.9176470588, blue: 0.9647058824, alpha: 1)).opacity(0.5).edgesIgnoringSafeArea(.all)
             Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)).edgesIgnoringSafeArea(.all)
             
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 40) {
                     
                     VStack(alignment: .leading, spacing: 5) {
-                        Text("Welcome")
+                        Text("All lists")
                             .font(.title)
+                            .foregroundColor(.black)
                             .fontWeight(.bold)
-                        Text("Your recent pickings are shown below")
+                        Text("Your active lists are shown below")
                             .foregroundColor(.gray)
                     }
                     .padding(.top, 60)
-                    .offset(x: -20)
+                    .offset(x: -45)
+                    
                     
                     ListCardView(cardItems: cardItems)
                     
@@ -50,22 +62,30 @@ struct HomeView: View {
                     .foregroundColor(.white)
                     .cornerRadius(15)
                     
-                    OrderActivityView()
+                    CompletedListsCardView(cardItems: cardItems)
                     
-                    OrderForecastView()
+                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                        Text("View all older lists.")
+                            .foregroundColor(.blue)
+                    })
+                    .padding(.top, -10)
+                    
+                    Spacer()
                     
                 }
                 
                 .padding(.top, 10)
+                .padding(.bottom, 20)
                 .padding(.horizontal, 20)
-                .foregroundColor(.black)
+                
             }
+            
         }
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
+struct ListCollectionView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        ListCollectionView()
     }
 }
