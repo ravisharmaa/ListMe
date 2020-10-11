@@ -41,20 +41,18 @@ class LoginViewModel: ObservableObject {
         
         NetworkManager.shared.sendRequest(to: ApiConstants.LoginPath.description, method: .post , model: UserResponse.self, postData: postData)
             .receive(on: RunLoop.main)
-            .catch { (error) -> AnyPublisher<UserResponse, Never> in
-                return Just(UserResponse.placeholder).eraseToAnyPublisher()
-            }.sink { (_) in
-                //
-            } receiveValue: { [unowned self] (response) in
-                
-                guard let _ = response.user else {
-                    didLoginFail = true
-                    return
+            .sink { [unowned self] (completion) in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(_):
+                    didLoginFail.toggle()
                 }
-                
+            } receiveValue: { [unowned self] (response) in
                 loginResponse = response
                 isLoginSuccessFul.toggle()
                 
-            }.store(in: &subscription)
+            }
+            .store(in: &subscription)
     }
 }

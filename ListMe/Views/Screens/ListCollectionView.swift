@@ -38,7 +38,7 @@ struct ListCollectionView: View {
                 VStack(spacing: 40) {
                     
                     VStack(alignment: .leading, spacing: 5) {
-                        Text("All lists")
+                        Text("All Lists")
                             .font(.title)
                             .foregroundColor(.black)
                             .fontWeight(.bold)

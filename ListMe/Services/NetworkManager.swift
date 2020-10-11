@@ -14,12 +14,13 @@ protocol ApiConfiguration {
 }
 
 
-enum NetworkError: String, Error {
-    case InvalidURL = "The url is invalid."
-    case InvalidResponse = "The response is invalid."
-    case InvalidData = "The data is invalid."
-    case JSONError = "The json is invalid."
-    case PostDataError = "The post data is invalid."
+enum ApplicationError:  Error {
+    case InvalidURL
+    case InvalidResponse
+    case InvalidData
+    case JSONError
+    case PostDataError
+    case APIError(reason: Error)
 }
 
 
@@ -74,7 +75,7 @@ extension NetworkManager: ApiConfiguration {
                                  model: T.Type,
                                  queryItems: [String: Any]? = nil,
                                  postData: [String: Any]? = nil,
-                                 needsHeaders: Bool = true)  -> AnyPublisher<T, NetworkError>
+                                 needsHeaders: Bool = true)  -> AnyPublisher<T, ApplicationError>
     {
         
         var innerUrl = urlComponents
@@ -95,7 +96,7 @@ extension NetworkManager: ApiConfiguration {
         
         
         guard let url = innerUrl.url else {
-            return Empty<T, NetworkError>().eraseToAnyPublisher()
+            return Empty<T, ApplicationError>().eraseToAnyPublisher()
         }
         
         var urlRequest = URLRequest(url: url)
@@ -113,7 +114,7 @@ extension NetworkManager: ApiConfiguration {
             }
             
             guard let httpBody = try? JSONSerialization.data(withJSONObject: postData, options: []) else {
-                return Empty<T, NetworkError>().eraseToAnyPublisher()
+                return Empty<T, ApplicationError>().eraseToAnyPublisher()
             }
             urlRequest.httpBody = httpBody
         }
@@ -124,16 +125,19 @@ extension NetworkManager: ApiConfiguration {
         return urlPublisher.tryMap({ (element) -> Data in
             
             guard let response = element.response as? HTTPURLResponse, response.statusCode == 200 else {
-                throw NetworkError.InvalidResponse
+                throw ApplicationError.InvalidResponse
             }
             
             return element.data
         })
         .decode(type: T.self, decoder: JSONDecoder())
-        
-        .catch({ (error) -> AnyPublisher<T, NetworkError> in
-            print(error)
-            return Empty<T, NetworkError>().eraseToAnyPublisher()
-        }).eraseToAnyPublisher()
+        .mapError { error -> ApplicationError in
+            if let error = error as? ApplicationError {
+                return error
+            } else {
+                return ApplicationError.APIError(reason: error)
+            }
+        }
+        .eraseToAnyPublisher()
     }
 }

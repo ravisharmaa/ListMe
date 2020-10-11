@@ -51,7 +51,7 @@ struct LoginForm: View {
                             .frame(width: 149, height: 45)
                             .background(Color.black)
                             .cornerRadius(18)
-                            .disabled(!loginViewModel.isFormValid)
+                            //.disabled(!loginViewModel.isFormValid)
                             .fullScreenCover(isPresented: $present) {
                                 LaunchScreen()
                                     .edgesIgnoringSafeArea(.all)

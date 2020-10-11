@@ -13,7 +13,7 @@ struct CompletedListsCardView: View {
     var body: some View {
         
         ZStack {
-            Color(#colorLiteral(red: 0.8901960784, green: 0.8901960784, blue: 0.8901960784, alpha: 1)).edgesIgnoringSafeArea(.all)
+            Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)).edgesIgnoringSafeArea(.all)
             VStack {
                 ForEach(cardItems, id: \.self) { item in
                     CompletedCardItemView(item: item)
