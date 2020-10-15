@@ -20,6 +20,8 @@ struct ListForm: View {
     
     var items: [String] = []
     
+    @Binding var closeList: Bool
+    
     @ObservedObject var supplierViewModel: SupplierViewModel = SupplierViewModel()
     
     var body: some View {
@@ -45,24 +47,39 @@ struct ListForm: View {
                         TextField("For Store", text: $listViewModel.forStore)
                     }
                     
+                  
                     Section {
                         
                         HStack(alignment: .center) {
                             
                             Spacer()
                             
+//                            Button(action: {
+//                                listViewModel.addItem()
+//                                isModalClosed?()
+//
+//                            }, label: {
+//                                Text("Create").fontWeight(.medium)
+//                            })
+//                            .buttonStyle(PlainButtonStyle())
+//                            .frame(width: 149, height: 45)
+//                            .background(Color.black)
+//                            .foregroundColor(.white)
+//                            .cornerRadius(18)
+                            
+                            
                             Button(action: {
                                 listViewModel.addItem()
-                                isModalClosed?()
-                                
                             }, label: {
-                                Text("Create").fontWeight(.medium)
+                                Text("Create List")
+                                    .font(.headline)
                             })
-                            .buttonStyle(PlainButtonStyle())
-                            .frame(width: 149, height: 45)
-                            .background(Color.black)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 25)
+                            .padding()
+                            .background(Color(#colorLiteral(red: 0.2117647059, green: 0.3647058824, blue: 1, alpha: 1)))
                             .foregroundColor(.white)
-                            .cornerRadius(18)
+                            .cornerRadius(15)
                             
                             Spacer()
                         }
@@ -72,10 +89,12 @@ struct ListForm: View {
                     .listRowBackground(Color(#colorLiteral(red: 0.9485785365, green: 0.9502450824, blue: 0.9668951631, alpha: 1)))
                 }
                 .navigationBarTitle("Create new list")
-                .navigationBarItems(leading: Button(action: {
+                .navigationBarItems(trailing: Button(action: {
+                    closeList.toggle()
                     isModalClosed?()
                 }, label: {
-                    Text("Close")
+                    Image(systemName: "multiply")
+                        .font(.title)
                 }))
                 
             }.onAppear(perform: {
@@ -96,7 +115,7 @@ struct ListForm: View {
 
 struct ListForm_Previews: PreviewProvider {
     static var previews: some View {
-        ListForm()
+        ListForm(closeList: .constant(false))
     }
 }
 

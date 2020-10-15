@@ -28,6 +28,8 @@ struct ListCollectionView: View {
         .init(cardItemName: "Miscellaneous Collection", createdDate: "Created Sept 18, 2020", itemCount: 2)
     ]
     
+    @State private var isListFormPresented: Bool = false
+    
    
     var body: some View {
         
@@ -35,7 +37,7 @@ struct ListCollectionView: View {
             Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)).edgesIgnoringSafeArea(.all)
             
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 40) {
+                LazyVStack(spacing: 40) {
                     
                     VStack(alignment: .leading, spacing: 5) {
                         Text("All Lists")
@@ -51,7 +53,10 @@ struct ListCollectionView: View {
                     
                     ListCardView(cardItems: cardItems)
                     
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                    Button(action: {
+                        isListFormPresented.toggle()
+                    }, label: {
+                        
                         Text("Create New list")
                             .font(.title3)
                     })
@@ -61,7 +66,9 @@ struct ListCollectionView: View {
                     .background(Color(#colorLiteral(red: 0.2117647059, green: 0.3647058824, blue: 1, alpha: 1)))
                     .foregroundColor(.white)
                     .cornerRadius(15)
-                    
+                    .sheet(isPresented: $isListFormPresented, content: {
+                        ListForm(closeList: $isListFormPresented)
+                    })
                     CompletedListsCardView(cardItems: cardItems)
                     
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
@@ -77,10 +84,12 @@ struct ListCollectionView: View {
                 .padding(.top, 10)
                 .padding(.bottom, 20)
                 .padding(.horizontal, 20)
-                
             }
             
         }
+        .scaleEffect(isListFormPresented ? 0.95 : 1)
+        .offset(y: isListFormPresented ? -140 : 0)
+        .animation(.easeIn)
     }
 }
 

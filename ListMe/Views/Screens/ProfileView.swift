@@ -16,7 +16,7 @@ struct ProfileView: View {
             Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)).edgesIgnoringSafeArea(.all)
             
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .center, spacing: 13) {
+                LazyVStack(alignment: .center, spacing: 13) {
                     
                     VStack {
                         

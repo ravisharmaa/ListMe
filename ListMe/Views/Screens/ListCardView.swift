@@ -16,7 +16,7 @@ struct ListCardView: View {
         
         ZStack {
             Color.white
-            VStack {
+            LazyVStack {
                 ForEach(cardItems, id: \.self) { item in 
                     CardItemView(item: item)
                     Divider()

@@ -16,7 +16,6 @@ struct CartView: View {
         ZStack {
            
             Color.white.edgesIgnoringSafeArea(.all)
-        
             
             RoundedRectangle(cornerRadius: 20, style: /*@START_MENU_TOKEN@*/.continuous/*@END_MENU_TOKEN@*/)
                 .foregroundColor(.white)

@@ -29,6 +29,7 @@
 		D52B03CE25313A0C0010F821 /* CardItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03CD25313A0C0010F821 /* CardItemView.swift */; };
 		D52B03D1253161560010F821 /* CompletedListsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03D0253161560010F821 /* CompletedListsCardView.swift */; };
 		D52B03D4253162FD0010F821 /* CompletedCardItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03D3253162FD0010F821 /* CompletedCardItemView.swift */; };
+		D52B03D7253309280010F821 /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03D6253309280010F821 /* FloatingTextField.swift */; };
 		D535D2402529AA2C00562E9F /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D535D23F2529AA2C00562E9F /* CartView.swift */; };
 		D535D2432529AF6700562E9F /* CartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D535D2422529AF6700562E9F /* CartCell.swift */; };
 		D559AE86252D4B8D00D6E0FC /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D559AE85252D4B8D00D6E0FC /* ProfileView.swift */; };
@@ -84,6 +85,7 @@
 		D52B03CD25313A0C0010F821 /* CardItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardItemView.swift; sourceTree = "<group>"; };
 		D52B03D0253161560010F821 /* CompletedListsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedListsCardView.swift; sourceTree = "<group>"; };
 		D52B03D3253162FD0010F821 /* CompletedCardItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedCardItemView.swift; sourceTree = "<group>"; };
+		D52B03D6253309280010F821 /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
 		D535D23F2529AA2C00562E9F /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		D535D2422529AF6700562E9F /* CartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCell.swift; sourceTree = "<group>"; };
 		D559AE85252D4B8D00D6E0FC /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				D5FDF773252A3D1000915DF0 /* CustomPickerView.swift */,
+				D52B03D6253309280010F821 /* FloatingTextField.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				D51AA38825198DF300CB9DFD /* Item.swift in Sources */,
 				D571C00F2520359500BF2B76 /* ProductViewModel.swift in Sources */,
 				D57174AA25239B9000F1FE8A /* CategoryForm.swift in Sources */,
+				D52B03D7253309280010F821 /* FloatingTextField.swift in Sources */,
 				D51D1C90252351200063DFED /* CategoryViewModel.swift in Sources */,
 				D5A605FA251EDB7A00CEEB6C /* Constants.swift in Sources */,
 				D51AA37525197E5900CB9DFD /* CategoriesViewController.swift in Sources */,
