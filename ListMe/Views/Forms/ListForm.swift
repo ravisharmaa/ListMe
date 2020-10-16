@@ -22,13 +22,13 @@ struct ListForm: View {
     
     @State var storePicker: String = String()
     
-    var items: [String] = []
-    
     @Binding var closeList: Bool
     
     @ObservedObject var supplierViewModel: SupplierViewModel = SupplierViewModel()
     
     @ObservedObject var storeViewModel: StoreViewModel = StoreViewModel()
+    
+    var didAddItem: (CartItem) -> ()
     
     var body: some View {
         
@@ -78,7 +78,7 @@ struct ListForm: View {
                             
                             
                             Button(action: {
-                                listViewModel.addItem()
+                                didAddItem(.init(name: listViewModel.name, supplierName: supplierPicker, storeName: storePicker, items: nil, completedAt: "false"))
                             }, label: {
                                 Text("Create List")
                                     .font(.headline)
@@ -131,7 +131,9 @@ struct ListForm: View {
 
 struct ListForm_Previews: PreviewProvider {
     static var previews: some View {
-        ListForm(closeList: .constant(false))
+        ListForm(closeList: .constant(false), didAddItem: { item in
+            //
+        })
     }
 }
 

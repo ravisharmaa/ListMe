@@ -12,21 +12,41 @@ class CartViewModel: ObservableObject {
     
     @Published var name: String = String()
     
-    @Published var sendToSupplier: String = String()
-    
-    @Published var forStore: String = String()
-    
     var subscription: Set<AnyCancellable> = []
     
     @Published var completedItems: [CartItem] = []
     
     @Published var inCompleteItems: [CartItem] = []
     
-    public func addItem() {
+    public func addItem(item: CartItem) {
         
-        let item: CartItem = .init(name: name, supplierName: sendToSupplier, storeName: forStore, items: nil, completedAt: "true")
+        item.completedAt == nil ? inCompleteItems.append(item) : completedItems.append(item)
         
-        completedItems.append(item)
+        let postData: [String: Any] = [
+            "name"         : item.name,
+            "storeName"    : item.storeName,
+            "supplierName" : item.supplierName,
+            "completedAt"  : item.completedAt ?? String()
+        ]
+        
+        let path = ApiConstants.CartPath.description + "/1/create"
+        
+        NetworkManager.shared.sendRequest(to: path,
+                                          method: .post,
+                                          model: GenericResponse.self,
+                                          postData: postData)
+            .receive(on: RunLoop.main)
+            .sink { (completion) in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            } receiveValue: { (response) in
+                print(response)
+            }
+            .store(in: &subscription)
     }
     
     public func fetch() {

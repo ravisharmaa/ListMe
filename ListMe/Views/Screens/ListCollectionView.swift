@@ -36,7 +36,7 @@ struct ListCollectionView: View {
                     .offset(x: -45)
                     
                     
-                    IncompleteItemsListView(cardItems: listViewModel.inCompleteItems)
+                    IncompleteItemsListView(cardItems: $listViewModel.inCompleteItems)
                     
                     Button(action: {
                         isListFormPresented.toggle()
@@ -52,7 +52,9 @@ struct ListCollectionView: View {
                     .foregroundColor(.white)
                     .cornerRadius(15)
                     .sheet(isPresented: $isListFormPresented, content: {
-                        ListForm(closeList: $isListFormPresented)
+                        ListForm(closeList: $isListFormPresented, didAddItem: { item in
+                            listViewModel.addItem(item: item)
+                        })
                     })
                     
                     ListCardView(cardItems: listViewModel.completedItems)

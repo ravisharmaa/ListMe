@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct IncompleteItemsListView: View {
-    let cardItems: [CartItem]
+    @Binding var cardItems: [CartItem]
     
     var body: some View {
         
@@ -33,7 +33,8 @@ struct IncompleteItemsListView: View {
 
 struct CompletedListsCardView_Previews: PreviewProvider {
     static var previews: some View {
-        IncompleteItemsListView(cardItems: [
-        ])
+        IncompleteItemsListView(cardItems: .constant([
+        
+        ]))
     }
 }

@@ -111,7 +111,9 @@ extension CartViewController {
         
         let listForm = ListForm(isModalClosed: {
             self.dismiss(animated: true, completion: nil)
-        }, closeList: .constant(false))
+        }, closeList: .constant(false), didAddItem: { item in
+            //
+        })
         
         let controller = UIHostingController(rootView: listForm)
         
