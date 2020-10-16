@@ -35,8 +35,9 @@ struct ListCollectionView: View {
                     .padding(.top, 60)
                     .offset(x: -45)
                     
-                    
-                    IncompleteItemsListView(cardItems: $listViewModel.inCompleteItems)
+                    if listViewModel.inCompleteItems.count > 0 {
+                        IncompleteItemsListView(cardItems: $listViewModel.inCompleteItems)
+                    }
                     
                     Button(action: {
                         isListFormPresented.toggle()
@@ -57,15 +58,15 @@ struct ListCollectionView: View {
                         })
                     })
                     
-                    ListCardView(cardItems: listViewModel.completedItems)
-                    
-                    
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-                        Text("View all older lists.")
-                            .foregroundColor(.blue)
-                    })
-                    .padding(.top, -10)
-                    
+                    if listViewModel.completedItems.count > 0 {
+                        ListCardView(cardItems: listViewModel.completedItems)
+                        
+                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                            Text("View all older lists.")
+                                .foregroundColor(.blue)
+                        })
+                        .padding(.top, -10)
+                    }
                     Spacer()
                     
                 }
@@ -79,7 +80,7 @@ struct ListCollectionView: View {
             }
             
         }
-        //.opacity(isListFormPresented ? 0 : 1)
+    
     }
 }
 

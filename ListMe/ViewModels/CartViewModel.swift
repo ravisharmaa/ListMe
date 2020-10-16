@@ -20,7 +20,9 @@ class CartViewModel: ObservableObject {
     
     public func addItem(item: CartItem) {
         
-        item.completedAt == nil ? inCompleteItems.append(item) : completedItems.append(item)
+        item.completedAt == String() ? inCompleteItems.append(item) : completedItems.append(item)
+        
+        print(item)
         
         let postData: [String: Any] = [
             "name"         : item.name,

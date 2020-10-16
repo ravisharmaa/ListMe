@@ -78,7 +78,7 @@ struct ListForm: View {
                             
                             
                             Button(action: {
-                                didAddItem(.init(name: listViewModel.name, supplierName: supplierPicker, storeName: storePicker, items: nil, completedAt: "false"))
+                                didAddItem(.init(name: listViewModel.name, supplierName: supplierPicker, storeName: storePicker, items: nil, completedAt: String()))
                             }, label: {
                                 Text("Create List")
                                     .font(.headline)
