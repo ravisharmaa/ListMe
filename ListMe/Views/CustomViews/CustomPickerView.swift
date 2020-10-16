@@ -18,6 +18,8 @@ struct CustomPickerView: View {
     @Binding var presentPicker: Bool
     @Binding var pickerField: String
     
+    let pickerTitle: String
+    
     
     var body: some View {
         
@@ -31,7 +33,7 @@ struct CustomPickerView: View {
             VStack(alignment: .leading, spacing: 0) {
                 
                 HStack {
-                    Text("Select Supplier")
+                    Text(pickerTitle)
                         .padding(20)
                         .padding(.leading, 5)
                     Spacer()
@@ -102,6 +104,6 @@ struct CustomPickerView: View {
 
 struct CustomPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomPickerView(items: [""], presentPicker: .constant(false), pickerField: .constant(""))
+        CustomPickerView(items: [""], presentPicker: .constant(false), pickerField: .constant(""), pickerTitle: "Demo")
     }
 }

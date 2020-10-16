@@ -10,19 +10,25 @@ import SwiftUI
 
 struct ListForm: View {
     
-    @ObservedObject var listViewModel: ListViewModel = ListViewModel()
+    @ObservedObject var listViewModel: CartViewModel = CartViewModel()
     
     var isModalClosed: (()-> Void)?
     
-    @State var presentPicker: Bool = false
+    @State var presentSupplierPicker: Bool = false
     
-    @State var pickerField: String = String()
+    @State var presentStorePicker: Bool = false
+    
+    @State var supplierPicker: String = String()
+    
+    @State var storePicker: String = String()
     
     var items: [String] = []
     
     @Binding var closeList: Bool
     
     @ObservedObject var supplierViewModel: SupplierViewModel = SupplierViewModel()
+    
+    @ObservedObject var storeViewModel: StoreViewModel = StoreViewModel()
     
     var body: some View {
         
@@ -37,14 +43,17 @@ struct ListForm: View {
                     }
                     
                     Section(header: Text("Send To Supplier")) {
-                        TextField("Name", text: $pickerField)
+                        TextField("Name", text: $supplierPicker)
                             .onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
-                                presentPicker = true
+                                presentSupplierPicker = true
                             })
                     }
                     
                     Section(header: Text("For Store")) {
-                        TextField("For Store", text: $listViewModel.forStore)
+                        TextField("For Store", text: $storePicker)
+                            .onTapGesture(count: 1, perform: {
+                                presentStorePicker.toggle()
+                            })
                     }
                     
                   
@@ -80,6 +89,7 @@ struct ListForm: View {
                             .background(Color(#colorLiteral(red: 0.2117647059, green: 0.3647058824, blue: 1, alpha: 1)))
                             .foregroundColor(.white)
                             .cornerRadius(15)
+                            .buttonStyle(PlainButtonStyle())
                             
                             Spacer()
                         }
@@ -99,12 +109,18 @@ struct ListForm: View {
                 
             }.onAppear(perform: {
                 supplierViewModel.fetch()
+                storeViewModel.fetch()
             })
             
-            if presentPicker {
-                
+            if presentSupplierPicker {
                 withAnimation(.spring()) {
-                    CustomPickerView(items: supplierViewModel.supplierName, presentPicker: $presentPicker, pickerField: $pickerField)
+                    CustomPickerView(items: supplierViewModel.supplierName, presentPicker: $presentSupplierPicker, pickerField: $supplierPicker, pickerTitle: "Supplier")
+                }
+            }
+            
+            if presentStorePicker {
+                withAnimation(.spring()) {
+                    CustomPickerView(items: storeViewModel.storeNames, presentPicker: $presentStorePicker, pickerField: $storePicker, pickerTitle: "Store")
                 }
             }
         }

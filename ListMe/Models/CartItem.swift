@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CartItem: Hashable, Identifiable {
+struct CartItem: Codable, Hashable, Identifiable {
     
     let id: UUID = UUID()
     
@@ -19,7 +19,18 @@ struct CartItem: Hashable, Identifiable {
     
     let items: [Item]?
     
+    let completedAt: String?
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case id
+        case name, supplierName, storeName
+        case completedAt = "completed_at"
+        
+        case items = "cart_product"
+    }
+        
     static var placeholder: CartItem {
-        return .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", items: nil)
+        return .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", items: nil, completedAt: "false")
     }
 }

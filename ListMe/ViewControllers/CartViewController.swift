@@ -17,7 +17,7 @@ class CartViewController: UICollectionViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section,CartItem>!
     
-    var listViewModel: ListViewModel = ListViewModel()
+    var listViewModel: CartViewModel = CartViewModel()
     
     var subscription: Set<AnyCancellable> = []
     
@@ -99,7 +99,7 @@ class CartViewController: UICollectionViewController {
         
         snapshot.appendSections([.main])
         
-        snapshot.appendItems(listViewModel.listItems)
+        //snapshot.appendItems(listViewModel.com)
         
         dataSource.apply(snapshot)
     }
@@ -117,11 +117,11 @@ extension CartViewController {
         
         controller.modalPresentationStyle = .popover
         
-        listForm.listViewModel.$listItems.sink { [unowned self] (items) in
-            if !items.isEmpty {
-                updateDatasource(item: items)
-            }
-        }.store(in: &subscription)
+//        listForm.listViewModel.$listItems.sink { [unowned self] (items) in
+//            if !items.isEmpty {
+//                updateDatasource(item: items)
+//            }
+//        }.store(in: &subscription)
         
         present(controller, animated: true, completion: nil)
     }

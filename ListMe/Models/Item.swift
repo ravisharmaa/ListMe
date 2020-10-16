@@ -16,7 +16,6 @@ struct Item: Codable, Hashable {
     let flavour: String?
     let weight: String
     let unit: String
-    let supplier: [Supplier]?
     let uuid: UUID = UUID()
     
     struct BarCode: Codable, Hashable {
@@ -24,14 +23,9 @@ struct Item: Codable, Hashable {
         let number: Int
     }
     
-    struct Supplier: Codable, Hashable {
-        let name: String
-        let location: String
-    }
     
     enum CodingKeys: String, CodingKey {
         case name,image,flavour,weight,unit
-        case supplier
         case barCode
         case uuid
     }
@@ -40,7 +34,6 @@ struct Item: Codable, Hashable {
 struct Store: Codable, Hashable {
     let id: Int
     let name: String
-    let location: String
 }
 
 struct ItemCategory: Codable, Hashable {

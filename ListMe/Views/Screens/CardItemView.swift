@@ -9,16 +9,16 @@ import SwiftUI
 
 struct CardItemView: View {
     
-    let item: DummyCardItems
+    let item: CartItem
     
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
                 
-                Text(item.cardItemName)
+                Text(item.name)
                     .font(.headline)
                 
-                Text(item.createdDate)
+                Text("Created at")
                     .font(.footnote)
                     .fontWeight(.light)
                     .foregroundColor(Color.gray)
@@ -34,7 +34,7 @@ struct CardItemView: View {
                     .frame(width: 70, height: 70)
                     .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)).opacity(0.4))
                     .overlay(
-                        Text(item.itemCount.description)
+                        Text(item.items?.count.description ?? 0.description)
                             .font(.caption)
                             .multilineTextAlignment(.leading)
                     )
@@ -52,6 +52,6 @@ struct CardItemView: View {
 
 struct CardItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CardItemView(item: .init(cardItemName: "Test", createdDate: "Test", itemCount: 450))
+        CardItemView(item: .init(name: "Dummy ITem", supplierName: "Sangam Bhandari", storeName: "Sangam", items: nil, completedAt: "false"))
     }
 }

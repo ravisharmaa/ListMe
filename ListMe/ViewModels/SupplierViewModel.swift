@@ -10,8 +10,6 @@ import Combine
 
 class SupplierViewModel: ObservableObject {
     
-    @Published var suppliers: [Supplier] = []
-    
     @Published var supplierName: [String] = []
     
     var subscription: Set<AnyCancellable> = []

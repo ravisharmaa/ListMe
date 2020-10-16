@@ -9,15 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     
-    let cardItems: [DummyCardItems] = [
-        .init(cardItemName: "Cash and Carry Pickup", createdDate: "Created Sept 18, 2020", itemCount: 999),
-        .init(cardItemName: "VicksBurg Order", createdDate: "Created Sept 18, 2020", itemCount: 444),
-        .init(cardItemName: "Long Distribution", createdDate: "Created Sept 18, 2020", itemCount: 231),
-        .init(cardItemName: "Pizza Collection", createdDate: "Created Sept 18, 2020", itemCount: 123),
-        .init(cardItemName: "Dominos Collection", createdDate: "Created Sept 18, 2020", itemCount: 12),
-        .init(cardItemName: "Technical Collection", createdDate: "Created Sept 18, 2020", itemCount: 10),
-        .init(cardItemName: "Miscellaneous Collection", createdDate: "Created Sept 18, 2020", itemCount: 2)
-    ]
+    @ObservedObject var listViewModel: CartViewModel = CartViewModel()
+    
     var body: some View {
         
         ZStack {
@@ -37,7 +30,7 @@ struct HomeView: View {
                     .padding(.top, 60)
                     .offset(x: -20)
                     
-                    ListCardView(cardItems: cardItems)
+                    ListCardView(cardItems: $listViewModel.completedItems.wrappedValue)
                     
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                         Text("Create New list")

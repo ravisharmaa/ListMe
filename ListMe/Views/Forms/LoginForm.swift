@@ -11,10 +11,6 @@ struct LoginForm: View {
     
     @ObservedObject var loginViewModel: LoginViewModel = LoginViewModel()
     
-    @State var selection:Int = 0
-    
-    @State var showingLogin: Bool = false
-    
     @State var present: Bool = false
     
     var body: some View {
@@ -80,13 +76,14 @@ struct LoginForm: View {
                 
                 
                 ZStack {
-                    LaunchScreen()
-                        .edgesIgnoringSafeArea(.all)
-                        .offset(x:0, y: present ? 0 : UIApplication.shared.keyWindow?.frame.height ?? 0)
+                    
+                    if present {
+                        LaunchScreen(isLoggedIn: $present)
+                            .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)))
+                    }
                 }
             }
     }
-    
 }
 
 struct LoginForm_Previews: PreviewProvider {

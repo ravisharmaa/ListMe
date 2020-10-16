@@ -8,36 +8,21 @@
 import SwiftUI
 
 
-struct DummyCardItems: Identifiable, Hashable {
-    let id: UUID = UUID()
-    let cardItemName: String
-    let createdDate: String
-    let itemCount: Int
-}
-
 struct ListCollectionView: View {
-    
-    let cardItems: [DummyCardItems] = [
-        .init(cardItemName: "Cash and Carry Pickup", createdDate: "Created Sept 18, 2020", itemCount: 999),
-        .init(cardItemName: "VicksBurg Order", createdDate: "Created Sept 18, 2020", itemCount: 444),
-        .init(cardItemName: "Long Distribution", createdDate: "Created Sept 18, 2020", itemCount: 231),
-        .init(cardItemName: "Pizza Collection", createdDate: "Created Sept 18, 2020", itemCount: 123),
-        .init(cardItemName: "Dominos Collection", createdDate: "Created Sept 18, 2020", itemCount: 12),
-        .init(cardItemName: "Technical Collection", createdDate: "Created Sept 18, 2020", itemCount: 10),
-        .init(cardItemName: "Miscellaneous Collection", createdDate: "Created Sept 18, 2020", itemCount: 2),
-        .init(cardItemName: "Miscellaneous Collection", createdDate: "Created Sept 18, 2020", itemCount: 2)
-    ]
     
     @State private var isListFormPresented: Bool = false
     
-   
+    @ObservedObject var listViewModel: CartViewModel = CartViewModel()
+    
+    @Binding var isLoggedIn: Bool
+    
     var body: some View {
         
         ZStack {
             Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)).edgesIgnoringSafeArea(.all)
             
             ScrollView(showsIndicators: false) {
-                LazyVStack(spacing: 40) {
+                VStack(spacing: 40) {
                     
                     VStack(alignment: .leading, spacing: 5) {
                         Text("All Lists")
@@ -51,7 +36,7 @@ struct ListCollectionView: View {
                     .offset(x: -45)
                     
                     
-                    ListCardView(cardItems: cardItems)
+                    IncompleteItemsListView(cardItems: listViewModel.inCompleteItems)
                     
                     Button(action: {
                         isListFormPresented.toggle()
@@ -69,7 +54,9 @@ struct ListCollectionView: View {
                     .sheet(isPresented: $isListFormPresented, content: {
                         ListForm(closeList: $isListFormPresented)
                     })
-                    CompletedListsCardView(cardItems: cardItems)
+                    
+                    ListCardView(cardItems: listViewModel.completedItems)
+                    
                     
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                         Text("View all older lists.")
@@ -84,17 +71,18 @@ struct ListCollectionView: View {
                 .padding(.top, 10)
                 .padding(.bottom, 20)
                 .padding(.horizontal, 20)
+                .onAppear {
+                    listViewModel.fetch()
+                }
             }
             
         }
-        .scaleEffect(isListFormPresented ? 0.95 : 1)
-        .offset(y: isListFormPresented ? -140 : 0)
-        .animation(.easeIn)
+        //.opacity(isListFormPresented ? 0 : 1)
     }
 }
 
 struct ListCollectionView_Previews: PreviewProvider {
     static var previews: some View {
-        ListCollectionView()
+        ListCollectionView(isLoggedIn: .constant(false))
     }
 }

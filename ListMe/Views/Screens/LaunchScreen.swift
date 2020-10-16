@@ -9,9 +9,11 @@ import SwiftUI
 
 struct LaunchScreen: View {
     
+    @Binding var isLoggedIn: Bool
+    
     var body: some View {
         TabView {
-            ListCollectionView()
+            ListCollectionView(isLoggedIn: $isLoggedIn)
                 .tabItem {
                     Image(systemName: "list.dash")
                 }
@@ -26,6 +28,6 @@ struct LaunchScreen: View {
 
 struct LaunchScreen_Previews: PreviewProvider {
     static var previews: some View {
-        LaunchScreen()
+        LaunchScreen(isLoggedIn: .constant(false))
     }
 }

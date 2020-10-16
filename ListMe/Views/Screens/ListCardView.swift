@@ -10,7 +10,7 @@ import SwiftUI
 struct ListCardView: View {
     
    
-    let cardItems: [DummyCardItems]
+    let cardItems: [CartItem]
     
     var body: some View {
         
@@ -22,26 +22,6 @@ struct ListCardView: View {
                     Divider()
                         .padding(.horizontal, 20)
                 }
-//                CardItemView()
-//                Divider()
-//                    .padding(.horizontal, 20)
-//                CardItemView()
-//                Divider()
-//                    .padding(.horizontal, 20)
-//                CardItemView()
-//                EmptyView()
-//                    .padding(.horizontal, 20)
-                
-                //Spacer()
-                
-//                Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
-//                    Text("View all lists")
-//                        .foregroundColor(.blue)
-//                        .fontWeight(.semibold)
-//
-//                })
-//                .padding(.bottom, 30)
-                
             }
             .padding(.top, 20)
         }
@@ -56,13 +36,7 @@ struct ListCardView: View {
 struct ListCardView_Previews: PreviewProvider {
     static var previews: some View {
         ListCardView(cardItems: [
-            .init(cardItemName: "Cash and Carry Pickup", createdDate: "Created Sept 18, 2020", itemCount: 999),
-            .init(cardItemName: "VicksBurg Order", createdDate: "Created Sept 18, 2020", itemCount: 444),
-            .init(cardItemName: "Long Distribution", createdDate: "Created Sept 18, 2020", itemCount: 231),
-            .init(cardItemName: "Pizza Collection", createdDate: "Created Sept 18, 2020", itemCount: 123),
-            .init(cardItemName: "Dominos Collection", createdDate: "Created Sept 18, 2020", itemCount: 12),
-            .init(cardItemName: "Technical Collection", createdDate: "Created Sept 18, 2020", itemCount: 10),
-            .init(cardItemName: "Miscellaneous Collection", createdDate: "Created Sept 18, 2020", itemCount: 2)
+            
         ])
     }
 }
