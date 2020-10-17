@@ -57,7 +57,7 @@ struct ProductForm: View {
                         TextField("Weight", text: $weight).keyboardType(.numberPad)
                         Picker("Unit", selection: $selectedQuantity) {
                             ForEach(0..<quantityMetrics.count) {
-                                Text(product?.minimumOrderQuantity ?? quantityMetrics[$0])
+                                Text(quantityMetrics[$0])
                             }
                             
                         }.pickerStyle(SegmentedPickerStyle())

@@ -2,7 +2,7 @@
 //  CompletedCardItemView.swift
 //  ListMe
 //
-//  Created by Javra Software on 10/10/20.
+//  Created by Ravi Bastola Software on 10/10/20.
 //
 
 import SwiftUI
@@ -13,7 +13,6 @@ struct CompletedItemsListView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
-                
                 Text(item.name)
                     .font(.headline)
                 
@@ -31,10 +30,12 @@ struct CompletedItemsListView: View {
                 Capsule(style: .continuous)
                     .padding()
                     .frame(width: 70, height: 70)
-                    .foregroundColor(Color.white.opacity(0.4))
+                    //.foregroundColor(Color.white.opacity(0.4))
+                    .foregroundColor(.blue)
                     .overlay(
                         Text(item.items?.count.description ?? 0.description)
                             .font(.caption)
+                            .foregroundColor(.white)
                             .multilineTextAlignment(.leading)
                     )
                     

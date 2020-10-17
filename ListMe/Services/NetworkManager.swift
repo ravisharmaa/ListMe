@@ -119,7 +119,6 @@ extension NetworkManager: ApiConfiguration {
             urlRequest.httpBody = httpBody
         }
         
-        
         let urlPublisher = URLSession.shared.dataTaskPublisher(for: urlRequest)
         
         return urlPublisher.tryMap({ (element) -> Data in
@@ -132,9 +131,14 @@ extension NetworkManager: ApiConfiguration {
         })
         .decode(type: T.self, decoder: JSONDecoder())
         .mapError { error -> ApplicationError in
+            print(error)
+            
             if let error = error as? ApplicationError {
                 return error
             } else {
+                
+                print(error)
+                
                 return ApplicationError.APIError(reason: error)
             }
         }

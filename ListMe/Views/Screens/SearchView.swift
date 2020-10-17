@@ -9,8 +9,9 @@ import SwiftUI
 
 struct SearchView: View {
     
-   
     @State private var isSearching: Bool = false
+    
+    @Binding var isSearchShown: Bool
     
     let isModalClosed: (()-> Void)?
     
@@ -18,12 +19,12 @@ struct SearchView: View {
         GridItem(.flexible())
     ]
     
-    @ObservedObject var basketModel: BasketViewModel = BasketViewModel()
+    @ObservedObject var productViewModel: ProductViewModel = ProductViewModel()
     
     var body: some View {
         VStack {
             HStack {
-                TextField("Enter Search Text", text: $basketModel.searchText)
+                TextField("Enter Search Text", text: $productViewModel.searchText)
                     .padding(.horizontal, 40)
                     .frame(width: UIScreen.main.bounds.width - 110, height: 45, alignment: .leading)
                     .background(Color(#colorLiteral(red: 0.9294475317, green: 0.9239223003, blue: 0.9336946607, alpha: 1)))
@@ -45,9 +46,12 @@ struct SearchView: View {
                 if !isSearching {
                     Button(action: {
                         isModalClosed?()
+                        isSearchShown.toggle()
                     }, label: {
                         Text("Close")
+                            .foregroundColor(.blue)
                     })
+                    .foregroundColor(.blue)
                     .font(.title3)
                 } else {
                     Button(action: {
@@ -59,26 +63,39 @@ struct SearchView: View {
                 }
                 
                 
-            }.padding()
+            }.padding().padding(.top, 30)
             
-            ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: layout, spacing: 12) {
-                    ForEach(basketModel.items, id: \.self) { item in
-                        ItemView(item: item, model: basketModel)
+            
+            if productViewModel.products.count > 0 {
+                ScrollView(showsIndicators: false) {
+                    LazyVGrid(columns: layout, spacing: 12) {
+                        ForEach(productViewModel.products, id: \.self) { item in
+                            ItemView(item: item)
+                        }
                     }
                 }
+            } else {
+                
+                Spacer()
+                
+                Text("Please Search Your Item")
+                
+                Spacer()
             }
+            
+            
         }
         .background(Color(#colorLiteral(red: 0.9758560663, green: 0.9758560663, blue: 0.9758560663, alpha: 1)))
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct ItemView: View {
     
-    let item: DummyListFactory
-    let model: BasketViewModel
+    let item: Product
+    //let model: BasketViewModel
     
-    var newItemAdded: ((_ item: DummyListFactory)-> Void)?
+    //var newItemAdded: ((_ item: DummyListFactory)-> Void)?
 
     var body: some View {
         
@@ -90,16 +107,17 @@ struct ItemView: View {
                     .frame(width: 70)
                     .padding(.horizontal)
                 
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(item.name)
-                        .font(.title3)
-                        .fontWeight(.heavy)
-                    Text(item.flavour)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(item.name!)
+                        .font(.body)
+                        .fontWeight(.semibold)
+                    Text(item.flavour!)
                         .fontWeight(.regular)
-                        .font(.subheadline)
-                    Text(item.weight)
+                        .font(.caption)
+                    Text(item.weight!)
+                        .foregroundColor(.gray)
                         .fontWeight(.regular)
-                        .font(.subheadline)
+                        .font(.caption)
                 }
                 
                 Spacer()
@@ -107,8 +125,8 @@ struct ItemView: View {
                 
                 Stepper(
                     onIncrement: {
-                        let item = DummyListFactory(name: "Getorade", flavour: "FruitPunch", weight: "13 oz")
-                        model.items.append(item)
+                        //let item = DummyListFactory(name: "Getorade", flavour: "FruitPunch", weight: "13 oz")
+                        //model.items.append(item)
                     },
                     onDecrement: {
                         
@@ -121,11 +139,12 @@ struct ItemView: View {
         }
         .frame(height: 100)
         .background(
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 15)
                 .fill(Color.white)
                 .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
         )
         .padding(.horizontal, 10)
+        .animation(.easeIn)
         
     }
 }
@@ -133,6 +152,6 @@ struct ItemView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(isModalClosed: nil)
+        SearchView(isSearchShown: .constant(false), isModalClosed: nil)
     }
 }

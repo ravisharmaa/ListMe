@@ -10,35 +10,41 @@ import Foundation
 struct Product: Codable, Hashable {
     
     let id: Int?
-    let categoryId: Int?
-    let supplierId: Int?
+    let category: String?
+   // let supplierId: Int?
     let name: String?
     let flavour: String?
     let unit: String?
+    let weight: String?
     let price: Int?
-    let minimumOrderQuantity: String?
-    let inStock: Bool?
+    let packSize: String?
+    //let minimumOrderQuantity: String?
+    //let inStock: Bool?
     let isNew: Bool?
-    let offerPrice: Int?
-    let offerValidTill: String?
+    //let offerPrice: Int?
+    //let offerValidTill: String?
     
     let uuid: UUID = UUID()
     
     enum CodingKeys: String, CodingKey {
-        case id, price
+        case id
+        case price
         case uuid
-        case categoryId = "category_id"
-        case supplierId = "supplier_id"
+        case category = "category_name"
+        //case supplierId = "supplier_id"
         case name, flavour, unit
-        case minimumOrderQuantity = "minmum_order_quantity"
-        case inStock = "in_stock"
+        //case minimumOrderQuantity = "minmum_order_quantity"
+        //case inStock = "in_stock"
         case isNew = "is_new"
-        case offerPrice = "offer_price"
-        case offerValidTill = "offer_valid_till"
+        //case offerPrice = "offer_price"
+        //case offerValidTill = "offer_valid_till"
+        case packSize = "pack_size"
+        case weight
     }
     
     static var placeholder: Product {
-        return .init(id: nil, categoryId: nil, supplierId: nil, name: nil, flavour: nil, unit: nil, price: nil, minimumOrderQuantity: nil, inStock: nil, isNew: nil, offerPrice: nil, offerValidTill: nil)
+       return
+        .init(id: nil, category: nil, name: nil, flavour: nil, unit: nil, weight: nil, price: nil, packSize: nil, isNew: nil)
     }
 }
 

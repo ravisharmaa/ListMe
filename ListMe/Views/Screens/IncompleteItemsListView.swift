@@ -2,13 +2,15 @@
 //  CompletedListsCardView.swift
 //  ListMe
 //
-//  Created by Javra Software on 10/10/20.
+//  Created by Ravi Bastola Software on 10/10/20.
 //
 
 import SwiftUI
 
 struct IncompleteItemsListView: View {
     @Binding var cardItems: [CartItem]
+    
+    @State var showSearchView: Bool = false
     
     var body: some View {
         
@@ -17,9 +19,16 @@ struct IncompleteItemsListView: View {
             LazyVStack {
                 ForEach(cardItems, id: \.self) { item in
                     CompletedItemsListView(item: item)
+                        .onTapGesture {
+                            showSearchView.toggle()
+                        }
+                        .popover(isPresented: $showSearchView, content: {
+                            SearchView(isSearchShown: $showSearchView, isModalClosed: nil)
+                        })
                     Divider()
                         .foregroundColor(Color.black.opacity(0.4))
                         .padding(.horizontal, 20)
+                    
                 }                
             }
             .padding(.top, 20)
@@ -34,7 +43,7 @@ struct IncompleteItemsListView: View {
 struct CompletedListsCardView_Previews: PreviewProvider {
     static var previews: some View {
         IncompleteItemsListView(cardItems: .constant([
-        
+            .init(name: "Hello", supplierName: "hello", storeName: "Hello", items: nil, completedAt: "hello")
         ]))
     }
 }

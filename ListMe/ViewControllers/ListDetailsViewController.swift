@@ -11,7 +11,7 @@ import Combine
 
 class ListDetailsViewController: UIViewController {
     
-    let addedItems = BasketViewModel().items
+    //let addedItems = BasketViewModel().items
     
     
     fileprivate lazy var collectionView: UICollectionView = {
@@ -30,7 +30,7 @@ class ListDetailsViewController: UIViewController {
         case main
     }
     
-    fileprivate var dataSource: UICollectionViewDiffableDataSource<Section, DummyListFactory>!
+    //fileprivate var dataSource: UICollectionViewDiffableDataSource<Section, DummyListFactory>!
     
     
 //    init(item: ProductListViewController.Item) {
@@ -84,9 +84,9 @@ class ListDetailsViewController: UIViewController {
         config.trailingSwipeActionsConfigurationProvider = .some({ [weak self] (indexPath) -> UISwipeActionsConfiguration? in
             guard let self = self else {return nil }
             
-            guard let _ = self.dataSource.itemIdentifier(for: indexPath) else {
-                return nil
-            }
+//            guard let _ = self.dataSource.itemIdentifier(for: indexPath) else {
+//                return nil
+//            }
             
             var action: [UIContextualAction] = [UIContextualAction]()
             
@@ -116,28 +116,28 @@ class ListDetailsViewController: UIViewController {
     
     
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, DummyListFactory>.init { (cell, indexPath, item) in
-            
-            var content = cell.defaultContentConfiguration()
-            
-            content.text = item.name
-            
-            cell.contentConfiguration = content
-        }
-        
-        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, listItem) -> UICollectionViewCell? in
-            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: listItem)
-            
-            return cell
-        })
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DummyListFactory>()
-        
-        snapshot.appendSections([.main])
-        
-        snapshot.appendItems(addedItems)
-        
-        dataSource.apply(snapshot, animatingDifferences: true)
+//        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, DummyListFactory>.init { (cell, indexPath, item) in
+//
+//            var content = cell.defaultContentConfiguration()
+//
+//            content.text = item.name
+//
+//            cell.contentConfiguration = content
+//        }
+//
+//        dataSource = .init(collectionView: collectionView, cellProvider: { (collectionView, indexPath, listItem) -> UICollectionViewCell? in
+//            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: listItem)
+//
+//            return cell
+//        })
+//
+//        var snapshot = NSDiffableDataSourceSnapshot<Section, DummyListFactory>()
+//
+//        snapshot.appendSections([.main])
+//
+//        snapshot.appendItems(addedItems)
+//
+//        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
@@ -150,7 +150,7 @@ extension ListDetailsViewController {
     
     @objc func configureSearch() {
         
-        let search = SearchView { 
+        let search = SearchView(isSearchShown: .constant(false)) { 
             self.dismiss(animated: true, completion: nil)
         }
         
@@ -161,21 +161,21 @@ extension ListDetailsViewController {
         present(controller, animated: true, completion: nil)
     }
     
-    func updateSnapshotwith(newItem: [DummyListFactory]) {
-        
-        var snapshot = dataSource.snapshot()
-        
-        if !newItem.isEmpty {
-            
-            snapshot.deleteAllItems()
-            
-            snapshot.appendSections([.main])
-            
-            snapshot.appendItems(newItem)
-            
-            snapshot.reloadSections([.main])
-            
-            dataSource.apply(snapshot, animatingDifferences: false)
-        }
-    }
+//    func updateSnapshotwith(newItem: [DummyListFactory]) {
+//        
+//        var snapshot = dataSource.snapshot()
+//        
+//        if !newItem.isEmpty {
+//            
+//            snapshot.deleteAllItems()
+//            
+//            snapshot.appendSections([.main])
+//            
+//            snapshot.appendItems(newItem)
+//            
+//            snapshot.reloadSections([.main])
+//            
+//            dataSource.apply(snapshot, animatingDifferences: false)
+//        }
+//    }
 }

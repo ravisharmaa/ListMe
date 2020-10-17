@@ -63,22 +63,11 @@ struct ListForm: View {
                             
                             Spacer()
                             
-//                            Button(action: {
-//                                listViewModel.addItem()
-//                                isModalClosed?()
-//
-//                            }, label: {
-//                                Text("Create").fontWeight(.medium)
-//                            })
-//                            .buttonStyle(PlainButtonStyle())
-//                            .frame(width: 149, height: 45)
-//                            .background(Color.black)
-//                            .foregroundColor(.white)
-//                            .cornerRadius(18)
-                            
-                            
                             Button(action: {
                                 didAddItem(.init(name: listViewModel.name, supplierName: supplierPicker, storeName: storePicker, items: nil, completedAt: String()))
+                                supplierPicker = String()
+                                storePicker = String()
+                                closeList.toggle()
                             }, label: {
                                 Text("Create List")
                                     .font(.headline)

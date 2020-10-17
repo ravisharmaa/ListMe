@@ -22,6 +22,7 @@ enum ApiConstants: CustomStringConvertible {
     case LoginPath
     case StorePath
     case CartPath
+    case ProductSearchPath
     
     var description: String {
         
@@ -47,6 +48,8 @@ enum ApiConstants: CustomStringConvertible {
             return "stores"
         case .CartPath:
             return "cart"
+        case .ProductSearchPath:
+            return "search/products"
         }
     }
 }

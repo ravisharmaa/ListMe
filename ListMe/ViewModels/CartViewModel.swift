@@ -22,8 +22,6 @@ class CartViewModel: ObservableObject {
         
         item.completedAt == String() ? inCompleteItems.append(item) : completedItems.append(item)
         
-        print(item)
-        
         let postData: [String: Any] = [
             "name"         : item.name,
             "storeName"    : item.storeName,
