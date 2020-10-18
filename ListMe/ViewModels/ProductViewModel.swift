@@ -16,7 +16,7 @@ class ProductViewModel: ObservableObject {
     
     @Published var searchText: String = String()
     
-    // MARK:- Initiliazer for product via model.
+    // MARK:- Initiliazer for product view model.
     
     init() {
         $searchText

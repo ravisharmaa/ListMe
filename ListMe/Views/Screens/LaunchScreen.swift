@@ -23,6 +23,8 @@ struct LaunchScreen: View {
                     Image(systemName: "person")
                 }
         }
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

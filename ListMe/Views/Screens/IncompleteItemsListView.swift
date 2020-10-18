@@ -18,13 +18,18 @@ struct IncompleteItemsListView: View {
             Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)).edgesIgnoringSafeArea(.all)
             LazyVStack {
                 ForEach(cardItems, id: \.self) { item in
-                    CompletedItemsListView(item: item)
-                        .onTapGesture {
-                            showSearchView.toggle()
-                        }
-                        .popover(isPresented: $showSearchView, content: {
-                            SearchView(isSearchShown: $showSearchView, isModalClosed: nil)
-                        })
+                    
+                    NavigationLink(destination: CartDetailView()) {
+                        CompletedItemsListView(item: item)
+                    }
+                    
+                   // CompletedItemsListView(item: item)
+//                        .onTapGesture {
+//                            showSearchView.toggle()
+//                        }
+//                        .popover(isPresented: $showSearchView, content: {
+//                            SearchView(isSearchShown: $showSearchView, isModalClosed: nil)
+//                        })
                     Divider()
                         .foregroundColor(Color.black.opacity(0.4))
                         .padding(.horizontal, 20)
