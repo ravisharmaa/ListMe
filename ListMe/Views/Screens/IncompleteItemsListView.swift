@@ -19,17 +19,9 @@ struct IncompleteItemsListView: View {
             LazyVStack {
                 ForEach(cardItems, id: \.self) { item in
                     
-                    NavigationLink(destination: CartDetailView()) {
+                    NavigationLink(destination: CartDetailView(item: item)) {
                         CompletedItemsListView(item: item)
                     }
-                    
-                   // CompletedItemsListView(item: item)
-//                        .onTapGesture {
-//                            showSearchView.toggle()
-//                        }
-//                        .popover(isPresented: $showSearchView, content: {
-//                            SearchView(isSearchShown: $showSearchView, isModalClosed: nil)
-//                        })
                     Divider()
                         .foregroundColor(Color.black.opacity(0.4))
                         .padding(.horizontal, 20)
@@ -48,7 +40,7 @@ struct IncompleteItemsListView: View {
 struct CompletedListsCardView_Previews: PreviewProvider {
     static var previews: some View {
         IncompleteItemsListView(cardItems: .constant([
-            .init(name: "Hello", supplierName: "hello", storeName: "Hello", items: nil, completedAt: "hello")
+            .init(name: "Hello", supplierName: "hello", storeName: "Hello", items: nil, completedAt: "hello", createdAt: nil)
         ]))
     }
 }

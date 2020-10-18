@@ -13,13 +13,15 @@ struct CartItem: Codable, Hashable, Identifiable {
     
     let name: String
     
-    let supplierName: String
+    let supplierName: String?
     
     let storeName: String
     
-    let items: [Item]?
+    let items: [Product]?
     
     let completedAt: String?
+    
+    let createdAt: String?
     
     enum CodingKeys: String, CodingKey {
         
@@ -28,9 +30,10 @@ struct CartItem: Codable, Hashable, Identifiable {
         case completedAt = "completed_at"
         
         case items = "cart_product"
+        case createdAt = "created_at"
     }
         
     static var placeholder: CartItem {
-        return .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", items: nil, completedAt: "false")
+        return .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", items: nil, completedAt: "false", createdAt: nil)
     }
 }

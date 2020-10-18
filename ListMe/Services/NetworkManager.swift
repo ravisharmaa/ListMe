@@ -131,8 +131,6 @@ extension NetworkManager: ApiConfiguration {
         })
         .decode(type: T.self, decoder: JSONDecoder())
         .mapError { error -> ApplicationError in
-            print(error)
-            
             if let error = error as? ApplicationError {
                 return error
             } else {

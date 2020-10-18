@@ -12,7 +12,7 @@ struct Item: Codable, Hashable {
     
     let name: String
     let barCode: BarCode?
-    let image: String
+    let image: String?
     let flavour: String?
     let weight: String
     let unit: String

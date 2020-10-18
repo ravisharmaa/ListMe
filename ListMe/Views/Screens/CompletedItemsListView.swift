@@ -10,6 +10,7 @@ import SwiftUI
 struct CompletedItemsListView: View {
     let item: CartItem
     
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
@@ -51,6 +52,6 @@ struct CompletedItemsListView: View {
 
 struct CompletedCardItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CompletedItemsListView(item: .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", items: nil, completedAt: "false"))
+        CompletedItemsListView(item: .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", items: nil, completedAt: "false", createdAt: nil))
     }
 }

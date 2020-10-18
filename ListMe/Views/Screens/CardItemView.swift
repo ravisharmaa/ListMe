@@ -52,6 +52,6 @@ struct CardItemView: View {
 
 struct CardItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CardItemView(item: .init(name: "Dummy ITem", supplierName: "Sangam Bhandari", storeName: "Sangam", items: nil, completedAt: "false"))
+        CardItemView(item: .init(name: "Dummy ITem", supplierName: "Sangam Bhandari", storeName: "Sangam", items: nil, completedAt: "false", createdAt: nil))
     }
 }

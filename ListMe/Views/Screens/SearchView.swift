@@ -26,10 +26,12 @@ struct SearchView: View {
             HStack {
                 TextField("Enter Search Text", text: $productViewModel.searchText)
                     .padding(.horizontal, 40)
+                    .padding(.leading, 10)
                     .frame(width: UIScreen.main.bounds.width - 110, height: 45, alignment: .leading)
                     .background(Color(#colorLiteral(red: 0.9294475317, green: 0.9239223003, blue: 0.9336946607, alpha: 1)))
                     .clipped()
                     .cornerRadius(10)
+                    .font(.callout)
                     .overlay(
                         HStack {
                             Image(systemName: "magnifyingglass")
@@ -63,7 +65,7 @@ struct SearchView: View {
                 }
                 
                 
-            }.padding().padding(.top, 30)
+            }.padding()
             
             
             if productViewModel.products.count > 0 {

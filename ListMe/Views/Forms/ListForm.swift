@@ -64,7 +64,8 @@ struct ListForm: View {
                             Spacer()
                             
                             Button(action: {
-                                didAddItem(.init(name: listViewModel.name, supplierName: supplierPicker, storeName: storePicker, items: nil, completedAt: String()))
+                                didAddItem(.init(name: listViewModel.name, supplierName: supplierPicker, storeName: storePicker, items: nil, completedAt: String(), createdAt: nil
+                                ))
                                 supplierPicker = String()
                                 storePicker = String()
                                 closeList.toggle()

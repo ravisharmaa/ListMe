@@ -14,7 +14,6 @@ struct LoginForm: View {
     @State var present: Bool = false
     
     var body: some View {
-        
         ZStack {
             Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)).edgesIgnoringSafeArea(.all)
             

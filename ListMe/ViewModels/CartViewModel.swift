@@ -25,7 +25,7 @@ class CartViewModel: ObservableObject {
         let postData: [String: Any] = [
             "name"         : item.name,
             "storeName"    : item.storeName,
-            "supplierName" : item.supplierName,
+            "supplierName" : item.supplierName ?? "",
             "completedAt"  : item.completedAt ?? String()
         ]
         
@@ -63,6 +63,8 @@ class CartViewModel: ObservableObject {
                 completedItems = cartItems.filter{ $0.completedAt != nil }
                 
                 inCompleteItems = cartItems.filter{ $0.completedAt == nil }
+                
+                
                 
             }.store(in: &subscription)
     }
