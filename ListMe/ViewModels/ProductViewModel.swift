@@ -16,6 +16,10 @@ class ProductViewModel: ObservableObject {
     
     @Published var searchText: String = String()
     
+    @Published var isSearching: Bool = false
+    
+    @Published var isDataEmpty: Bool = false
+    
     // MARK:- Initiliazer for product view model.
     
     init() {
@@ -34,6 +38,7 @@ class ProductViewModel: ObservableObject {
             .sink { (_) in
                 //
             } receiveValue: { [self] (searchField) in
+                isSearching.toggle()
                 searchItems(searchText: searchField)
             }.store(in: &subscription)
     }
@@ -47,6 +52,10 @@ class ProductViewModel: ObservableObject {
                 //
             } receiveValue: { [self] (searchedProducts) in
                 products = searchedProducts
+                isSearching = false
+                
+                isDataEmpty = products.isEmpty
+                
             }.store(in: &subscription)
     }
     

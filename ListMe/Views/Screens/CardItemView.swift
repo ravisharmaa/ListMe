@@ -34,7 +34,7 @@ struct CardItemView: View {
                     .frame(width: 70, height: 70)
                     .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)).opacity(0.4))
                     .overlay(
-                        Text(item.items?.count.description ?? 0.description)
+                        Text(item.productCount.description)
                             .font(.caption)
                             .multilineTextAlignment(.leading)
                     )
@@ -52,6 +52,6 @@ struct CardItemView: View {
 
 struct CardItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CardItemView(item: .init(name: "Dummy ITem", supplierName: "Sangam Bhandari", storeName: "Sangam", items: nil, completedAt: "false", createdAt: nil))
+        CardItemView(item: .init(name: "Dummy ITem", supplierName: "Sangam Bhandari", storeName: "Sangam", productCount: 0, completedAt: "false", createdAt: nil))
     }
 }

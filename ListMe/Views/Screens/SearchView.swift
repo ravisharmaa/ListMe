@@ -21,84 +21,113 @@ struct SearchView: View {
     
     @ObservedObject var productViewModel: ProductViewModel = ProductViewModel()
     
-    var body: some View {
-        VStack {
-            HStack {
-                TextField("Enter Search Text", text: $productViewModel.searchText)
-                    .padding(.horizontal, 40)
-                    .padding(.leading, 10)
-                    .frame(width: UIScreen.main.bounds.width - 110, height: 45, alignment: .leading)
-                    .background(Color(#colorLiteral(red: 0.9294475317, green: 0.9239223003, blue: 0.9336946607, alpha: 1)))
-                    .clipped()
-                    .cornerRadius(10)
-                    .font(.callout)
-                    .overlay(
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                                .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                .padding(.leading, 16)
-                        }
-                    )
-                    .onTapGesture(perform: {
-                        isSearching = true
-                    })
-                Spacer()
-                
-                if !isSearching {
-                    Button(action: {
-                        isModalClosed?()
-                        isSearchShown.toggle()
-                    }, label: {
-                        Text("Close")
-                            .foregroundColor(.blue)
-                    })
+    var textField: some View {
+        
+        return TextField("Enter Search Text", text: $productViewModel.searchText)
+            .padding(.horizontal, 40)
+            .padding(.leading, 10)
+            .frame(width: UIScreen.main.bounds.width - 110, height: 45, alignment: .leading)
+            .background(Color(#colorLiteral(red: 0.9294475317, green: 0.9239223003, blue: 0.9336946607, alpha: 1)))
+            .clipped()
+            .cornerRadius(10)
+            .font(.callout)
+            .overlay(
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 16)
+                }
+            )
+            .onTapGesture(perform: {
+                isSearching = true
+            })
+    }
+    
+    var searchField: some View {
+        
+        return HStack {
+            
+            textField
+            
+            Spacer()
+            
+            Button(action: {
+                isSearchShown.toggle()
+            }, label: {
+                Text("Close")
                     .foregroundColor(.blue)
-                    .font(.title3)
-                } else {
-                    Button(action: {
-                        isSearching = false
-                    }, label: {
-                        Text("Cancel")
-                    })
-                    .font(.title3)
+            })
+            .foregroundColor(.blue)
+            .font(.title3)
+        }.padding()
+    }
+    
+    var isSearchClosed: ((Product) -> Void)?
+    
+    var body: some View {
+        
+        ZStack {
+            Color(#colorLiteral(red: 0.9758560663, green: 0.9758560663, blue: 0.9758560663, alpha: 1)).edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                
+                VStack(alignment: .leading, spacing: -3) {
+                    searchField
+                    
+                    if productViewModel.products.count > 0 {
+                        Text("\(productViewModel.products.count) \(productViewModel.products.count <= 1 ? "result": "results") found")
+                            .foregroundColor(.gray)
+                            .padding(.leading, 20)
+                            .font(.subheadline)
+                    }
                 }
                 
+                if productViewModel.isDataEmpty {
+                    
+                    VStack{
+                        
+                        Spacer()
+                        
+                        Text("Sorry the item you searched is not available.")
+                            .font(.subheadline)
+                            .foregroundColor(.black)
+                        
+                        Spacer()
+                    }
+                    
+                }
                 
-            }.padding()
-            
-            
-            if productViewModel.products.count > 0 {
-                ScrollView(showsIndicators: false) {
-                    LazyVGrid(columns: layout, spacing: 12) {
-                        ForEach(productViewModel.products, id: \.self) { item in
-                            ItemView(item: item)
+                if productViewModel.isSearching {
+                    
+                    Spacer()
+                    
+                    ProgressView()
+                        .font(.title)
+                    
+                    Spacer()
+                    
+                } else {
+                    ScrollView(showsIndicators: false) {
+                        LazyVGrid(columns: layout, spacing: 12) {
+                            ForEach(productViewModel.products, id: \.self) { item in
+                                ItemView(item: item)
+                            }
                         }
                     }
                 }
-            } else {
-                
-                Spacer()
-                
-                Text("Please Search Your Item")
-                
-                Spacer()
             }
             
-            
         }
-        .background(Color(#colorLiteral(red: 0.9758560663, green: 0.9758560663, blue: 0.9758560663, alpha: 1)))
-        .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct ItemView: View {
     
     let item: Product
-    //let model: BasketViewModel
     
-    //var newItemAdded: ((_ item: DummyListFactory)-> Void)?
-
+//    var isItemAdded: ((Product)->())?
+    
     var body: some View {
         
         ZStack {
@@ -116,25 +145,32 @@ struct ItemView: View {
                     Text(item.flavour!)
                         .fontWeight(.regular)
                         .font(.caption)
-                    Text(item.weight!)
-                        .foregroundColor(.gray)
-                        .fontWeight(.regular)
-                        .font(.caption)
+                    
+                    HStack {
+                        Text(item.weight!)
+                            .foregroundColor(.gray)
+                            .fontWeight(.regular)
+                            .font(.caption)
+                        
+                        Text("In: \(item.category!)")
+                            .foregroundColor(.gray)
+                            .fontWeight(.regular)
+                            .font(.caption)
+                        
+                    }
                 }
                 
                 Spacer()
                 
-                
                 Stepper(
                     onIncrement: {
-                        //let item = DummyListFactory(name: "Getorade", flavour: "FruitPunch", weight: "13 oz")
-                        //model.items.append(item)
+                        //isItemAdded?(item)
                     },
                     onDecrement: {
                         
                     },
                     label: {
-                       EmptyView()
+                        EmptyView()
                     })
                     .padding(.trailing, 16)
             }

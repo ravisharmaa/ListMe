@@ -17,7 +17,7 @@ struct CartItem: Codable, Hashable, Identifiable {
     
     let storeName: String
     
-    let items: [Product]?
+    let productCount: Int
     
     let completedAt: String?
     
@@ -28,12 +28,12 @@ struct CartItem: Codable, Hashable, Identifiable {
         case id
         case name, supplierName, storeName
         case completedAt = "completed_at"
-        
-        case items = "cart_product"
+    
         case createdAt = "created_at"
+        case productCount = "product_count"
     }
         
     static var placeholder: CartItem {
-        return .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", items: nil, completedAt: "false", createdAt: nil)
+        return .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", productCount: 0, completedAt: "false", createdAt: nil)
     }
 }

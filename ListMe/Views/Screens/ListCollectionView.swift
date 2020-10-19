@@ -37,7 +37,7 @@ struct ListCollectionView: View {
                         .offset(x: -45)
                         
                         if listViewModel.inCompleteItems.count > 0 {
-                            IncompleteItemsListView(cardItems: $listViewModel.inCompleteItems)
+                            IncompleteItemsListView(cardItems: $listViewModel.inCompleteItems, viewModel: listViewModel)
                         }
                         
                         Button(action: {

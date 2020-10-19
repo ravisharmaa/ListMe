@@ -63,9 +63,6 @@ class CartViewModel: ObservableObject {
                 completedItems = cartItems.filter{ $0.completedAt != nil }
                 
                 inCompleteItems = cartItems.filter{ $0.completedAt == nil }
-                
-                
-                
             }.store(in: &subscription)
     }
     

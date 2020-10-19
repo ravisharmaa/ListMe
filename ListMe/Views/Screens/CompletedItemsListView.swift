@@ -10,7 +10,6 @@ import SwiftUI
 struct CompletedItemsListView: View {
     let item: CartItem
     
-    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
@@ -34,7 +33,7 @@ struct CompletedItemsListView: View {
                     //.foregroundColor(Color.white.opacity(0.4))
                     .foregroundColor(.blue)
                     .overlay(
-                        Text(item.items?.count.description ?? 0.description)
+                        Text(item.productCount.description)
                             .font(.caption)
                             .foregroundColor(.white)
                             .multilineTextAlignment(.leading)
@@ -45,13 +44,12 @@ struct CompletedItemsListView: View {
                     .padding(.trailing, 10)
             }
             .padding(.trailing, 20)
-            
         }
     }
 }
 
 struct CompletedCardItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CompletedItemsListView(item: .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", items: nil, completedAt: "false", createdAt: nil))
+        CompletedItemsListView(item: .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", productCount: 0, completedAt: "false", createdAt: nil))
     }
 }

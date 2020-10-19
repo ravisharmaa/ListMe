@@ -150,9 +150,7 @@ extension ListDetailsViewController {
     
     @objc func configureSearch() {
         
-        let search = SearchView(isSearchShown: .constant(false)) { 
-            self.dismiss(animated: true, completion: nil)
-        }
+        let search = SearchView(isSearchShown: .constant(false), isModalClosed: nil) 
         
         let controller = UIHostingController(rootView: search)
         

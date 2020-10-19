@@ -15,6 +15,8 @@ struct CartDetailView: View {
     
     let item: CartItem
     
+    @ObservedObject var viewModel: CartViewModel
+    
     // MARK:- Navigation Bar View
     var navigationBarItemView: some View {
         return HStack(spacing: 15) {
@@ -78,7 +80,7 @@ struct CartDetailView: View {
                                 .foregroundColor(.black)
                                 .fontWeight(.bold)
                             
-                            Text("\(item.items!.count.description) \(item.items!.count <= 1 ? "Item": "Items")    Created: \(item.createdAt ?? "") ")
+                            Text("\(item.productCount.description) \(item.productCount <= 1 ? "Item": "Items")    Created: \(item.createdAt ?? "") ")
                                 .foregroundColor(.gray)
                                 .font(.subheadline)
                             
@@ -107,6 +109,6 @@ struct CartDetailView: View {
 
 struct CartDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CartDetailView(item: .init(name: "Demo", supplierName: "Demo", storeName: "Demo", items: nil, completedAt: nil, createdAt: nil))
+        CartDetailView(item: .init(name: "Demo", supplierName: "Demo", storeName: "Demo", productCount: 0, completedAt: nil, createdAt: nil), viewModel: .init())
     }
 }
