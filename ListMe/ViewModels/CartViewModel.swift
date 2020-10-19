@@ -20,8 +20,6 @@ class CartViewModel: ObservableObject {
     
     public func addItem(item: CartItem) {
         
-        item.completedAt == String() ? inCompleteItems.append(item) : completedItems.append(item)
-        
         let postData: [String: Any] = [
             "name"         : item.name,
             "storeName"    : item.storeName,
@@ -29,11 +27,13 @@ class CartViewModel: ObservableObject {
             "completedAt"  : item.completedAt ?? String()
         ]
         
+        // remove static user id send the currently logged in user.
+        
         let path = ApiConstants.CartPath.description + "/1/create"
         
         NetworkManager.shared.sendRequest(to: path,
                                           method: .post,
-                                          model: GenericResponse.self,
+                                          model: CartItem.self,
                                           postData: postData)
             .receive(on: RunLoop.main)
             .sink { (completion) in
@@ -43,8 +43,8 @@ class CartViewModel: ObservableObject {
                 case .failure(let error):
                     print(error)
                 }
-            } receiveValue: { (response) in
-                print(response)
+            } receiveValue: { [self] (response) in
+                response.completedAt == nil ? inCompleteItems.append(response) : completedItems.append(response)
             }
             .store(in: &subscription)
     }
