@@ -66,6 +66,10 @@ struct CartDetailView: View {
         }
     }
     
+    let layout = [
+        GridItem(.flexible())
+    ]
+    
     var body: some View {
         
         ZStack {
@@ -98,14 +102,60 @@ struct CartDetailView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.top, 30)
+                    
+                    LazyVGrid(columns: layout, spacing: 12) {
+                        ForEach(viewModel.cartProducts, id: \.self) { item in
+                            
+                            ZStack {
+                                HStack(spacing: 5) {
+                                    RoundedRectangle(cornerRadius: 10, style: .circular)
+                                        .fill(Color.gray.opacity(0.4))
+                                        .frame(height: 80)
+                                        .frame(width: 70)
+                                        .padding(.horizontal)
+                                    
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text(item.name!)
+                                            .font(.body)
+                                            .fontWeight(.semibold)
+                                        Text("item.flavour!")
+                                            .fontWeight(.regular)
+                                            .font(.caption)
+                                        
+                                        HStack {
+                                            Text(item.weight!)
+                                                .foregroundColor(.gray)
+                                                .fontWeight(.regular)
+                                                .font(.caption)
+                                            
+                                            Text("In: \(item.category!)")
+                                                .foregroundColor(.gray)
+                                                .fontWeight(.regular)
+                                                .font(.caption)
+                                            
+                                        }
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                }
+                            }
+                            .frame(height: 100)
+                            .background(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .fill(Color.white)
+                                    .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
+                            )
+                            .padding(.horizontal, 10)
+                            .animation(.easeIn)
+                        }
+                    }
                 }
-                
                 .padding(.top, 10)
                 .padding(.bottom, 20)
                 .padding(.horizontal, 20)
                 
             }
-            
         }
         .onAppear(perform: {
             viewModel.fetchProductOf(cart: item)

@@ -15,9 +15,9 @@ struct SearchView: View {
         GridItem(.flexible())
     ]
     
-    @ObservedObject var productViewModel: ProductViewModel = ProductViewModel()
+    @StateObject var productViewModel: ProductViewModel = ProductViewModel()
     
-    @ObservedObject var viewModel: CartViewModel
+    var viewModel: CartViewModel
     
     let cart: CartItem
     
@@ -60,8 +60,6 @@ struct SearchView: View {
         }.padding()
     }
     
-    var isSearchClosed: ((Product) -> Void)?
-    
     var body: some View {
         
         ZStack {
@@ -92,7 +90,6 @@ struct SearchView: View {
                         
                         Spacer()
                     }
-                    
                 }
                 
                 if productViewModel.isSearching {
@@ -125,7 +122,7 @@ struct ItemView: View {
     
     let cart: CartItem
     
-    @ObservedObject var viewModel: CartViewModel
+    var viewModel: CartViewModel
     
     var body: some View {
         
@@ -160,18 +157,22 @@ struct ItemView: View {
                 }
                 
                 Spacer()
-                
-                Stepper(
-                    onIncrement: {
-                        viewModel.populate(add: true, product: item, toBasket: cart)
-                    },
-                    onDecrement: {
+                                
+                HStack {
+                    Button {
                         viewModel.populate(add: false, product: item, toBasket: cart)
-                    },
-                    label: {
-                        EmptyView()
-                    })
-                    .padding(.trailing, 16)
+                    } label: {
+                        Image(systemName: "minus.circle")
+                    }
+                    
+                    Button {
+                        viewModel.populate(add: true, product: item, toBasket: cart)
+                    } label: {
+                        Image(systemName: "plus.circle")
+                    }
+                }
+                .foregroundColor(.gray)
+                .padding(.trailing, 20)
                 
             }
         }

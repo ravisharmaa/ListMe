@@ -20,6 +20,7 @@ class CartViewModel: ObservableObject {
     
     @Published var cartProducts: [Product] = []
     
+    
     public func addItem(item: CartItem) {
         
         let postData: [String: Any] = [
@@ -99,8 +100,10 @@ class CartViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .sink { (_) in
                 
-            } receiveValue: { (products) in
-                print(products)
+            } receiveValue: { [self] (products) in
+                
+                cartProducts = products
+            
             }.store(in: &subscription)
 
     }
