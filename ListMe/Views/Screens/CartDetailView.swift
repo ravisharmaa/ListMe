@@ -15,7 +15,7 @@ struct CartDetailView: View {
     
     let item: CartItem
     
-    @ObservedObject var viewModel: CartViewModel
+    @ObservedObject var viewModel: CartViewModel = CartViewModel()
     
     // MARK:- Navigation Bar View
     var navigationBarItemView: some View {
@@ -33,10 +33,12 @@ struct CartDetailView: View {
             })
             .padding(.trailing, 5)
             .sheet(isPresented: $searchViewShown, content: {
-                SearchView(isSearchShown: $searchViewShown, isModalClosed: nil)
+                SearchView(isSearchShown: $searchViewShown, viewModel: viewModel, cart: item)
             })
             
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+            Button(action: {
+                
+            }, label: {
                 Image(systemName: "ellipsis.circle")
             })
             
@@ -80,10 +82,15 @@ struct CartDetailView: View {
                                 .foregroundColor(.black)
                                 .fontWeight(.bold)
                             
-                            Text("\(item.productCount.description) \(item.productCount <= 1 ? "Item": "Items")    Created: \(item.createdAt ?? "") ")
-                                .foregroundColor(.gray)
-                                .font(.subheadline)
-                            
+                            if viewModel.cartProducts.count == 0 {
+                                Text("\(item.productCount.description) \(item.productCount <= 1 ? "Item": "Items")    Created: \(item.createdAt ?? "") ")
+                                    .foregroundColor(.gray)
+                                    .font(.subheadline)
+                            } else {
+                                Text("\(viewModel.cartProducts.count.description) \(viewModel.cartProducts.count <= 1 ? "Item": "Items")    Created: \(item.createdAt ?? "") ")
+                                    .foregroundColor(.gray)
+                                    .font(.subheadline)
+                            }
                         }
                         .padding(.leading, 20)
                         
@@ -100,6 +107,9 @@ struct CartDetailView: View {
             }
             
         }
+        .onAppear(perform: {
+            viewModel.fetchProductOf(cart: item)
+        })
         .navigationTitle("Hello")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
@@ -109,6 +119,6 @@ struct CartDetailView: View {
 
 struct CartDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CartDetailView(item: .init(name: "Demo", supplierName: "Demo", storeName: "Demo", productCount: 0, completedAt: nil, createdAt: nil), viewModel: .init())
+        CartDetailView(item: .init(name: "Demo", supplierName: "Demo", storeName: "Demo", productCount: 0, completedAt: nil, createdAt: nil, slug: "slug"), viewModel: .init())
     }
 }

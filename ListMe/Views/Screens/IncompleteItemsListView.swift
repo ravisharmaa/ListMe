@@ -12,8 +12,6 @@ struct IncompleteItemsListView: View {
     
     @State var showSearchView: Bool = false
     
-    @ObservedObject var viewModel: CartViewModel
-    
     var body: some View {
         
         ZStack {
@@ -21,7 +19,7 @@ struct IncompleteItemsListView: View {
             LazyVStack {
                 ForEach(cardItems, id: \.self) { item in
                     
-                    NavigationLink(destination: CartDetailView(item: item, viewModel: viewModel)) {
+                    NavigationLink(destination: CartDetailView(item: item)) {
                         CompletedItemsListView(item: item)
                     }
                     Divider()
@@ -42,7 +40,7 @@ struct IncompleteItemsListView: View {
 struct CompletedListsCardView_Previews: PreviewProvider {
     static var previews: some View {
         IncompleteItemsListView(cardItems: .constant([
-            .init(name: "Hello", supplierName: "hello", storeName: "Hello", productCount: 0, completedAt: "hello", createdAt: nil)
-        ]), viewModel: .init())
+            .init(name: "Hello", supplierName: "hello", storeName: "Hello", productCount: 0, completedAt: "hello", createdAt: nil, slug: "slug")
+        ]))
     }
 }

@@ -18,6 +18,8 @@ class CartViewModel: ObservableObject {
     
     @Published var inCompleteItems: [CartItem] = []
     
+    @Published var cartProducts: [Product] = []
+    
     public func addItem(item: CartItem) {
         
         let postData: [String: Any] = [
@@ -66,4 +68,40 @@ class CartViewModel: ObservableObject {
             }.store(in: &subscription)
     }
     
+    public func fetchProductOf(cart: CartItem) {
+        
+        let path = ApiConstants.CartPath.description + "/" + cart.slug! + "/products"
+        
+        NetworkManager.shared.sendRequest(to: path, model: Products.self)
+            .receive(on: RunLoop.main)
+            .sink { (_) in
+                //
+            } receiveValue: { (prodcuts) in
+                print("Function: \(#function), line: \(#line)") 
+                //print(prodcuts)
+                self.cartProducts = prodcuts
+                
+            }
+            .store(in: &subscription)
+    }
+    
+    public func populate(add added: Bool, product item: Product, toBasket cart: CartItem) {
+        
+        let path = ApiConstants.CartPath.description + "/" + cart.slug! + "/product/create"
+        
+        let postData: [String: Any] = [
+            "product_id": item.id!,
+            "added": added // this flag determines and tells the server if the product should be added in the cart or not.
+        ]
+        
+        
+        NetworkManager.shared.sendRequest(to: path, method: .post, model: Products.self, postData: postData)
+            .receive(on: RunLoop.main)
+            .sink { (_) in
+                
+            } receiveValue: { (products) in
+                print(products)
+            }.store(in: &subscription)
+
+    }
 }

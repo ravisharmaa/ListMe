@@ -23,6 +23,8 @@ struct CartItem: Codable, Hashable, Identifiable {
     
     let createdAt: String?
     
+    let slug: String?
+    
     enum CodingKeys: String, CodingKey {
         
         case id
@@ -31,9 +33,11 @@ struct CartItem: Codable, Hashable, Identifiable {
     
         case createdAt = "created_at"
         case productCount = "product_count"
+        
+        case slug
     }
         
     static var placeholder: CartItem {
-        return .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", productCount: 0, completedAt: "false", createdAt: nil)
+        return .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", productCount: 0, completedAt: "false", createdAt: nil, slug: "test")
     }
 }

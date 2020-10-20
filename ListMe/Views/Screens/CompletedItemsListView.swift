@@ -31,7 +31,7 @@ struct CompletedItemsListView: View {
                     .padding()
                     .frame(width: 70, height: 70)
                     //.foregroundColor(Color.white.opacity(0.4))
-                    .foregroundColor(.blue)
+                    .foregroundColor(Color(#colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)).opacity(0.3))
                     .overlay(
                         Text(item.productCount.description)
                             .font(.caption)
@@ -50,6 +50,6 @@ struct CompletedItemsListView: View {
 
 struct CompletedCardItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CompletedItemsListView(item: .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", productCount: 0, completedAt: "false", createdAt: nil))
+        CompletedItemsListView(item: .init(name: "Dummy", supplierName: "Dummy", storeName: "Dummy", productCount: 0, completedAt: "false", createdAt: nil, slug: "demo"))
     }
 }

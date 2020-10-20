@@ -9,17 +9,17 @@ import SwiftUI
 
 struct SearchView: View {
     
-    @State private var isSearching: Bool = false
-    
     @Binding var isSearchShown: Bool
-    
-    let isModalClosed: (()-> Void)?
     
     let layout = [
         GridItem(.flexible())
     ]
     
     @ObservedObject var productViewModel: ProductViewModel = ProductViewModel()
+    
+    @ObservedObject var viewModel: CartViewModel
+    
+    let cart: CartItem
     
     var textField: some View {
         
@@ -39,9 +39,6 @@ struct SearchView: View {
                         .padding(.leading, 16)
                 }
             )
-            .onTapGesture(perform: {
-                isSearching = true
-            })
     }
     
     var searchField: some View {
@@ -111,10 +108,10 @@ struct SearchView: View {
                     ScrollView(showsIndicators: false) {
                         LazyVGrid(columns: layout, spacing: 12) {
                             ForEach(productViewModel.products, id: \.self) { item in
-                                ItemView(item: item)
+                                ItemView(item: item, cart: cart, viewModel: viewModel)
                             }
                         }
-                    }
+                    }.id(UUID().uuidString)
                 }
             }
             
@@ -126,7 +123,9 @@ struct ItemView: View {
     
     let item: Product
     
-//    var isItemAdded: ((Product)->())?
+    let cart: CartItem
+    
+    @ObservedObject var viewModel: CartViewModel
     
     var body: some View {
         
@@ -164,15 +163,16 @@ struct ItemView: View {
                 
                 Stepper(
                     onIncrement: {
-                        //isItemAdded?(item)
+                        viewModel.populate(add: true, product: item, toBasket: cart)
                     },
                     onDecrement: {
-                        
+                        viewModel.populate(add: false, product: item, toBasket: cart)
                     },
                     label: {
                         EmptyView()
                     })
                     .padding(.trailing, 16)
+                
             }
         }
         .frame(height: 100)
@@ -190,6 +190,6 @@ struct ItemView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView(isSearchShown: .constant(false), isModalClosed: nil)
+        SearchView(isSearchShown: .constant(false), viewModel: .init(), cart: .init(name: "demo", supplierName: "demo", storeName: "demo", productCount: 4, completedAt: nil, createdAt: nil, slug: "demo"))
     }
 }

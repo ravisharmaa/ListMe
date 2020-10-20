@@ -150,13 +150,13 @@ extension ListDetailsViewController {
     
     @objc func configureSearch() {
         
-        let search = SearchView(isSearchShown: .constant(false), isModalClosed: nil) 
-        
-        let controller = UIHostingController(rootView: search)
-        
-        controller.modalPresentationStyle  = .popover
-        
-        present(controller, animated: true, completion: nil)
+//        let search = SearchView(isSearchShown: .constant(false), viewModel: .init()) 
+//        
+//        let controller = UIHostingController(rootView: search)
+//        
+//        controller.modalPresentationStyle  = .popover
+//        
+//        present(controller, animated: true, completion: nil)
     }
     
 //    func updateSnapshotwith(newItem: [DummyListFactory]) {
