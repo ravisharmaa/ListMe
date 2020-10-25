@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -33,6 +33,9 @@
 		D52B03D7253309280010F821 /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03D6253309280010F821 /* FloatingTextField.swift */; };
 		D535D2402529AA2C00562E9F /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D535D23F2529AA2C00562E9F /* CartView.swift */; };
 		D535D2432529AF6700562E9F /* CartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D535D2422529AF6700562E9F /* CartCell.swift */; };
+		D5370D08253FCACC0037CFDF /* DemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5370D07253FCACC0037CFDF /* DemoView.swift */; };
+		D5573050253FDF4D00A5D169 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = D557304F253FDF4D00A5D169 /* CodeScanner */; };
+		D5573053253FE13400A5D169 /* Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = D5573052253FE13400A5D169 /* Notes.txt */; };
 		D559AE86252D4B8D00D6E0FC /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D559AE85252D4B8D00D6E0FC /* ProfileView.swift */; };
 		D55E3DB6252581860081A92D /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55E3DB5252581860081A92D /* RegistrationViewModel.swift */; };
 		D57174AA25239B9000F1FE8A /* CategoryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57174A925239B9000F1FE8A /* CategoryForm.swift */; };
@@ -89,6 +92,8 @@
 		D52B03D6253309280010F821 /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
 		D535D23F2529AA2C00562E9F /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		D535D2422529AF6700562E9F /* CartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCell.swift; sourceTree = "<group>"; };
+		D5370D07253FCACC0037CFDF /* DemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
+		D5573052253FE13400A5D169 /* Notes.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Notes.txt; sourceTree = "<group>"; };
 		D559AE85252D4B8D00D6E0FC /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		D55E3DB5252581860081A92D /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		D57174A925239B9000F1FE8A /* CategoryForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryForm.swift; sourceTree = "<group>"; };
@@ -121,6 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5573050253FDF4D00A5D169 /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +136,7 @@
 		D51AA36425197E5900CB9DFD = {
 			isa = PBXGroup;
 			children = (
+				D5573052253FE13400A5D169 /* Notes.txt */,
 				D51AA36F25197E5900CB9DFD /* ListMe */,
 				D51AA36E25197E5900CB9DFD /* Products */,
 			);
@@ -264,6 +271,7 @@
 				D52B03D3253162FD0010F821 /* CompletedItemsListView.swift */,
 				D5268104253A91EA00301A4D /* CartDetailView.swift */,
 				22C54F86251AFEC800633B2D /* SearchView.swift */,
+				D5370D07253FCACC0037CFDF /* DemoView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -307,6 +315,7 @@
 			);
 			name = ListMe;
 			packageProductDependencies = (
+				D557304F253FDF4D00A5D169 /* CodeScanner */,
 			);
 			productName = ListMe;
 			productReference = D51AA36D25197E5900CB9DFD /* ListMe.app */;
@@ -336,6 +345,7 @@
 			);
 			mainGroup = D51AA36425197E5900CB9DFD;
 			packageReferences = (
+				D557304E253FDF4D00A5D169 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = D51AA36E25197E5900CB9DFD /* Products */;
 			projectDirPath = "";
@@ -352,6 +362,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D51AA37D25197E5C00CB9DFD /* LaunchScreen.storyboard in Resources */,
+				D5573053253FE13400A5D169 /* Notes.txt in Resources */,
 				D51AA37A25197E5C00CB9DFD /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,6 +407,7 @@
 				D5A223262526D564004712BE /* CartViewModel.swift in Sources */,
 				D58BA746251FB974009D3FDD /* GenericResponse.swift in Sources */,
 				D5A2232C2526E804004712BE /* OrderForecastView.swift in Sources */,
+				D5370D08253FCACC0037CFDF /* DemoView.swift in Sources */,
 				D51AA37125197E5900CB9DFD /* AppDelegate.swift in Sources */,
 				D5C59B1C252FEC25005B0413 /* UserResponse.swift in Sources */,
 				D5D52437251FCEC200006A01 /* ProductForm.swift in Sources */,
@@ -551,6 +563,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XGX62XA8W3;
 				INFOPLIST_FILE = ListMe/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -570,6 +583,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = XGX62XA8W3;
 				INFOPLIST_FILE = ListMe/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -605,6 +619,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D557304E253FDF4D00A5D169 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D557304F253FDF4D00A5D169 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D557304E253FDF4D00A5D169 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D51AA36525197E5900CB9DFD /* Project object */;
 }

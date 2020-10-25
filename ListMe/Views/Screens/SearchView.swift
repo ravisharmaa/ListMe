@@ -124,6 +124,8 @@ struct ItemView: View {
     
     var viewModel: CartViewModel
     
+    @State var added: Bool = false
+    
     var body: some View {
         
         ZStack {
@@ -157,10 +159,14 @@ struct ItemView: View {
                 }
                 
                 Spacer()
-                                
+                
                 HStack {
                     Button {
                         viewModel.populate(add: false, product: item, toBasket: cart)
+                        
+                        withAnimation(.easeInOut(duration: 0.6)) {
+                            added.toggle()
+                        }
                     } label: {
                         Image(systemName: "minus.circle")
                     }
@@ -183,7 +189,7 @@ struct ItemView: View {
                 .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
         )
         .padding(.horizontal, 10)
-        .animation(.easeIn)
+        .opacity(added ? 0.5 : 1)
         
     }
 }

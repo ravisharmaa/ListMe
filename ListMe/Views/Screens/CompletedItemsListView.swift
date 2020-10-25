@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CompletedItemsListView: View {
+    
     let item: CartItem
     
     var body: some View {

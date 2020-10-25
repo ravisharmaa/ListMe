@@ -16,6 +16,10 @@ struct ListCollectionView: View {
     
     @Binding var isLoggedIn: Bool
     
+    let layout = [
+        GridItem(.flexible())
+    ]
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -39,6 +43,7 @@ struct ListCollectionView: View {
                         if listViewModel.inCompleteItems.count > 0 {
                             IncompleteItemsListView(cardItems: $listViewModel.inCompleteItems)
                         }
+                        
                         
                         Button(action: {
                             isListFormPresented.toggle()
@@ -83,8 +88,8 @@ struct ListCollectionView: View {
             }
             .navigationBarHidden(true)
         }
-       
-    
+        
+        
     }
 }
 

@@ -19,9 +19,10 @@ struct IncompleteItemsListView: View {
             LazyVStack {
                 ForEach(cardItems, id: \.self) { item in
                     
-                    NavigationLink(destination: CartDetailView(item: item)) {
+                    NavigationLink(destination: CartDetailView(cartItem: item)) {
                         CompletedItemsListView(item: item)
                     }
+                    
                     Divider()
                         .foregroundColor(Color.black.opacity(0.4))
                         .padding(.horizontal, 20)
@@ -32,7 +33,7 @@ struct IncompleteItemsListView: View {
         }
         .foregroundColor(.black)
         .frame(width: UIScreen.main.bounds.width - 45)
-        .cornerRadius(30)
+        .cornerRadius(25)
         .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 5)
     }
 }

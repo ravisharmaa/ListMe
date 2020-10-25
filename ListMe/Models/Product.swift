@@ -11,6 +11,7 @@ struct Product: Codable, Hashable {
     
     let id: Int?
     let category: String?
+    let productId: Int?
    // let supplierId: Int?
     let name: String?
     let flavour: String?
@@ -40,11 +41,12 @@ struct Product: Codable, Hashable {
         //case offerValidTill = "offer_valid_till"
         case packSize = "pack_size"
         case weight
+        case productId = "product_id"
     }
     
     static var placeholder: Product {
        return
-        .init(id: nil, category: nil, name: nil, flavour: nil, unit: nil, weight: nil, price: nil, packSize: nil, isNew: nil)
+        .init(id: nil, category: nil, productId: nil, name: nil, flavour: nil, unit: nil, weight: nil, price: nil, packSize: nil, isNew: nil)
     }
 }
 

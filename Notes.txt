@@ -1,0 +1,24 @@
+All List - > Able to delete individual list -> Swipe to delete
+Cart options
+    sorting
+    delete
+    confirm
+    clear
+    share via message, composition formatting
+    
+    
+bounding box pulsing effect when adding or removing item
+category/product add page for super admin
+image
+show quantity for each item block in cart view
+new profile page
+associated users view page
+add store for admin / employee
+barcode
+
+
+Scanner
+MenuView
+MenuView Navigate, and share to
+https://www.youtube.com/watch?v=ImK6qw3N_Ug
+

@@ -59,8 +59,13 @@ class CartViewModel: ObservableObject {
         
         NetworkManager.shared.sendRequest(to: url, model: [CartItem].self)
             .receive(on: RunLoop.main)
-            .sink { (_) in
-                //
+            .sink { (completion) in
+                switch completion {
+                case .failure(let error):
+                    print(error)
+                case .finished:
+                    break
+                }
             } receiveValue: { [self](cartItems) in
                 
                 completedItems = cartItems.filter{ $0.completedAt != nil }
@@ -91,7 +96,7 @@ class CartViewModel: ObservableObject {
         let path = ApiConstants.CartPath.description + "/" + cart.slug! + "/product/create"
         
         let postData: [String: Any] = [
-            "product_id": item.id!,
+            "product_id": item.productId ?? item.id!,
             "added": added // this flag determines and tells the server if the product should be added in the cart or not.
         ]
         

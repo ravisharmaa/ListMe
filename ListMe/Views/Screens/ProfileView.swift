@@ -21,7 +21,7 @@ struct ProfileView: View {
                     VStack {
                         
                         Circle()
-                            .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .frame(width: 100, height: 100)
                             .foregroundColor(Color(#colorLiteral(red: 0.4250360727, green: 0.3812525868, blue: 0.9664649367, alpha: 1)))
                         
                         

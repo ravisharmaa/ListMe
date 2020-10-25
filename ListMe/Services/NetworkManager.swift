@@ -21,6 +21,8 @@ enum ApplicationError:  Error {
     case JSONError
     case PostDataError
     case APIError(reason: Error)
+    case NotFound(data: Data)
+    case UnProcessableEntity
 }
 
 
@@ -123,8 +125,20 @@ extension NetworkManager: ApiConfiguration {
         
         return urlPublisher.tryMap({ (element) -> Data in
             
-            guard let response = element.response as? HTTPURLResponse, response.statusCode == 200 else {
+            guard let response = element.response as? HTTPURLResponse else {
                 throw ApplicationError.InvalidResponse
+            }
+            
+            if response.statusCode == 500 {
+                throw ApplicationError.NotFound(data: element.data)
+            }
+            
+            if response.statusCode == 404 {
+                throw ApplicationError.NotFound(data: element.data)
+            }
+            
+            if response.statusCode == 422 {
+                throw ApplicationError.UnProcessableEntity
             }
             
             return element.data

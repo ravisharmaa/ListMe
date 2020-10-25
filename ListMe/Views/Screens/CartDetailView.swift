@@ -6,6 +6,18 @@
 //
 
 import SwiftUI
+import CodeScanner
+
+
+struct CustomMenuStyle: MenuStyle {
+   
+    func makeBody(configuration: Configuration) -> some View {
+            Menu(configuration)
+                .foregroundColor(.blue)
+        }
+    
+    
+}
 
 struct CartDetailView: View {
     
@@ -13,7 +25,9 @@ struct CartDetailView: View {
     
     @State var searchViewShown: Bool = false
     
-    let item: CartItem
+    @State var showScanner: Bool = false
+    
+    let cartItem: CartItem
     
     @ObservedObject var viewModel: CartViewModel = CartViewModel()
     
@@ -21,10 +35,15 @@ struct CartDetailView: View {
     var navigationBarItemView: some View {
         return HStack(spacing: 15) {
             
-            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+            Button(action: {
+                showScanner.toggle()
+            }, label: {
                 Image(systemName: "barcode.viewfinder")
             })
             .padding(.trailing, 5)
+            .sheet(isPresented: $showScanner) {
+                CodeScannerView(codeTypes: [.qr], simulatedData: "", completion: self.handleScan)
+            }
             
             Button(action: {
                 searchViewShown.toggle()
@@ -33,14 +52,43 @@ struct CartDetailView: View {
             })
             .padding(.trailing, 5)
             .sheet(isPresented: $searchViewShown, content: {
-                SearchView(isSearchShown: $searchViewShown, viewModel: viewModel, cart: item)
+                SearchView(isSearchShown: $searchViewShown, viewModel: viewModel, cart: cartItem)
             })
             
-            Button(action: {
+            Menu {
+                Section {
+                    Button(action: {}) {
+                        Text("Confirm List").foregroundColor(.red)
+                    }
+                    
+                    Button(action: {}) {
+                       Text("Share")
+                    }
+                    
+                    Button(action: {}) {
+                       Text("Send to Supplier")
+                    }
+                    
+                    Button(action: {}) {
+                        Text("Clear List")
+                    }
+                    
+                    Button(action: {}) {
+                        Text("Group By Supplier")
+                    }
+                }
                 
-            }, label: {
+                Section(header: Text("Secondary actions")) {
+                    Button(action: {}) {
+                        Text("Delete")
+                            .foregroundColor(.red)
+                    }
+                }
+            } label: {
                 Image(systemName: "ellipsis.circle")
-            })
+            }
+            .menuStyle(BorderlessButtonMenuStyle())
+            
             
         }
         .font(.title2)
@@ -81,17 +129,17 @@ struct CartDetailView: View {
                     
                     HStack {
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(item.name)
+                            Text(cartItem.name)
                                 .font(.title)
                                 .foregroundColor(.black)
                                 .fontWeight(.bold)
                             
                             if viewModel.cartProducts.count == 0 {
-                                Text("\(item.productCount.description) \(item.productCount <= 1 ? "Item": "Items")    Created: \(item.createdAt ?? "") ")
+                                Text("\(cartItem.productCount.description) \(cartItem.productCount <= 1 ? "Item": "Items")    Created: \(cartItem.createdAt ?? "") ")
                                     .foregroundColor(.gray)
                                     .font(.subheadline)
                             } else {
-                                Text("\(viewModel.cartProducts.count.description) \(viewModel.cartProducts.count <= 1 ? "Item": "Items")    Created: \(item.createdAt ?? "") ")
+                                Text("\(viewModel.cartProducts.count.description) \(viewModel.cartProducts.count <= 1 ? "Item": "Items")    Created: \(cartItem.createdAt ?? "") ")
                                     .foregroundColor(.gray)
                                     .font(.subheadline)
                             }
@@ -103,51 +151,68 @@ struct CartDetailView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.top, 30)
                     
-                    LazyVGrid(columns: layout, spacing: 12) {
-                        ForEach(viewModel.cartProducts, id: \.self) { item in
-                            
-                            ZStack {
-                                HStack(spacing: 5) {
-                                    RoundedRectangle(cornerRadius: 10, style: .circular)
-                                        .fill(Color.gray.opacity(0.4))
-                                        .frame(height: 80)
-                                        .frame(width: 70)
-                                        .padding(.horizontal)
-                                    
-                                    VStack(alignment: .leading, spacing: 5) {
-                                        Text(item.name!)
-                                            .font(.body)
-                                            .fontWeight(.semibold)
-                                        Text("item.flavour!")
-                                            .fontWeight(.regular)
-                                            .font(.caption)
+                    ScrollView {
+                        LazyVGrid(columns: layout, spacing: 12) {
+                            ForEach(viewModel.cartProducts, id: \.self) { item in
+                                
+                                ZStack {
+                                    HStack(spacing: 5) {
+                                        RoundedRectangle(cornerRadius: 10, style: .circular)
+                                            .fill(Color.gray.opacity(0.4))
+                                            .frame(height: 80)
+                                            .frame(width: 70)
+                                            .padding(.horizontal)
+                                        
+                                        VStack(alignment: .leading, spacing: 5) {
+                                            Text(item.name!)
+                                                .font(.body)
+                                                .fontWeight(.semibold)
+                                            Text(item.flavour!)
+                                                .fontWeight(.regular)
+                                                .font(.caption)
+                                            
+                                            HStack {
+                                                Text(item.weight!)
+                                                    .foregroundColor(.gray)
+                                                    .fontWeight(.regular)
+                                                    .font(.caption)
+                                                
+                                                Text("In: \(item.category!)")
+                                                    .foregroundColor(.gray)
+                                                    .fontWeight(.regular)
+                                                    .font(.caption)
+                                            }
+                                        }
+                                        
+                                        Spacer()
+                                        
                                         
                                         HStack {
-                                            Text(item.weight!)
-                                                .foregroundColor(.gray)
-                                                .fontWeight(.regular)
-                                                .font(.caption)
+                                            Button {
+                                                viewModel.populate(add: false, product: item, toBasket: cartItem)
+                                            } label: {
+                                                Image(systemName: "minus.circle")
+                                            }
                                             
-                                            Text("In: \(item.category!)")
-                                                .foregroundColor(.gray)
-                                                .fontWeight(.regular)
-                                                .font(.caption)
-                                            
+                                            Button {
+                                                viewModel.populate(add: true, product: item, toBasket: cartItem)
+                                            } label: {
+                                                Image(systemName: "plus.circle")
+                                            }
                                         }
+                                        .foregroundColor(.gray)
+                                        .padding(.trailing, 20)
+                                        
                                     }
-                                    
-                                    Spacer()
-                                    
                                 }
-                            }
-                            .frame(height: 100)
-                            .background(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .fill(Color.white)
-                                    .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
-                            )
-                            .padding(.horizontal, 10)
-                            .animation(.easeIn)
+                                .frame(height: 100)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color.white)
+                                        .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
+                                )
+                                .padding(.horizontal, 10)
+                            }.animation(.easeOut)
                         }
                     }
                 }
@@ -158,17 +223,30 @@ struct CartDetailView: View {
             }
         }
         .onAppear(perform: {
-            viewModel.fetchProductOf(cart: item)
+            viewModel.fetchProductOf(cart: cartItem)
         })
         .navigationTitle("Hello")
         .navigationBarHidden(true)
         .navigationBarBackButtonHidden(true)
         .edgesIgnoringSafeArea(.bottom)
     }
+    
+    // MARK:- Handles Scan
+    
+    func handleScan(result: Result<String, CodeScannerView.ScanError>) {
+        
+        showScanner.toggle()
+        switch result {
+        case .success(let code):
+            print(code)
+        case .failure(let error):
+            print(error)
+        }
+    }
 }
 
 struct CartDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CartDetailView(item: .init(name: "Demo", supplierName: "Demo", storeName: "Demo", productCount: 0, completedAt: nil, createdAt: nil, slug: "slug"), viewModel: .init())
+        CartDetailView(cartItem: .init(name: "Demo", supplierName: "Demo", storeName: "Demo", productCount: 0, completedAt: nil, createdAt: nil, slug: "slug"), viewModel: .init())
     }
 }
