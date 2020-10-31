@@ -13,16 +13,27 @@ struct CompletedItemsListView: View {
     
     var body: some View {
         HStack {
+           
+            // show checkmark circle if the list is completed and calculate the padding respectively.
+            
+            if item.completedAt != nil {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.green)
+                    .padding(.leading, 13)
+                    .padding(.trailing, 4)
+            }
+           
             VStack(alignment: .leading, spacing: 5) {
+                
                 Text(item.name)
                     .font(.headline)
                 
-                Text("Create")
+                Text("October 20 2020")
                     .font(.footnote)
                     .fontWeight(.light)
                     .foregroundColor(Color.gray)
             }
-            .padding(.leading, 30)
+            .padding(.leading, item.completedAt != nil ? 0 : 42) // calculate the padding dynamiclly based on the item's completedAt flag.
             
             Spacer()
             Spacer()
@@ -31,12 +42,11 @@ struct CompletedItemsListView: View {
                 Capsule(style: .continuous)
                     .padding()
                     .frame(width: 70, height: 70)
-                    //.foregroundColor(Color.white.opacity(0.4))
-                    .foregroundColor(Color(#colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)).opacity(0.3))
+                    .foregroundColor(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)).opacity(0.3))
                     .overlay(
                         Text(item.productCount.description)
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                             .multilineTextAlignment(.leading)
                     )
                     

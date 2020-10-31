@@ -26,6 +26,8 @@ struct IncompleteItemsListView: View {
                     Divider()
                         .foregroundColor(Color.black.opacity(0.4))
                         .padding(.horizontal, 20)
+                        .padding(.leading, 20)
+                        .padding(.trailing, 10)
                     
                 }                
             }

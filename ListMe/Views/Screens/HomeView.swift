@@ -30,7 +30,7 @@ struct HomeView: View {
                     .padding(.top, 60)
                     .offset(x: -20)
                     
-                    ListCardView(cardItems: $listViewModel.completedItems.wrappedValue)
+                    ListCardView(cardItems: $listViewModel.cartItems.wrappedValue)
                     
                     Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
                         Text("Create New list")

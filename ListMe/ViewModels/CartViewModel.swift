@@ -14,9 +14,7 @@ class CartViewModel: ObservableObject {
     
     var subscription: Set<AnyCancellable> = []
     
-    @Published var completedItems: [CartItem] = []
-    
-    @Published var inCompleteItems: [CartItem] = []
+    @Published var cartItems: [CartItem] = []
     
     @Published var cartProducts: [Product] = []
     
@@ -47,7 +45,7 @@ class CartViewModel: ObservableObject {
                     print(error)
                 }
             } receiveValue: { [self] (response) in
-                response.completedAt == nil ? inCompleteItems.append(response) : completedItems.append(response)
+                self.cartItems.append(response)
             }
             .store(in: &subscription)
     }
@@ -68,9 +66,8 @@ class CartViewModel: ObservableObject {
                 }
             } receiveValue: { [self](cartItems) in
                 
-                completedItems = cartItems.filter{ $0.completedAt != nil }
+                self.cartItems = cartItems
                 
-                inCompleteItems = cartItems.filter{ $0.completedAt == nil }
             }.store(in: &subscription)
     }
     
@@ -83,10 +80,8 @@ class CartViewModel: ObservableObject {
             .sink { (_) in
                 //
             } receiveValue: { (prodcuts) in
-                print("Function: \(#function), line: \(#line)") 
-                //print(prodcuts)
+                print("Function: \(#function), line: \(#line)")
                 self.cartProducts = prodcuts
-                
             }
             .store(in: &subscription)
     }
@@ -108,6 +103,55 @@ class CartViewModel: ObservableObject {
             } receiveValue: { [self] (products) in
                 
                 cartProducts = products
+                
+            }.store(in: &subscription)
+        
+    }
+    
+    public func confirmCart(cart: CartItem, userId: Int) {
+        
+        let postData: [String: Any] = [
+            "completed_at": Date.YYYYMMDDHMMSSFormat
+        ]
+        
+        let path: String = ApiConstants.CartPath.description + "/" + cart.slug! + "/\(userId)/update"
+        
+        NetworkManager.shared.sendRequest(to: path, method: .put, model: [CartItem].self, postData: postData)
+            .receive(on: RunLoop.main)
+            .sink { (_) in
+                //
+            } receiveValue: { [self] (items) in
+                
+                cartItems = items
+            }.store(in: &subscription)
+    }
+    
+    public func clearProductsOf(cart: CartItem) {
+        
+        let path: String = ApiConstants.CartPath.description + "/" + cart.slug! + "/products/delete"
+        
+        NetworkManager.shared.sendRequest(to: path, method: .delete, model: Products.self)
+            .receive(on: RunLoop.main)
+            .sink { (_) in
+                //
+            } receiveValue: { [weak self](products) in
+                
+                self?.cartProducts = products
+            }.store(in: &subscription)
+    }
+    
+    open func destroy(cart: CartItem) {
+    
+        // replace dummy user with actual user
+         
+        let path: String = ApiConstants.CartPath.description + "/\(cart.slug!)/1/delete"
+                
+        NetworkManager.shared.sendRequest(to: path, method: .delete, model: [CartItem].self)
+            .receive(on: RunLoop.main)
+            .sink { (_) in
+                //
+            } receiveValue: { [weak self](response) in
+                self?.cartItems = response
             
             }.store(in: &subscription)
 

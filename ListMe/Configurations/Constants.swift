@@ -10,6 +10,8 @@
 import Foundation
 
 
+// MARK:- Api URLS
+
 enum ApiConstants: CustomStringConvertible {
     
     case NetworkPrefix
@@ -54,6 +56,8 @@ enum ApiConstants: CustomStringConvertible {
     }
 }
 
+// MARK:- Validation Constants
+
 enum ValidationConstants: CustomStringConvertible {
     
     case EmailConstant
@@ -62,6 +66,20 @@ enum ValidationConstants: CustomStringConvertible {
         switch self {
         case .EmailConstant:
             return "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        }
+    }
+}
+
+//MARK:- Date Strings
+
+enum DateFormatters: CustomStringConvertible {
+    
+    case YYYYMMDDHHMMSS
+    
+    var description: String {
+        switch self {
+        case .YYYYMMDDHHMMSS:
+            return "yyyy-MM-dd HH:mm:ss"
         }
     }
 }

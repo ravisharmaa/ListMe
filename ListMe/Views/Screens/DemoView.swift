@@ -2,7 +2,7 @@
 //  DemoView.swift
 //  ListMe
 //
-//  Created by Javra Software on 10/21/20.
+//  Created by Ravi Bastola on 10/21/20.
 //
 
 import SwiftUI

@@ -57,8 +57,11 @@ struct CartDetailView: View {
             
             Menu {
                 Section {
-                    Button(action: {}) {
-                        Text("Confirm List").foregroundColor(.red)
+                    Button(action: {
+                        viewModel.confirmCart(cart: cartItem, userId: 1)
+                    }) {
+                        Text("Confirm List")
+                        
                     }
                     
                     Button(action: {}) {
@@ -69,7 +72,9 @@ struct CartDetailView: View {
                        Text("Send to Supplier")
                     }
                     
-                    Button(action: {}) {
+                    Button(action: {
+                        viewModel.clearProductsOf(cart: cartItem)
+                    }) {
                         Text("Clear List")
                     }
                     
@@ -79,7 +84,10 @@ struct CartDetailView: View {
                 }
                 
                 Section(header: Text("Secondary actions")) {
-                    Button(action: {}) {
+                    Button(action: {
+                        viewModel.destroy(cart: cartItem)
+                        mode.wrappedValue.dismiss()
+                    }) {
                         Text("Delete")
                             .foregroundColor(.red)
                     }
