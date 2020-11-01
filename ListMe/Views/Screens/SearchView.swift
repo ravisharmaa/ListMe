@@ -129,6 +129,10 @@ struct ItemView: View {
     var body: some View {
         
         ZStack {
+            RoundedRectangle(cornerRadius: 15)
+                .fill(added ? Color.blue.opacity(0.1) : Color.white)
+                .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
+                .animation(Animation.easeOut(duration: 1.5))
             HStack(spacing: 5) {
                 RoundedRectangle(cornerRadius: 10, style: .circular)
                     .fill(Color.gray.opacity(0.4))
@@ -164,34 +168,38 @@ struct ItemView: View {
                     Button {
                         viewModel.populate(add: false, product: item, toBasket: cart)
                         
-                        withAnimation(.easeInOut(duration: 0.6)) {
-                            added.toggle()
-                        }
                     } label: {
                         Image(systemName: "minus.circle")
                     }
                     
                     Button {
+                        added.toggle()
                         viewModel.populate(add: true, product: item, toBasket: cart)
+                        changeState()
+                        
                     } label: {
                         Image(systemName: "plus.circle")
                     }
                 }
                 .foregroundColor(.gray)
                 .padding(.trailing, 20)
-                
             }
         }
         .frame(height: 100)
-        .background(
-            RoundedRectangle(cornerRadius: 15)
-                .fill(Color.white)
-                .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
-        )
         .padding(.horizontal, 10)
-        .opacity(added ? 0.5 : 1)
         
     }
+    
+    private func changeState() {
+            // first toggle makes it red
+            // wait for 1 second
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(0.1)), execute: {
+                // Back to normal with ease animation
+                withAnimation(.easeIn){
+                    self.added.toggle()
+                }
+            })
+        }
 }
 
 

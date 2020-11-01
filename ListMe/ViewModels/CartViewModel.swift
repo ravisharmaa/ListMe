@@ -154,6 +154,5 @@ class CartViewModel: ObservableObject {
                 self?.cartItems = response
             
             }.store(in: &subscription)
-
     }
 }

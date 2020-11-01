@@ -1,9 +1,6 @@
-All List - > Able to delete individual list -> Swipe to delete
+* All List - > Able to delete individual list -> Swipe to delete
 Cart options
     sorting
-    delete
-    confirm
-    clear
     share via message, composition formatting
     
     

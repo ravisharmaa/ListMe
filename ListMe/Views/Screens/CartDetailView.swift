@@ -43,7 +43,7 @@ struct CartDetailView: View {
             .padding(.trailing, 5)
             .sheet(isPresented: $showScanner) {
                 CodeScannerView(codeTypes: [.qr], simulatedData: "", completion: self.handleScan)
-            }
+            }.disabled(cartItem.completedAt != nil ? true : false)
             
             Button(action: {
                 searchViewShown.toggle()
@@ -53,7 +53,7 @@ struct CartDetailView: View {
             .padding(.trailing, 5)
             .sheet(isPresented: $searchViewShown, content: {
                 SearchView(isSearchShown: $searchViewShown, viewModel: viewModel, cart: cartItem)
-            })
+            }).disabled(cartItem.completedAt != nil ? true : false)
             
             Menu {
                 Section {
@@ -126,6 +126,8 @@ struct CartDetailView: View {
         GridItem(.flexible())
     ]
     
+    @State var showProductActions: Bool = false
+    
     var body: some View {
         
         ZStack {
@@ -164,6 +166,10 @@ struct CartDetailView: View {
                             ForEach(viewModel.cartProducts, id: \.self) { item in
                                 
                                 ZStack {
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .fill(Color.white)
+                                        .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
+                                    
                                     HStack(spacing: 5) {
                                         RoundedRectangle(cornerRadius: 10, style: .circular)
                                             .fill(Color.gray.opacity(0.4))
@@ -196,29 +202,19 @@ struct CartDetailView: View {
                                         
                                         
                                         HStack {
-                                            Button {
-                                                viewModel.populate(add: false, product: item, toBasket: cartItem)
-                                            } label: {
-                                                Image(systemName: "minus.circle")
-                                            }
-                                            
-                                            Button {
-                                                viewModel.populate(add: true, product: item, toBasket: cartItem)
-                                            } label: {
-                                                Image(systemName: "plus.circle")
-                                            }
+                                            Text("\(item.quantity ?? 0) \(item.unit!)")
                                         }
                                         .foregroundColor(.gray)
                                         .padding(.trailing, 20)
                                         
                                     }
+                                    .onTapGesture(count: 1) {
+                                        showProductActions.toggle()
+                                    }
+                                    
+                                    
                                 }
                                 .frame(height: 100)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .fill(Color.white)
-                                        .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
-                                )
                                 .padding(.horizontal, 10)
                             }.animation(.easeOut)
                         }
@@ -229,6 +225,12 @@ struct CartDetailView: View {
                 .padding(.horizontal, 20)
                 
             }
+            
+            BottomSheetModal(display: $showProductActions) {
+                    Text("Show your content")
+                      .font(Font.system(.headline))
+                      .foregroundColor(Color.black)
+                  }
         }
         .onAppear(perform: {
             viewModel.fetchProductOf(cart: cartItem)

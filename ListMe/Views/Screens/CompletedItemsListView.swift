@@ -28,7 +28,7 @@ struct CompletedItemsListView: View {
                 Text(item.name)
                     .font(.headline)
                 
-                Text("October 20 2020")
+                Text(item.createdAt!)
                     .font(.footnote)
                     .fontWeight(.light)
                     .foregroundColor(Color.gray)

@@ -27,6 +27,8 @@ struct Product: Codable, Hashable {
     
     let uuid: UUID = UUID()
     
+    let quantity: Int?
+    
     enum CodingKeys: String, CodingKey {
         case id
         case price
@@ -42,11 +44,12 @@ struct Product: Codable, Hashable {
         case packSize = "pack_size"
         case weight
         case productId = "product_id"
+        case quantity
     }
     
     static var placeholder: Product {
        return
-        .init(id: nil, category: nil, productId: nil, name: nil, flavour: nil, unit: nil, weight: nil, price: nil, packSize: nil, isNew: nil)
+        .init(id: nil, category: nil, productId: nil, name: nil, flavour: nil, unit: nil, weight: nil, price: nil, packSize: nil, isNew: nil, quantity: 0)
     }
 }
 

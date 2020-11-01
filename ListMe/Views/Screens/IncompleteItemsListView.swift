@@ -2,7 +2,7 @@
 //  CompletedListsCardView.swift
 //  ListMe
 //
-//  Created by Ravi Bastola Software on 10/10/20.
+//  Created by Ravi Bastola on 10/10/20.
 //
 
 import SwiftUI
@@ -21,7 +21,7 @@ struct IncompleteItemsListView: View {
                     
                     NavigationLink(destination: CartDetailView(cartItem: item)) {
                         CompletedItemsListView(item: item)
-                    }
+                    }.buttonStyle(PlainButtonStyle())
                     
                     Divider()
                         .foregroundColor(Color.black.opacity(0.4))
