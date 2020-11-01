@@ -132,7 +132,7 @@ struct ItemView: View {
             RoundedRectangle(cornerRadius: 15)
                 .fill(added ? Color.blue.opacity(0.1) : Color.white)
                 .shadow(color: Color.black.opacity(0.11), radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 7)
-                .animation(Animation.easeOut(duration: 1.5))
+                .animation(Animation.easeOut(duration: 2))
             HStack(spacing: 5) {
                 RoundedRectangle(cornerRadius: 10, style: .circular)
                     .fill(Color.gray.opacity(0.4))
