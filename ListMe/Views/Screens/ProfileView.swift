@@ -26,14 +26,14 @@ struct ProfileView: View {
                                 .foregroundColor(Color(#colorLiteral(red: 0.4250360727, green: 0.3812525868, blue: 0.9664649367, alpha: 1)))
                             
                             
-                            Text("Donald Trump")
+                            Text("Joe Biden")
                                 .font(.title)
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
                                 .padding(.horizontal, 10)
                                 .padding(.top, 5)
                             
-                            Text("donald@trump.com")
+                            Text("joe@biden.com")
                                 .font(.callout)
                                 .foregroundColor(.gray)
                                 .padding(.horizontal, 10)

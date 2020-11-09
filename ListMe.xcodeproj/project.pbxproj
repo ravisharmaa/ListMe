@@ -20,6 +20,7 @@
 		D51AA37A25197E5C00CB9DFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D51AA37925197E5C00CB9DFD /* Assets.xcassets */; };
 		D51AA37D25197E5C00CB9DFD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D51AA37B25197E5C00CB9DFD /* LaunchScreen.storyboard */; };
 		D51AA38825198DF300CB9DFD /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51AA38725198DF300CB9DFD /* Item.swift */; };
+		D51C97CF2558FF5200726BC2 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = D51C97CE2558FF5200726BC2 /* Introspect */; };
 		D51D1C90252351200063DFED /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51D1C8F252351200063DFED /* CategoryViewModel.swift */; };
 		D51D1C942523638A0063DFED /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51D1C932523638A0063DFED /* UIViewController+Ext.swift */; };
 		D51E78172526C7D500260528 /* LoginForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51E78162526C7D500260528 /* LoginForm.swift */; };
@@ -57,7 +58,6 @@
 		D5C55BA7252AB2D80016F178 /* SupplierViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C55BA6252AB2D80016F178 /* SupplierViewModel.swift */; };
 		D5C55BAA252ABC7A0016F178 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C55BA9252ABC7A0016F178 /* Store.swift */; };
 		D5C59B1C252FEC25005B0413 /* UserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C59B1B252FEC25005B0413 /* UserResponse.swift */; };
-		D5CFCF15254E7DFC005BABB1 /* BottomSheetModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5CFCF14254E7DFC005BABB1 /* BottomSheetModal.swift */; };
 		D5CFCF40254EE1B4005BABB1 /* Readme.md in Resources */ = {isa = PBXBuildFile; fileRef = D5CFCF3F254EE1B4005BABB1 /* Readme.md */; };
 		D5CFCF43254EE2F4005BABB1 /* ListMe.gif in Resources */ = {isa = PBXBuildFile; fileRef = D5CFCF42254EE2F4005BABB1 /* ListMe.gif */; };
 		D5D52437251FCEC200006A01 /* ProductForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D52436251FCEC200006A01 /* ProductForm.swift */; };
@@ -119,7 +119,6 @@
 		D5C55BA6252AB2D80016F178 /* SupplierViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplierViewModel.swift; sourceTree = "<group>"; };
 		D5C55BA9252ABC7A0016F178 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		D5C59B1B252FEC25005B0413 /* UserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponse.swift; sourceTree = "<group>"; };
-		D5CFCF14254E7DFC005BABB1 /* BottomSheetModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetModal.swift; sourceTree = "<group>"; };
 		D5CFCF3F254EE1B4005BABB1 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		D5CFCF42254EE2F4005BABB1 /* ListMe.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = ListMe.gif; sourceTree = "<group>"; };
 		D5D52436251FCEC200006A01 /* ProductForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductForm.swift; sourceTree = "<group>"; };
@@ -135,6 +134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5573050253FDF4D00A5D169 /* CodeScanner in Frameworks */,
+				D51C97CF2558FF5200726BC2 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,7 +305,6 @@
 			children = (
 				D5FDF773252A3D1000915DF0 /* CustomPickerView.swift */,
 				D52B03D6253309280010F821 /* FloatingTextField.swift */,
-				D5CFCF14254E7DFC005BABB1 /* BottomSheetModal.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -328,6 +327,7 @@
 			name = ListMe;
 			packageProductDependencies = (
 				D557304F253FDF4D00A5D169 /* CodeScanner */,
+				D51C97CE2558FF5200726BC2 /* Introspect */,
 			);
 			productName = ListMe;
 			productReference = D51AA36D25197E5900CB9DFD /* ListMe.app */;
@@ -358,6 +358,7 @@
 			mainGroup = D51AA36425197E5900CB9DFD;
 			packageReferences = (
 				D557304E253FDF4D00A5D169 /* XCRemoteSwiftPackageReference "CodeScanner" */,
+				D51C97CD2558FF5200726BC2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = D51AA36E25197E5900CB9DFD /* Products */;
 			projectDirPath = "";
@@ -412,7 +413,6 @@
 				D535D2402529AA2C00562E9F /* CartView.swift in Sources */,
 				D5C55BA4252AB1EE0016F178 /* Supplier.swift in Sources */,
 				D5A605FE251EE6AC00CEEB6C /* Product.swift in Sources */,
-				D5CFCF15254E7DFC005BABB1 /* BottomSheetModal.swift in Sources */,
 				227B9EC6251ADA20009B4CFE /* ProductListViewController.swift in Sources */,
 				D5FDF774252A3D1000915DF0 /* CustomPickerView.swift in Sources */,
 				D5560248254CEFF5002CC9EF /* Date+Extension.swift in Sources */,
@@ -637,6 +637,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		D51C97CD2558FF5200726BC2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.1;
+			};
+		};
 		D557304E253FDF4D00A5D169 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/CodeScanner";
@@ -648,6 +656,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		D51C97CE2558FF5200726BC2 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D51C97CD2558FF5200726BC2 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
 		D557304F253FDF4D00A5D169 /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D557304E253FDF4D00A5D169 /* XCRemoteSwiftPackageReference "CodeScanner" */;

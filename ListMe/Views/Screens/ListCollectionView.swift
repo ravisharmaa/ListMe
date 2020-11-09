@@ -24,7 +24,6 @@ struct ListCollectionView: View {
         NavigationView {
             ZStack {
                 Color(#colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1)).edgesIgnoringSafeArea(.all)
-                
                 ScrollView(showsIndicators: false) {
                     
                     VStack(spacing: 40) {
@@ -74,7 +73,6 @@ struct ListCollectionView: View {
                         listViewModel.fetch()
                     }
                 }
-                
             }
             .navigationBarHidden(true)
         }
