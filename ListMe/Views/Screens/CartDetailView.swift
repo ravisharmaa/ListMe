@@ -104,7 +104,11 @@ struct CartDetailView: View {
     // MARK:- Back Button View
     var backButtonView: some View {
         return Button(action: {
-            mode.wrappedValue.dismiss()
+           
+               // self.presentationMode.wrappedValue.dismiss()
+                mode.wrappedValue.dismiss()
+            
+           
         }, label: {
             Image(systemName: "chevron.left").font(.title2)
             
@@ -120,7 +124,7 @@ struct CartDetailView: View {
         }
     }
     
-   
+    // MARK:- Info View
     var infoView: some View {
         return HStack {
             VStack(alignment: .leading, spacing: 8) {
@@ -159,6 +163,76 @@ struct CartDetailView: View {
         .padding(.top, 30)
     }
     
+    //MARK:- Bottom Card View
+    
+    var bottomCardView: some View {
+        ZStack {
+           RoundedRectangle(cornerRadius: 20)
+               .frame(maxWidth: .infinity)
+               .frame(height: 275)
+               .foregroundColor(.white)
+           
+           VStack(alignment: .leading) {
+               // upper section
+               HStack {
+                   VStack(alignment: .leading) {
+                       Text("Gatorade")
+                           .font(.title)
+                       Text("Berry Variety Pack")
+                           .font(.subheadline)
+                       Text("12oz/28pk")
+                           .font(.caption)
+                           .foregroundColor(.gray)
+                   }
+                   Spacer()
+                   VStack {
+                       Text("1")
+                           .font(.title)
+                       
+                       Text("Pack")
+                           .font(.caption)
+                           .foregroundColor(.gray)
+                   }
+               }
+               .padding(.horizontal, 20)
+               
+               Divider()
+               
+               HStack {
+                   VStack(alignment: .leading) {
+                       Text("Gatorade")
+                           .font(.title)
+                       Text("Berry Variety Pack")
+                           .font(.subheadline)
+                       Text("12oz/28pk")
+                           .font(.caption)
+                           .foregroundColor(.gray)
+                   }
+                   
+                   Spacer()
+                   
+                   VStack {
+                       Text("1")
+                           .font(.title)
+                       
+                       Text("Pack")
+                           .font(.caption)
+                           .foregroundColor(.gray)
+                   }
+               }
+               .padding(.horizontal, 20)
+               
+               Spacer()
+                   .frame(height: 80)
+               
+           }
+           .padding()
+       }
+       .offset(x: 0, y: showProductActions ? 300 : 0)
+       .edgesIgnoringSafeArea(.all)
+    }
+    
+    
     @State var showProductActions: Bool = false
     
     var body: some View {
@@ -183,77 +257,8 @@ struct CartDetailView: View {
             }
             
             if showProductActions {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 275)
-                        .foregroundColor(.white)
-                    
-                    VStack(alignment: .leading) {
-                        // upper section
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("Gatorade")
-                                    .font(.title)
-                                Text("Berry Variety Pack")
-                                    .font(.subheadline)
-                                Text("12oz/28pk")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                            
-                            Spacer()
-                            
-                            VStack {
-                                Text("1")
-                                    .font(.title)
-                                
-                                Text("Pack")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        .padding(.horizontal, 20)
-                        
-                        
-                        Divider()
-                        
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("Gatorade")
-                                    .font(.title)
-                                Text("Berry Variety Pack")
-                                    .font(.subheadline)
-                                Text("12oz/28pk")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                            
-                            Spacer()
-                            
-                            VStack {
-                                Text("1")
-                                    .font(.title)
-                                
-                                Text("Pack")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        .padding(.horizontal, 20)
-                        
-                        Spacer()
-                            .frame(height: 80)
-                        
-                    }
-                    .padding()
-                }
-                .offset(x: 0, y: showProductActions ? 300 : 0)
-                .edgesIgnoringSafeArea(.all)
+                 bottomCardView
             }
-            
-            
-            
         }
         .onAppear(perform: {
             viewModel.fetchProductOf(cart: cartItem)
@@ -264,7 +269,7 @@ struct CartDetailView: View {
         .navigationBarBackButtonHidden(true)
         .edgesIgnoringSafeArea(.bottom)
         .introspectTabBarController { (tabBarController) in
-            tabBarController.tabBar.isHidden = showProductActions
+           // tabBarController.tabBar.isHidden = showProductActions
         }
     }
     

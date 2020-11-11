@@ -9,22 +9,31 @@ import SwiftUI
 
 struct LaunchScreen: View {
     
+    enum TabSelection {
+        case ListTab
+        case ProfileTab
+    }
+    
     @Binding var isLoggedIn: Bool
     
+    @State private var tabSelection: TabSelection = .ListTab
+    
     var body: some View {
-        TabView {
-            ListCollectionView(isLoggedIn: $isLoggedIn)
-                .tabItem {
-                    Image(systemName: "list.dash")
-                }
-            
-            ProfileView()
-                .tabItem {
-                    Image(systemName: "person")
-                }
+        NavigationView {
+            TabView(selection: $tabSelection) {
+                ListCollectionView(isLoggedIn: $isLoggedIn)
+                    .tabItem {
+                        Image(systemName: "list.dash")
+                    }.tag(TabSelection.ListTab)
+                
+                ProfileView()
+                    .tabItem {
+                        Image(systemName: "person")
+                    }.tag(TabSelection.ProfileTab)
+            }
+            .navigationBarHidden(true)
         }
-        .navigationBarHidden(true)
-        .navigationBarBackButtonHidden(true)
+        
     }
 }
 

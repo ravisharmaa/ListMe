@@ -27,9 +27,8 @@
 		D5268105253A91EA00301A4D /* CartDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5268104253A91EA00301A4D /* CartDetailView.swift */; };
 		D52B03BF253133A90010F821 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03BE253133A90010F821 /* LaunchScreen.swift */; };
 		D52B03C42531363E0010F821 /* ListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03C32531363E0010F821 /* ListCollectionView.swift */; };
-		D52B03CB253139CE0010F821 /* ListCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03CA253139CE0010F821 /* ListCardView.swift */; };
 		D52B03CE25313A0C0010F821 /* CardItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03CD25313A0C0010F821 /* CardItemView.swift */; };
-		D52B03D1253161560010F821 /* IncompleteItemsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03D0253161560010F821 /* IncompleteItemsListView.swift */; };
+		D52B03D1253161560010F821 /* ListCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03D0253161560010F821 /* ListCardView.swift */; };
 		D52B03D4253162FD0010F821 /* CompletedItemsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03D3253162FD0010F821 /* CompletedItemsListView.swift */; };
 		D52B03D7253309280010F821 /* FloatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52B03D6253309280010F821 /* FloatingTextField.swift */; };
 		D535D2402529AA2C00562E9F /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D535D23F2529AA2C00562E9F /* CartView.swift */; };
@@ -89,9 +88,8 @@
 		D5268104253A91EA00301A4D /* CartDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartDetailView.swift; sourceTree = "<group>"; };
 		D52B03BE253133A90010F821 /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		D52B03C32531363E0010F821 /* ListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionView.swift; sourceTree = "<group>"; };
-		D52B03CA253139CE0010F821 /* ListCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCardView.swift; sourceTree = "<group>"; };
 		D52B03CD25313A0C0010F821 /* CardItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardItemView.swift; sourceTree = "<group>"; };
-		D52B03D0253161560010F821 /* IncompleteItemsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncompleteItemsListView.swift; sourceTree = "<group>"; };
+		D52B03D0253161560010F821 /* ListCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCardView.swift; sourceTree = "<group>"; };
 		D52B03D3253162FD0010F821 /* CompletedItemsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedItemsListView.swift; sourceTree = "<group>"; };
 		D52B03D6253309280010F821 /* FloatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTextField.swift; sourceTree = "<group>"; };
 		D535D23F2529AA2C00562E9F /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
@@ -276,9 +274,8 @@
 				D559AE85252D4B8D00D6E0FC /* ProfileView.swift */,
 				D52B03BE253133A90010F821 /* LaunchScreen.swift */,
 				D52B03C32531363E0010F821 /* ListCollectionView.swift */,
-				D52B03CA253139CE0010F821 /* ListCardView.swift */,
 				D52B03CD25313A0C0010F821 /* CardItemView.swift */,
-				D52B03D0253161560010F821 /* IncompleteItemsListView.swift */,
+				D52B03D0253161560010F821 /* ListCardView.swift */,
 				D52B03D3253162FD0010F821 /* CompletedItemsListView.swift */,
 				D5268104253A91EA00301A4D /* CartDetailView.swift */,
 				22C54F86251AFEC800633B2D /* SearchView.swift */,
@@ -434,8 +431,7 @@
 				227B9EC8251AE76C009B4CFE /* ListDetailsViewController.swift in Sources */,
 				D51AA37325197E5900CB9DFD /* SceneDelegate.swift in Sources */,
 				D55E3DB6252581860081A92D /* RegistrationViewModel.swift in Sources */,
-				D52B03D1253161560010F821 /* IncompleteItemsListView.swift in Sources */,
-				D52B03CB253139CE0010F821 /* ListCardView.swift in Sources */,
+				D52B03D1253161560010F821 /* ListCardView.swift in Sources */,
 				D5C55BAA252ABC7A0016F178 /* Store.swift in Sources */,
 				D535D2432529AF6700562E9F /* CartCell.swift in Sources */,
 				D559AE86252D4B8D00D6E0FC /* ProfileView.swift in Sources */,
